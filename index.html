@@ -721,31 +721,25 @@
               </div>
             </div>
 
-            <!-- Step 4: Symbols -->
+            <!-- Step 4: Little friend — 9 time-agnostic companions (no sun/moon/star) -->
             <div id="step-4" class="hidden grid grid-cols-3 gap-3 py-3">
-              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="moon" onclick="selectSym(this)">
-                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#fff7d1,#ffd373)">
-                  <svg width="32" height="32" viewBox="0 0 32 32"><path d="M22 19a10 10 0 1 1-9-15 8 8 0 0 0 9 15z" fill="#fff2c7"/></svg>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="boat" onclick="selectSym(this)">
+                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#d4ebff,#8dc6ff)">
+                  <svg width="36" height="32" viewBox="0 0 36 32"><path d="M18 4 L18 24 L28 24 Z" fill="#ff9e87"/><path d="M6 22 L30 22 L26 28 L10 28 Z" fill="#fff"/></svg>
                 </div>
-                <span class="lbl">Moon</span>
+                <span class="lbl">Paper Boat</span>
               </div>
-              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="cloud" onclick="selectSym(this)">
-                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#e6f1ff,#b8d5ff)">
-                  <svg width="36" height="24" viewBox="0 0 36 24"><path d="M10 20c-4 0-6-3-6-6s2-6 6-6c1-4 4-6 8-6s7 2 8 6c4 0 6 3 6 6s-2 6-6 6H10z" fill="#fff"/></svg>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="crane" onclick="selectSym(this)">
+                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#ffe2c8,#ffb082)">
+                  <svg width="38" height="28" viewBox="0 0 38 28"><path d="M3 16 L19 4 L35 16 L24 20 L19 26 L14 20 Z" fill="#fff" stroke="#c98f6a" stroke-width="1" stroke-linejoin="round"/><line x1="19" y1="4" x2="19" y2="20" stroke="#c98f6a" stroke-width=".9" opacity=".7"/></svg>
                 </div>
-                <span class="lbl">Cloud</span>
+                <span class="lbl">Paper Crane</span>
               </div>
-              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="star" onclick="selectSym(this)">
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="lantern" onclick="selectSym(this)">
                 <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#fff4c4,#ffcf66)">
-                  <svg width="32" height="32" viewBox="0 0 32 32"><path d="M16 3l3 10 10 3-10 3-3 10-3-10-10-3 10-3z" fill="#fff7c7"/></svg>
+                  <svg width="24" height="34" viewBox="0 0 24 34"><path d="M12 3 Q7 3 7 8" stroke="#8a6a4a" stroke-width="1.3" fill="none" stroke-linecap="round"/><rect x="4" y="7" width="16" height="3.2" rx="1.2" fill="#8a6a4a"/><ellipse cx="12" cy="20" rx="9" ry="10.5" fill="#fff2c7" stroke="#e6c27a" stroke-width="1.1"/><rect x="4" y="29" width="16" height="3.2" rx="1.2" fill="#8a6a4a"/></svg>
                 </div>
-                <span class="lbl">Star</span>
-              </div>
-              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="tree" onclick="selectSym(this)">
-                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#d3f2e1,#7edbb0)">
-                  <svg width="30" height="34" viewBox="0 0 30 34"><path d="M15 3 L6 17 H10 L3 28 H27 L20 17 H24 Z" fill="#fff"/><rect x="13" y="28" width="4" height="4" fill="#a8784a"/></svg>
-                </div>
-                <span class="lbl">Tree</span>
+                <span class="lbl">Lantern</span>
               </div>
               <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="blanket" onclick="selectSym(this)">
                 <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#ffc1b0,#ff8e7a)">
@@ -759,23 +753,29 @@
                 </div>
                 <span class="lbl">Nest</span>
               </div>
-              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="window" onclick="selectSym(this)">
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="owl" onclick="selectSym(this)">
                 <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#e3d4ff,#b89ff2)">
-                  <svg width="28" height="32" viewBox="0 0 28 32"><rect x="3" y="3" width="22" height="26" rx="3" fill="#fff"/><line x1="14" y1="3" x2="14" y2="29" stroke="#b89ff2" stroke-width="2"/><line x1="3" y1="16" x2="25" y2="16" stroke="#b89ff2" stroke-width="2"/></svg>
+                  <svg width="30" height="32" viewBox="0 0 30 32"><path d="M5 10 L7 5 L9 10 Z" fill="#8a5a3a"/><path d="M21 10 L23 5 L25 10 Z" fill="#8a5a3a"/><ellipse cx="15" cy="18" rx="11" ry="12" fill="#c98f6a" stroke="#8a5a3a" stroke-width=".9"/><ellipse cx="15" cy="15" rx="9" ry="7.5" fill="#ffe2c8"/><circle cx="11" cy="15" r="2.4" fill="#3b2d5a"/><circle cx="19" cy="15" r="2.4" fill="#3b2d5a"/><circle cx="11.6" cy="14.4" r=".7" fill="#fff"/><circle cx="19.6" cy="14.4" r=".7" fill="#fff"/><path d="M14 18 L16 18 L15 20.5 Z" fill="#ff9e87"/></svg>
                 </div>
-                <span class="lbl">Window</span>
+                <span class="lbl">Owl</span>
               </div>
-              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="boat" onclick="selectSym(this)">
-                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#d4ebff,#8dc6ff)">
-                  <svg width="36" height="32" viewBox="0 0 36 32"><path d="M6 22 L30 22 L26 28 L10 28 Z" fill="#fff"/><path d="M18 4 L18 22 L28 22 Z" fill="#ff9e87"/></svg>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="bear" onclick="selectSym(this)">
+                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#fff4c4,#ffcf66)">
+                  <svg width="30" height="30" viewBox="0 0 30 30"><circle cx="7" cy="7" r="3.2" fill="#b67a4a"/><circle cx="23" cy="7" r="3.2" fill="#b67a4a"/><circle cx="7" cy="7" r="1.3" fill="#ffd1aa"/><circle cx="23" cy="7" r="1.3" fill="#ffd1aa"/><circle cx="15" cy="16" r="10.5" fill="#d9a783" stroke="#8a5a3a" stroke-width=".9"/><circle cx="15" cy="19" r="5" fill="#ffe2c8"/><circle cx="11.2" cy="14.5" r="1.2" fill="#3b2d5a"/><circle cx="18.8" cy="14.5" r="1.2" fill="#3b2d5a"/><ellipse cx="15" cy="17.5" rx="1.4" ry=".9" fill="#3b2d5a"/><path d="M13 20 Q15 21.3 17 20" stroke="#3b2d5a" stroke-width=".9" fill="none" stroke-linecap="round"/></svg>
                 </div>
-                <span class="lbl">Boat</span>
+                <span class="lbl">Little Bear</span>
               </div>
-              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="hill" onclick="selectSym(this)">
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="bunny" onclick="selectSym(this)">
                 <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#d3f2e1,#7edbb0)">
-                  <svg width="40" height="24" viewBox="0 0 40 24"><path d="M2 22 Q10 6 20 14 Q30 22 38 10 L38 22 Z" fill="#fff"/></svg>
+                  <svg width="28" height="34" viewBox="0 0 28 34"><ellipse cx="10" cy="8" rx="2.2" ry="7" fill="#fff" stroke="#a89bc2" stroke-width=".9"/><ellipse cx="18" cy="8" rx="2.2" ry="7" fill="#fff" stroke="#a89bc2" stroke-width=".9"/><ellipse cx="10" cy="8" rx="1" ry="4.5" fill="#ffc1b0"/><ellipse cx="18" cy="8" rx="1" ry="4.5" fill="#ffc1b0"/><ellipse cx="14" cy="21" rx="10" ry="9.5" fill="#fff" stroke="#a89bc2" stroke-width=".9"/><circle cx="10.4" cy="19.5" r="1.2" fill="#3b2d5a"/><circle cx="17.6" cy="19.5" r="1.2" fill="#3b2d5a"/><path d="M13.3 22 Q14 23 14.7 22" stroke="#ff9eb5" stroke-width="1" fill="#ff9eb5" stroke-linecap="round"/><circle cx="9" cy="22.5" r="1.4" fill="#ffc1b0" opacity=".75"/><circle cx="19" cy="22.5" r="1.4" fill="#ffc1b0" opacity=".75"/></svg>
                 </div>
-                <span class="lbl">Hill</span>
+                <span class="lbl">Bunny</span>
+              </div>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="feather" onclick="selectSym(this)">
+                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#d4ebff,#8dc6ff)">
+                  <svg width="22" height="34" viewBox="0 0 22 34"><path d="M11 3 Q4 14 5 26 Q11 20 17 26 Q18 14 11 3 Z" fill="#e5dbff" stroke="#8f75c4" stroke-width=".9" stroke-linejoin="round"/><line x1="11" y1="3" x2="11" y2="30" stroke="#8f75c4" stroke-width=".9" stroke-linecap="round"/></svg>
+                </div>
+                <span class="lbl">Feather</span>
               </div>
             </div>
           </div>
@@ -858,8 +858,8 @@
                 <ellipse cx="170" cy="110" rx="130" ry="18" fill="#fff" opacity=".8"/>
                 <!-- little boat -->
                 <g transform="translate(148 58)">
+                  <path d="M18 6 L18 24 L30 24 Z" fill="#fff2c7"/>
                   <path d="M2 22 L34 22 L30 30 L6 30 Z" fill="#ff9e87"/>
-                  <path d="M18 6 L18 22 L30 22 Z" fill="#fff2c7"/>
                 </g>
                 <circle cx="260" cy="34" r="10" fill="#fff7d1"/>
               </svg>
@@ -1055,7 +1055,7 @@
           <div class="flex flex-col items-center gap-3 pb-2">
             <button id="keepStarBtn" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full transition" style="background: rgba(255,255,255,.08); color:#f6ecd9; box-shadow: 0 0 0 1px rgba(255,230,170,.25) inset;" onclick="saveStarFromSleep()">
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1.5l2 4.5 5 .5-3.8 3.3 1.2 4.9L8 12l-4.4 2.7 1.2-4.9L1 6.5l5-.5z" fill="#ffd78a" stroke="#ffd78a" stroke-width=".8" stroke-linejoin="round"/></svg>
-              <span class="text-[12px] tracking-[.14em] uppercase font-bold">Keep as a star</span>
+              <span class="text-[12px] tracking-[.14em] uppercase font-bold">Keep tonight's story</span>
             </button>
             <button class="text-[11px] tracking-[.24em] uppercase font-bold transition hover:opacity-100" style="color:rgba(220,210,240,.4)" onclick="go(1)">Wake for a moment</button>
           </div>
@@ -1093,9 +1093,15 @@
     sparkly:'a little sparkly', tangled:'a bit tangled', round:'round and soft',
   };
   const symWords = {
-    moon:'a gentle moon', cloud:'a little cloud', star:'a tiny star',
-    tree:'an old friendly tree', blanket:'a warm blanket', nest:'a soft nest',
-    window:'a window full of light', boat:'a tiny paper boat', hill:'a slow hill',
+    boat:    'a tiny paper boat',
+    crane:   'a little paper crane',
+    lantern: 'a small lantern',
+    blanket: 'a warm blanket',
+    nest:    'a soft nest',
+    owl:     'a gentle owl',
+    bear:    'a little bear',
+    bunny:   'a small bunny',
+    feather: 'a tiny feather',
   };
   const worlds = {
     'moon-garden':  { title:'the moon garden',    short:'Moon Garden',    bg:'linear-gradient(180deg,#ece0ff 0%, #d9c9ff 60%, #f4e8ff 100%)' },
@@ -1128,7 +1134,7 @@
     btn.disabled = false;
     btn.style.opacity = '1';
     btn.style.pointerEvents = '';
-    btn.querySelector('span').textContent = 'Keep as a star';
+    btn.querySelector('span').textContent = "Keep tonight's story";
   }
 
   // ============== STEP ENGINE ==============
@@ -1210,169 +1216,243 @@
     const w = state.world ? worlds[state.world] : worlds['moon-garden'];
     const sym = state.sym || 'moon';
 
-    // scene backdrop svg by world.
-    // Every scene contains four layers, so every feeling pick is represented visually:
-    //   1) color gradient backdrop   2) weather/atmospheric element
-    //   3) soft abstract shape       4) symbolic scene objects
+    // Each world is visually distinct — different time of day, different atmospheric vocabulary,
+    // different abstract-shape treatment. No shared motifs across scenes.
     const softBlur = `<filter id="softBlur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="8"/></filter>`;
     const worldSvg = {
+      // MOON GARDEN — deep night, quiet, a crescent moon over sleeping flowers
       'moon-garden': `
         <svg viewBox="0 0 340 196" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 w-full h-full">
           <defs>
-            <linearGradient id="mg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ece0ff"/><stop offset="1" stop-color="#d9c9ff"/></linearGradient>
+            <linearGradient id="mg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d6c6ff"/><stop offset="1" stop-color="#a897e0"/></linearGradient>
             ${softBlur}
           </defs>
           <rect width="340" height="196" fill="url(#mg)"/>
-          <!-- abstract soft shape -->
-          <ellipse cx="55" cy="150" rx="70" ry="26" fill="#ffc1db" opacity=".55" filter="url(#softBlur)"/>
-          <ellipse cx="290" cy="40" rx="48" ry="30" fill="#b79cf2" opacity=".45" filter="url(#softBlur)"/>
-          <!-- moon -->
-          <circle cx="58" cy="60" r="36" fill="#fff7d1"/>
-          <circle cx="76" cy="48" r="28" fill="#ece0ff" opacity=".8"/>
-          <!-- flowers -->
-          <g transform="translate(200 140)"><circle r="10" fill="#ff9eb5"/><circle cx="18" cy="-4" r="7" fill="#ffcf66"/><circle cx="-12" cy="8" r="8" fill="#fff"/></g>
-          <g transform="translate(280 160)"><circle r="10" fill="#c9b5f5"/><circle cx="14" cy="-6" r="6" fill="#fff"/></g>
-          <!-- weather: starry sky -->
+          <!-- abstract shape: soft moon halo -->
+          <ellipse cx="70" cy="60" rx="80" ry="55" fill="#fff2c7" opacity=".35" filter="url(#softBlur)"/>
+          <!-- crescent moon -->
+          <circle cx="70" cy="58" r="32" fill="#fff7d1"/>
+          <circle cx="86" cy="48" r="26" fill="#c9b5f5" opacity=".92"/>
+          <!-- flower bed (ground) -->
+          <path d="M0 178 Q 80 158 170 174 Q 260 190 340 170 L340 200 L0 200 Z" fill="#8c73c4" opacity=".55"/>
+          <!-- flowers (closed buds) -->
+          <g transform="translate(200 148)">
+            <circle r="11" fill="#ff9eb5"/><circle cx="22" cy="-6" r="8" fill="#ffd17a"/>
+            <circle cx="-14" cy="10" r="9" fill="#fff"/><circle cx="-30" cy="0" r="6" fill="#c9b5f5"/>
+          </g>
+          <g transform="translate(290 162)">
+            <circle r="10" fill="#e8d4ff"/><circle cx="14" cy="-8" r="6" fill="#ff9eb5"/>
+          </g>
+          <!-- only two subtle sparkles, not a field -->
           <g fill="#fff2c7">
-            <path d="M160 34l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>
-            <circle cx="140" cy="40" r="2.5"/><circle cx="260" cy="36" r="2"/><circle cx="300" cy="80" r="2.5"/><circle cx="180" cy="20" r="2"/><circle cx="110" cy="70" r="1.8"/>
+            <path d="M256 28l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>
+            <circle cx="180" cy="24" r="1.8"/>
           </g>
         </svg>`,
+      // SLEEPY FOREST — dusk, fireflies only. No moon, no stars.
       'sleepy-forest': `
         <svg viewBox="0 0 340 196" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 w-full h-full">
           <defs>
-            <linearGradient id="sf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2f3e8"/><stop offset="1" stop-color="#b5dfc4"/></linearGradient>
+            <linearGradient id="sf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dbefd3"/><stop offset="1" stop-color="#7fb89b"/></linearGradient>
             ${softBlur}
           </defs>
           <rect width="340" height="196" fill="url(#sf)"/>
-          <!-- abstract soft shape -->
-          <ellipse cx="280" cy="50" rx="65" ry="28" fill="#ffe38a" opacity=".55" filter="url(#softBlur)"/>
-          <ellipse cx="40" cy="170" rx="60" ry="22" fill="#8fd4b0" opacity=".55" filter="url(#softBlur)"/>
-          <!-- trees -->
-          <g><path d="M50 160 L20 160 L35 100 Z" fill="#5aaa82"/><path d="M92 160 L60 160 L76 90 Z" fill="#4a9a72"/><path d="M140 160 L108 160 L124 100 Z" fill="#5aaa82"/><path d="M260 160 L228 160 L244 90 Z" fill="#4a9a72"/><path d="M320 160 L288 160 L304 100 Z" fill="#5aaa82"/></g>
-          <!-- weather: fireflies -->
-          <circle cx="200" cy="60" r="5" fill="#fff7c7"/><circle cx="200" cy="60" r="14" fill="#fff7c7" opacity=".35"/>
-          <circle cx="170" cy="100" r="3" fill="#fff7c7"/><circle cx="170" cy="100" r="9" fill="#fff7c7" opacity=".3"/>
-          <circle cx="240" cy="120" r="3" fill="#fff7c7"/><circle cx="240" cy="120" r="9" fill="#fff7c7" opacity=".3"/>
-          <circle cx="110" cy="80" r="2.5" fill="#fff7c7"/><circle cx="110" cy="80" r="7" fill="#fff7c7" opacity=".3"/>
+          <!-- abstract shape: mossy green mound + warm dusk wash -->
+          <ellipse cx="170" cy="198" rx="220" ry="40" fill="#4a9a72" opacity=".55" filter="url(#softBlur)"/>
+          <ellipse cx="260" cy="40" rx="110" ry="28" fill="#ffdba4" opacity=".5" filter="url(#softBlur)"/>
+          <!-- trees (varied sizes) -->
+          <g>
+            <path d="M52 172 L18 172 L35 108 Z" fill="#3d8862"/>
+            <path d="M96 172 L60 172 L78 92 Z"  fill="#2e7753"/>
+            <path d="M146 172 L110 172 L128 100 Z" fill="#3d8862"/>
+            <path d="M196 172 L168 172 L182 120 Z" fill="#4a9a72"/>
+            <path d="M272 172 L234 172 L253 88 Z"  fill="#2e7753"/>
+            <path d="M326 172 L292 172 L309 104 Z" fill="#3d8862"/>
+          </g>
+          <!-- tiny trunks -->
+          <g fill="#6b4a2e">
+            <rect x="33" y="168" width="4" height="8"/><rect x="76" y="168" width="4" height="8"/>
+            <rect x="126" y="168" width="4" height="8"/><rect x="180" y="168" width="4" height="8"/>
+            <rect x="251" y="168" width="4" height="8"/><rect x="307" y="168" width="4" height="8"/>
+          </g>
+          <!-- weather: fireflies (varied sizes and positions; the ONLY light source) -->
+          <circle cx="210" cy="58" r="18" fill="#fff7c7" opacity=".35"/>
+          <circle cx="210" cy="58" r="5.5" fill="#fff2a0"/>
+          <circle cx="165" cy="96" r="11" fill="#fff7c7" opacity=".35"/>
+          <circle cx="165" cy="96" r="3.5" fill="#fff2a0"/>
+          <circle cx="248" cy="126" r="10" fill="#fff7c7" opacity=".3"/>
+          <circle cx="248" cy="126" r="3" fill="#fff2a0"/>
+          <circle cx="90" cy="72" r="8" fill="#fff7c7" opacity=".3"/>
+          <circle cx="90" cy="72" r="2.5" fill="#fff2a0"/>
+          <circle cx="298" cy="80" r="6" fill="#fff7c7" opacity=".3"/>
+          <circle cx="298" cy="80" r="2" fill="#fff2a0"/>
         </svg>`,
+      // CLOUD SEA — daylight drift, soft sun & wispy horizontal bands. No stars, no houses.
       'cloud-sea': `
         <svg viewBox="0 0 340 196" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 w-full h-full">
           <defs>
-            <linearGradient id="cs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e0f0ff"/><stop offset="1" stop-color="#b0d4ff"/></linearGradient>
+            <linearGradient id="cs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe4ff"/><stop offset="1" stop-color="#8fc0f5"/></linearGradient>
             ${softBlur}
           </defs>
           <rect width="340" height="196" fill="url(#cs)"/>
-          <!-- abstract soft shape -->
-          <ellipse cx="70" cy="40" rx="70" ry="26" fill="#ffd1aa" opacity=".5" filter="url(#softBlur)"/>
-          <ellipse cx="290" cy="110" rx="50" ry="28" fill="#c9b5f5" opacity=".4" filter="url(#softBlur)"/>
-          <!-- weather: soft cloud bank -->
-          <ellipse cx="60" cy="160" rx="80" ry="20" fill="#fff"/>
-          <ellipse cx="280" cy="168" rx="90" ry="22" fill="#fff"/>
-          <ellipse cx="170" cy="182" rx="150" ry="24" fill="#fff" opacity=".8"/>
-          <!-- sun/moon -->
-          <circle cx="270" cy="48" r="14" fill="#fff7d1"/>
-          <circle cx="270" cy="48" r="22" fill="#fff7d1" opacity=".35"/>
-          <!-- boat -->
-          <g transform="translate(134 90)"><path d="M2 34 L40 34 L36 44 L6 44 Z" fill="#ff9e87"/><path d="M22 10 L22 34 L36 34 Z" fill="#fff2c7"/></g>
+          <!-- abstract shape: horizontal wispy cloud streaks (unique to this scene) -->
+          <ellipse cx="40"  cy="60"  rx="70" ry="4" fill="#fff" opacity=".45" filter="url(#softBlur)"/>
+          <ellipse cx="250" cy="90"  rx="100" ry="4" fill="#fff" opacity=".55" filter="url(#softBlur)"/>
+          <ellipse cx="120" cy="120" rx="80" ry="4" fill="#fff" opacity=".45" filter="url(#softBlur)"/>
+          <!-- sun with warm halo -->
+          <circle cx="272" cy="46" r="30" fill="#ffe9a8" opacity=".45"/>
+          <circle cx="272" cy="46" r="20" fill="#ffe9a8" opacity=".7"/>
+          <circle cx="272" cy="46" r="13" fill="#fff8d6"/>
+          <!-- soft cloud bank (the "sea") -->
+          <ellipse cx="60"  cy="160" rx="85" ry="22" fill="#fff"/>
+          <ellipse cx="280" cy="170" rx="95" ry="24" fill="#fff"/>
+          <ellipse cx="170" cy="184" rx="160" ry="26" fill="#fff" opacity=".85"/>
+          <!-- boat (sail behind hull) -->
+          <g transform="translate(140 92)">
+            <path d="M22 10 L22 38 L36 38 Z" fill="#fff2c7"/>
+            <path d="M2 34 L40 34 L36 44 L6 44 Z" fill="#ff9e87"/>
+          </g>
         </svg>`,
+      // STAR VILLAGE — THE star scene. Lots of varied stars. No moon.
       'star-village': `
         <svg viewBox="0 0 340 196" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 w-full h-full">
           <defs>
-            <linearGradient id="sv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff4d0"/><stop offset="1" stop-color="#ffd79a"/></linearGradient>
+            <linearGradient id="sv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff0d2"/><stop offset="1" stop-color="#ffbe7a"/></linearGradient>
             ${softBlur}
           </defs>
           <rect width="340" height="196" fill="url(#sv)"/>
-          <!-- abstract soft shape -->
-          <ellipse cx="40" cy="50" rx="55" ry="26" fill="#ffb37a" opacity=".5" filter="url(#softBlur)"/>
-          <ellipse cx="300" cy="160" rx="60" ry="26" fill="#ff9eb5" opacity=".4" filter="url(#softBlur)"/>
+          <!-- abstract shape: warm ambient wash that reads like a dusting of distant stars -->
+          <ellipse cx="170" cy="40" rx="180" ry="26" fill="#fff0b8" opacity=".6" filter="url(#softBlur)"/>
+          <!-- tiny background stars (abstract dusting) -->
+          <g fill="#fff" opacity=".55">
+            <circle cx="20"  cy="22" r="1.2"/><circle cx="55"  cy="58" r="1"/>
+            <circle cx="100" cy="20" r="1.3"/><circle cx="138" cy="52" r="1"/>
+            <circle cx="170" cy="18" r="1.2"/><circle cx="212" cy="46" r="1.1"/>
+            <circle cx="246" cy="22" r="1"/><circle cx="282" cy="60" r="1.4"/>
+            <circle cx="320" cy="28" r="1.1"/><circle cx="60"  cy="38" r="1"/>
+          </g>
           <!-- houses -->
           <g transform="translate(40 100)"><rect x="0" y="20" width="36" height="32" fill="#ff9e87"/><polygon points="-6,20 18,0 42,20" fill="#c9b5f5"/><rect x="13" y="34" width="10" height="18" fill="#fff2c7"/></g>
           <g transform="translate(128 92)"><rect x="0" y="28" width="44" height="36" fill="#ffe38a"/><polygon points="-6,28 22,4 50,28" fill="#ff9e87"/><rect x="16" y="44" width="12" height="20" fill="#fff"/></g>
           <g transform="translate(230 100)"><rect x="0" y="24" width="40" height="30" fill="#a7d9ff"/><polygon points="-6,24 20,2 46,24" fill="#ff9e87"/><rect x="14" y="36" width="12" height="18" fill="#fff2c7"/></g>
-          <!-- weather: twinkly stars -->
-          <g fill="#fff">
-            <path d="M280 40l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/>
-            <path d="M150 34l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>
-            <circle cx="300" cy="80" r="3"/><circle cx="80" cy="30" r="2"/><circle cx="200" cy="24" r="2.5"/>
+          <!-- focal stars of varied sizes & styles -->
+          <g fill="#fff2c7">
+            <!-- large 4-point sparkle -->
+            <path d="M80 40l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/>
+            <!-- medium 4-point -->
+            <path d="M280 30l2.5 7 7 2.5-7 2.5-2.5 7-2.5-7-7-2.5 7-2.5z"/>
+            <!-- small 4-point -->
+            <path d="M190 38l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>
+            <!-- round dots (varied) -->
+            <circle cx="300" cy="62" r="2.6"/>
+            <circle cx="32"  cy="62" r="2.2"/>
+            <circle cx="155" cy="30" r="1.8"/>
+          </g>
+          <!-- a few tiny cross-glimmers near the large star -->
+          <g stroke="#fff2c7" stroke-width="1" stroke-linecap="round" opacity=".7">
+            <line x1="100" y1="28" x2="100" y2="32"/><line x1="60" y1="72" x2="60" y2="76"/>
           </g>
         </svg>`,
+      // DREAM HILL — sunset → moonrise. Full moon, warm horizon wash. No twinkling stars.
       'dream-hill': `
         <svg viewBox="0 0 340 196" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 w-full h-full">
           <defs>
-            <linearGradient id="dh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe4d0"/><stop offset="1" stop-color="#f4b69c"/></linearGradient>
+            <linearGradient id="dh" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffd0b0"/>
+              <stop offset=".5" stop-color="#f3a792"/>
+              <stop offset="1" stop-color="#b287bf"/>
+            </linearGradient>
             ${softBlur}
           </defs>
           <rect width="340" height="196" fill="url(#dh)"/>
-          <!-- abstract soft shape -->
-          <ellipse cx="80" cy="40" rx="70" ry="26" fill="#ffb37a" opacity=".55" filter="url(#softBlur)"/>
-          <ellipse cx="290" cy="130" rx="50" ry="28" fill="#c9b5f5" opacity=".35" filter="url(#softBlur)"/>
-          <!-- moon with halo -->
-          <circle cx="260" cy="54" r="30" fill="#fff7d1" opacity=".45"/>
-          <circle cx="260" cy="54" r="22" fill="#fff7d1"/>
-          <!-- hills -->
-          <path d="M-10 160 Q80 80 180 130 Q260 170 350 110 L350 200 L-10 200 Z" fill="#ffd1aa"/>
-          <path d="M-10 180 Q90 130 180 170 Q270 200 350 160 L350 200 L-10 200 Z" fill="#ffb188"/>
-          <!-- weather: drifting stars -->
-          <g fill="#fff" opacity=".9">
-            <circle cx="60" cy="56" r="3"/><circle cx="120" cy="32" r="2.5"/><circle cx="200" cy="40" r="2"/><circle cx="150" cy="70" r="1.8"/>
-          </g>
+          <!-- abstract shape: warm sunset wash band across the horizon -->
+          <rect x="-20" y="86" width="380" height="30" fill="#ffd6a0" opacity=".55" filter="url(#softBlur)"/>
+          <!-- a single peach-lit distant cloud catching sunset -->
+          <ellipse cx="80" cy="94" rx="42" ry="7" fill="#fff0d6" opacity=".9" filter="url(#softBlur)"/>
+          <!-- full moon with halo -->
+          <circle cx="258" cy="54" r="36" fill="#fff2c7" opacity=".45"/>
+          <circle cx="258" cy="54" r="26" fill="#fff7d1"/>
+          <!-- rolling hills (layered silhouettes) -->
+          <path d="M-10 160 Q80 96 180 132 Q260 170 350 112 L350 200 L-10 200 Z" fill="#e29a76" opacity=".85"/>
+          <path d="M-10 180 Q90 136 180 168 Q270 200 350 158 L350 200 L-10 200 Z" fill="#b06c6e"/>
         </svg>`,
     }[state.world || 'moon-garden'];
 
-    scene.innerHTML = worldSvg + `
-      <div class="scene-obj f1" style="top:14%; right:12%;">${symSvg(sym, 40)}</div>
-      <div class="scene-obj f3" style="bottom:10%; left:14%; opacity:.85;">${symSvg(sym, 26)}</div>
-    `;
+    // One friend per scene. Per-world placement so the friend sits comfortably
+    // in clear space — never overlapping the backdrop's hero element.
+    const worldFriendPos = {
+      'moon-garden':  'top:42%; right:16%;',                       // right side, away from crescent moon at top-left
+      'sleepy-forest':'top:34%; left:50%; transform:translate(-50%,-50%);', // centered between the trees
+      'cloud-sea':    'top:46%; left:18%;',                        // left side, away from sun at top-right
+      'star-village': 'top:36%; right:14%;',                       // upper-right, above houses
+      'dream-hill':   'top:32%; left:16%;',                        // left side, away from full moon on the right
+    };
+    const pos = worldFriendPos[state.world || 'moon-garden'];
+    const size = state.world === 'cloud-sea' && sym === 'boat' ? 30 : 42;
+
+    scene.innerHTML = worldSvg +
+      `<div class="scene-obj f1" style="${pos}">${symSvg(sym, size)}</div>`;
   }
 
   function symSvg(name, size){
     const s = size;
-    const sw = Math.max(1.4, size/22);
-    if(name==='moon')    return `<svg width="${s}" height="${s}" viewBox="0 0 32 32"><path d="M22 19a10 10 0 1 1-9-15 8 8 0 0 0 9 15z" fill="#fff2c7" stroke="#e6c27a" stroke-width="${sw}" stroke-linejoin="round"/></svg>`;
-    if(name==='cloud')   return `<svg width="${s*1.4}" height="${s}" viewBox="0 0 40 28"><path d="M12 22c-4 0-7-3-7-6s3-6 7-6c1-4 4-6 8-6s7 2 8 6c4 0 7 3 7 6s-3 6-7 6H12z" fill="#fff" stroke="#b9c5dd" stroke-width="${sw}" stroke-linejoin="round"/></svg>`;
-    if(name==='star')    return `<svg width="${s}" height="${s}" viewBox="0 0 32 32"><path d="M16 3l3 10 10 3-10 3-3 10-3-10-10-3 10-3z" fill="#fff7c7" stroke="#e6c27a" stroke-width="${sw}" stroke-linejoin="round"/></svg>`;
-    if(name==='tree')    return `<svg width="${s}" height="${s*1.2}" viewBox="0 0 30 36"><path d="M15 3 L6 17 H10 L3 28 H27 L20 17 H24 Z" fill="#7ed8a8" stroke="#3d8a62" stroke-width="${sw}" stroke-linejoin="round"/><rect x="13" y="28" width="4" height="5" fill="#a8784a"/></svg>`;
+    const sw = Math.max(1, size/26);
+    if(name==='boat')    return `<svg width="${s*1.3}" height="${s}" viewBox="0 0 38 30"><path d="M19 3 L19 22 L30 22 Z" fill="#fff2c7" stroke="#e6c27a" stroke-width="${sw}" stroke-linejoin="round"/><path d="M6 20 L32 20 L28 28 L10 28 Z" fill="#ff9e87" stroke="#c76d5a" stroke-width="${sw}" stroke-linejoin="round"/></svg>`;
+    if(name==='crane')   return `<svg width="${s*1.4}" height="${s}" viewBox="0 0 40 28"><path d="M3 16 L20 4 L37 16 L26 20 L20 26 L14 20 Z" fill="#fff" stroke="#c98f6a" stroke-width="${sw}" stroke-linejoin="round"/><line x1="20" y1="4" x2="20" y2="20" stroke="#c98f6a" stroke-width="${sw*.9}" opacity=".8"/></svg>`;
+    if(name==='lantern') return `<svg width="${s*.85}" height="${s*1.25}" viewBox="0 0 24 34"><path d="M12 3 Q7 3 7 8" stroke="#8a6a4a" stroke-width="${sw*1.1}" fill="none" stroke-linecap="round"/><rect x="4" y="7" width="16" height="3.2" rx="1.2" fill="#8a6a4a"/><ellipse cx="12" cy="20" rx="9" ry="10.5" fill="#fff2c7" stroke="#e6c27a" stroke-width="${sw}"/><rect x="4" y="29" width="16" height="3.2" rx="1.2" fill="#8a6a4a"/></svg>`;
     if(name==='blanket') return `<svg width="${s*1.4}" height="${s}" viewBox="0 0 40 28"><path d="M4 22 Q12 10 20 16 Q28 22 36 8 L38 22 Q28 26 20 24 Q12 22 4 22Z" fill="#ffd1aa" stroke="#c98f6a" stroke-width="${sw}" stroke-linejoin="round"/></svg>`;
     if(name==='nest')    return `<svg width="${s*1.3}" height="${s}" viewBox="0 0 38 28"><path d="M4 22 Q19 6 34 22 Q28 26 19 26 Q10 26 4 22Z" fill="#c98f6a" stroke="#8a5a3a" stroke-width="${sw}" stroke-linejoin="round"/><circle cx="15" cy="18" r="3.5" fill="#fff"/><circle cx="23" cy="18" r="3.5" fill="#fff"/></svg>`;
-    if(name==='window')  return `<svg width="${s}" height="${s*1.15}" viewBox="0 0 28 32"><rect x="3" y="3" width="22" height="26" rx="3" fill="#fff" stroke="#b89ff2" stroke-width="${sw}"/><line x1="14" y1="3" x2="14" y2="29" stroke="#b89ff2" stroke-width="${sw}"/><line x1="3" y1="16" x2="25" y2="16" stroke="#b89ff2" stroke-width="${sw}"/></svg>`;
-    if(name==='boat')    return `<svg width="${s*1.3}" height="${s}" viewBox="0 0 38 30"><path d="M6 20 L32 20 L28 28 L10 28 Z" fill="#ff9e87" stroke="#c76d5a" stroke-width="${sw}" stroke-linejoin="round"/><path d="M19 3 L19 20 L30 20 Z" fill="#fff2c7" stroke="#e6c27a" stroke-width="${sw}" stroke-linejoin="round"/></svg>`;
-    if(name==='hill')    return `<svg width="${s*1.4}" height="${s*.8}" viewBox="0 0 40 22"><path d="M2 20 Q10 4 20 12 Q30 20 38 6 L38 22 L2 22 Z" fill="#ffd1aa" stroke="#c98f6a" stroke-width="${sw}" stroke-linejoin="round"/></svg>`;
+    if(name==='owl')     return `<svg width="${s}" height="${s*1.1}" viewBox="0 0 30 32"><path d="M5 10 L7 5 L9 10 Z" fill="#8a5a3a"/><path d="M21 10 L23 5 L25 10 Z" fill="#8a5a3a"/><ellipse cx="15" cy="18" rx="11" ry="12" fill="#c98f6a" stroke="#8a5a3a" stroke-width="${sw}"/><ellipse cx="15" cy="15" rx="9" ry="7.5" fill="#ffe2c8"/><circle cx="11" cy="15" r="2.4" fill="#3b2d5a"/><circle cx="19" cy="15" r="2.4" fill="#3b2d5a"/><circle cx="11.6" cy="14.4" r=".7" fill="#fff"/><circle cx="19.6" cy="14.4" r=".7" fill="#fff"/><path d="M14 18 L16 18 L15 20.5 Z" fill="#ff9e87"/></svg>`;
+    if(name==='bear')    return `<svg width="${s}" height="${s}" viewBox="0 0 30 30"><circle cx="7" cy="7" r="3.2" fill="#b67a4a"/><circle cx="23" cy="7" r="3.2" fill="#b67a4a"/><circle cx="7" cy="7" r="1.3" fill="#ffd1aa"/><circle cx="23" cy="7" r="1.3" fill="#ffd1aa"/><circle cx="15" cy="16" r="10.5" fill="#d9a783" stroke="#8a5a3a" stroke-width="${sw}"/><circle cx="15" cy="19" r="5" fill="#ffe2c8"/><circle cx="11.2" cy="14.5" r="1.2" fill="#3b2d5a"/><circle cx="18.8" cy="14.5" r="1.2" fill="#3b2d5a"/><ellipse cx="15" cy="17.5" rx="1.4" ry=".9" fill="#3b2d5a"/><path d="M13 20 Q15 21.3 17 20" stroke="#3b2d5a" stroke-width=".9" fill="none" stroke-linecap="round"/></svg>`;
+    if(name==='bunny')   return `<svg width="${s*.9}" height="${s*1.2}" viewBox="0 0 28 34"><ellipse cx="10" cy="8" rx="2.2" ry="7" fill="#fff" stroke="#a89bc2" stroke-width="${sw*.9}"/><ellipse cx="18" cy="8" rx="2.2" ry="7" fill="#fff" stroke="#a89bc2" stroke-width="${sw*.9}"/><ellipse cx="10" cy="8" rx="1" ry="4.5" fill="#ffc1b0"/><ellipse cx="18" cy="8" rx="1" ry="4.5" fill="#ffc1b0"/><ellipse cx="14" cy="21" rx="10" ry="9.5" fill="#fff" stroke="#a89bc2" stroke-width="${sw}"/><circle cx="10.4" cy="19.5" r="1.2" fill="#3b2d5a"/><circle cx="17.6" cy="19.5" r="1.2" fill="#3b2d5a"/><path d="M13.3 22 Q14 23 14.7 22" stroke="#ff9eb5" stroke-width="1" fill="#ff9eb5" stroke-linecap="round"/></svg>`;
+    if(name==='feather') return `<svg width="${s*.7}" height="${s*1.15}" viewBox="0 0 22 34"><path d="M11 3 Q4 14 5 26 Q11 20 17 26 Q18 14 11 3 Z" fill="#e5dbff" stroke="#8f75c4" stroke-width="${sw}" stroke-linejoin="round"/><line x1="11" y1="3" x2="11" y2="30" stroke="#8f75c4" stroke-width="${sw}" stroke-linecap="round"/></svg>`;
     return '';
   }
 
   // ============== STORY GENERATION ==============
-  // Handcrafted bedtime stories: 2 per world, 10 total. {friend} is the child's chosen symbol.
+  // Handcrafted bedtime stories: 2 per world, 10 total.
+  // Placeholders — all four feeling picks weave into the text so every choice is consequential:
+  //   {friend}  = chosen symbol (e.g. "a little cloud")
+  //   {color}   = mood adjective  (e.g. "cozy")
+  //   {weather} = day phrase      (e.g. "a drizzly little day")
+  //   {shape}   = inner-feeling   (e.g. "round and soft")
   const stories = {
+    // Rule: each story mentions {friend} exactly once. Second-mentions use pronouns
+    // ("its heart") or generic stand-ins ("the little one") to keep the prose varied.
+    // MOON GARDEN — mood: quiet intimacy with sleeping flowers; verbs: kneel, whisper, watch
     'moon-garden': [
       { title: 'Goodnight, moon garden',
-        body: 'In the moon garden, the flowers closed their petals one by one. {friend} tiptoed between them, careful not to wake anyone. When it found a soft spot beneath a silver leaf, the whole garden breathed out a tiny, sleepy sigh.' },
+        body: 'In the moon garden, the flowers had already begun to close. {friend} knelt beside them and whispered goodnight to each one. It had been {weather}, and its heart still felt {shape}. By the time the last petal folded, the {color} sky had tucked everything in.' },
       { title: 'Where the moonlight waits',
-        body: 'Each night, the moon garden grows a new kind of quiet. Tonight, {friend} arrived just in time to watch the petals catch starlight. The garden whispered, "thank you for coming," and tucked {friend} in with a soft beam of moonlight.' },
+        body: 'Each night, the moonlight stays up a little later to see who will come. Tonight it was {friend}, carrying a feeling {shape} as anything. The moon saw, and did not ask why. It only reached down and laid a {color} path of light, soft enough to sleep on.' },
     ],
+    // SLEEPY FOREST — mood: being guided by trees and fireflies; verbs: walk, follow, lean
     'sleepy-forest': [
       { title: 'Under the listening trees',
-        body: 'The sleepy forest was full of hush. {friend} wandered between the tall, kind trees, and each one leaned gently to say goodnight. When it reached the softest patch of moss, the trees folded their branches into a warm green roof.' },
+        body: 'In the sleepy forest, every tree was already awake in the way trees are \u2014 slow, old, kind. {friend} walked between them after {weather}, and they listened to a heart that beat {shape}. Then they rustled, just once, and made a path straight to the softest moss.' },
       { title: 'The little lantern path',
-        body: 'Deep in the sleepy forest, fireflies lit tiny lanterns along an old dirt path. {friend} followed them slowly, one light at a time, until they led to a hollow lined with feathers. "Sleep here," the fireflies blinked. "We will keep watch."' },
+        body: 'The fireflies keep a secret path through the sleepy forest. Tonight they lit it, one bright dot at a time, for {friend} \u2014 who felt {shape} inside, and followed the small {color} lights without needing to know why. They led to a hollow lined with feathers, waiting as if a bed had always been planned.' },
     ],
+    // CLOUD SEA — mood: drifting without destination; verbs: drift, carry, lose track
     'cloud-sea': [
-      { title: 'A paper boat and the moon',
-        body: 'On the cloud sea, everything floats. {friend} climbed into a tiny paper boat and let the soft white waves carry it wherever they liked. The moon followed above, humming a tune that sounded almost like its own heartbeat.' },
+      { title: 'The drift of a cloud sea',
+        body: 'On the cloud sea, there is no hurry. After {weather}, {friend} let the soft white waves take over, drifting without needing to know where. The sky drifted too, a little behind, humming a {color} tune that sounded a lot like breathing. Slowly, time stopped asking questions.' },
       { title: 'Somewhere, a cloud was dreaming',
-        body: 'The cloud sea stretched farther than anyone could see. {friend} lay back on a cloud that smelled faintly of cotton and warm bread. Somewhere in the distance, another cloud was already beginning to dream — and soon, {friend} was too.' },
+        body: 'The cloud sea stretches farther than any story goes. {friend} lay back on a cloud that smelled faintly of bread and clean cotton, with a heart that felt {shape}. Somewhere in the distance, it had been {weather} \u2014 but here, none of that could reach. Here was for forgetting things.' },
     ],
+    // STAR VILLAGE — mood: being welcomed, being expected; verbs: pass, wave, knock
     'star-village': [
       { title: 'Every window, a star',
-        body: 'In the tiny star village, every house had a window lit with a single star. {friend} walked down the cobblestone lane, waving at each window as it passed. At the end of the lane, the smallest house opened its door and said, "you are just in time."' },
+        body: 'The tiny star village keeps one window lit in every house \u2014 a small star, waiting up. {friend} walked along the cobblestones feeling {shape}, and every {color} window waved back. At the end of the lane, the very last door opened on its own. "We saved you a spot," it said.' },
       { title: 'Polishing the morning stars',
-        body: 'Tonight the tiny star village was quiet but wide awake — stars were being polished for morning. {friend} helped tuck a small one into its bed made of blue velvet. When it finished, the whole village blinked once, together, and {friend} felt very safe.' },
+        body: 'Tonight the village was awake for a gentle reason: tomorrow\u2019s stars needed polishing. After {weather}, {friend} helped with careful hands and a heart that felt {shape}. When the last star was tucked into its small blue-velvet bed, the whole village blinked once \u2014 a soft thank-you \u2014 and then the lanes went still.' },
     ],
+    // DREAM HILL — mood: being held by the land; verbs: lie down, watch, hum, wrap
     'dream-hill': [
       { title: 'The hill that hums',
-        body: 'At the top of dream hill, the grass was warm from the day\u2019s last sunlight. {friend} curled up there and watched the sky turn from peach to soft purple. The hill hummed gently underneath, the way hills do when they are happy you are there.' },
+        body: 'Dream hill has a very quiet way of saying hello. {friend} lay down on the grass, warm from a whole day of sun, after {weather}. Above, the {color} sky was unhurrying itself toward night. Underneath, the hill hummed \u2014 barely, but steadily \u2014 the way hills hum when they are glad you came.' },
       { title: 'An old lullaby in the wind',
-        body: 'Dream hill knew a very old lullaby. The wind sang it in slow, round notes, and {friend} listened until its eyes grew heavy. When it finally closed them, the hill wrapped itself around {friend} like a patient, sleepy friend.' },
+        body: 'There is a lullaby only dream hill knows. The wind carries it in slow {color} notes, not quite loud enough to catch unless you stop trying. {friend} stopped trying, and the song settled in with a heart that felt {shape}. Then the hill did what hills do best: it wrapped itself around the little one, quiet as a sleeping thing.' },
     ],
   };
 
@@ -1380,7 +1460,10 @@
     const worldKey = state.world || 'moon-garden';
     const list = stories[worldKey];
     const picked = list[Math.floor(Math.random() * list.length)];
-    const friend = state.sym ? symWords[state.sym] : 'a little dreamer';
+    const friend  = state.sym     ? symWords[state.sym]          : 'a little dreamer';
+    const color   = state.color   ? colorWords[state.color].adj  : 'soft';
+    const weather = state.weather ? weatherWords[state.weather]  : 'a quiet day';
+    const shape   = state.shape   ? shapeWords[state.shape]      : 'round and soft';
 
     const titleEl = document.getElementById('storyTitle');
     const textEl  = document.getElementById('storyText');
@@ -1397,6 +1480,9 @@
 
       const text = picked.body
         .replaceAll('{friend}', friend)
+        .replaceAll('{color}', color)
+        .replaceAll('{weather}', weather)
+        .replaceAll('{shape}', shape)
         .replace(/(^|[.!?]\s+)([a-z])/g, (_, pre, ch) => pre + ch.toUpperCase());
       const parts = text.split(/(?<=\.)\s/);
       textEl.innerHTML = parts.map((p,i)=> `<span class="line d${Math.min(i+1,4)}">${p}${i<parts.length-1?' ':''}</span>`).join('');
@@ -1478,7 +1564,7 @@
     btn.disabled = true;
     btn.style.opacity = '.45';
     btn.style.pointerEvents = 'none';
-    btn.querySelector('span').textContent = 'Kept ✓';
+    btn.querySelector('span').textContent = 'Kept as a star ✓';
   }
 
   function openSavedStar(id){
