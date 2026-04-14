@@ -1,0 +1,1180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>StoryBloom — tonight's bedtime story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          serif: ['Fraunces', 'ui-serif', 'Georgia', 'serif'],
+          sans: ['Nunito', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        },
+      }
+    }
+  }
+</script>
+<style>
+  :root{
+    --cream:       #fff7ea;
+    --cream-soft:  #fff0dd;
+    --peach:       #ffcfa8;
+    --peach-soft:  #ffe2c8;
+    --coral:       #ff9e87;
+    --coral-soft:  #ffc1b0;
+    --butter:      #ffe08a;
+    --butter-soft: #fff2bf;
+    --mint:        #a7e6c4;
+    --mint-soft:   #d3f2e1;
+    --sky:         #a8d6ff;
+    --sky-soft:    #d4ebff;
+    --peri:        #a7b4ff;
+    --peri-soft:   #d2d9ff;
+    --lavender:    #c9b5f5;
+    --lavender-soft:#e5dbff;
+    --ink:         #3b2d5a;
+    --ink-dim:     #7a6d98;
+    --ink-mute:    #a89bc2;
+  }
+  html, body { height: 100%; }
+  body{
+    margin:0;
+    font-family:'Nunito',system-ui,sans-serif;
+    background:
+      radial-gradient(1200px 700px at 20% 10%, #f3e8ff 0%, transparent 60%),
+      radial-gradient(1000px 700px at 85% 90%, #ffe8d2 0%, transparent 60%),
+      linear-gradient(180deg,#f7efff 0%, #fff4e4 100%);
+    color:var(--ink);
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+    letter-spacing:-0.003em;
+  }
+
+  /* ambient decorations on desktop canvas */
+  .bg-deco::before, .bg-deco::after{
+    content:""; position:fixed; pointer-events:none; border-radius:50%;
+    filter: blur(60px); opacity:.55;
+  }
+  .bg-deco::before{ width:420px; height:420px; left:-120px; top:40px; background: radial-gradient(circle, #cbb8ff 0%, transparent 70%); }
+  .bg-deco::after{ width:500px; height:500px; right:-150px; bottom:-40px; background: radial-gradient(circle, #ffd1aa 0%, transparent 70%); }
+
+  /* tiny floating stars/moons behind the phone */
+  .sky-dots{
+    position:fixed; inset:0; pointer-events:none;
+    background-image:
+      radial-gradient(2px 2px at 8% 30%, rgba(255,220,130,.55), transparent 60%),
+      radial-gradient(2px 2px at 18% 70%, rgba(170,170,255,.45), transparent 60%),
+      radial-gradient(2px 2px at 82% 25%, rgba(255,200,180,.55), transparent 60%),
+      radial-gradient(2px 2px at 92% 60%, rgba(160,200,255,.5), transparent 60%),
+      radial-gradient(2px 2px at 72% 88%, rgba(255,220,130,.4), transparent 60%),
+      radial-gradient(2px 2px at 30% 20%, rgba(200,180,255,.4), transparent 60%);
+  }
+
+  /* ---------- Phone frame ---------- */
+  .phone{
+    width: 393px;
+    height: 852px;
+    border-radius: 54px;
+    background: linear-gradient(180deg,#fff7ea 0%, #f1e6ff 50%, #ffe0cf 100%);
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.9) inset,
+      0 0 0 1.5px rgba(255,255,255,0.6),
+      0 0 0 8px #2a1a4d,
+      0 0 0 9.5px rgba(255,255,255,0.15),
+      0 40px 80px -20px rgba(60,30,100,.35),
+      0 10px 30px -10px rgba(180,130,220,.3);
+  }
+  .notch{
+    position:absolute; top:11px; left:50%; transform:translateX(-50%);
+    width:120px; height:34px; border-radius:20px;
+    background:#2a1a4d; z-index:50;
+  }
+  .status{
+    position:absolute; top:0; left:0; right:0; height:54px;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 18px 28px 0 28px;
+    font-size:14px; font-weight:700; color:var(--ink); letter-spacing:.01em;
+    z-index:40;
+  }
+  .home-indicator{
+    position:absolute; bottom:8px; left:50%; transform:translateX(-50%);
+    width:134px; height:5px; border-radius:3px; background:rgba(60,40,100,.35); z-index:40;
+  }
+
+  .screen{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column;
+    padding: 60px 22px 28px;
+    opacity:0; pointer-events:none;
+    transition: opacity .6s ease;
+  }
+  .screen.active{ opacity:1; pointer-events:auto; }
+
+  /* Soft floating ambient elements */
+  .blob{
+    position:absolute; border-radius:50%;
+    filter: blur(24px); opacity:.6; pointer-events:none;
+    transition: all 1.2s cubic-bezier(.2,.7,.2,1);
+  }
+
+  @keyframes floaty { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-8px) } }
+  @keyframes floaty-2 { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-12px) } }
+  @keyframes floaty-3 { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-5px) } }
+  @keyframes spin-slow { to { transform: rotate(360deg) } }
+  @keyframes twinkle { 0%,100%{opacity:.35; transform: scale(.9)} 50%{opacity:.85; transform: scale(1)} }
+  @keyframes drift { 0%{ transform: translateX(-6px) } 100%{ transform: translateX(6px) } }
+  .f1{ animation: floaty 6s ease-in-out infinite; }
+  .f2{ animation: floaty-2 7.5s ease-in-out infinite; }
+  .f3{ animation: floaty-3 5.5s ease-in-out infinite; }
+  .tw{ animation: twinkle 3s ease-in-out infinite; }
+  .drift{ animation: drift 10s ease-in-out infinite alternate; }
+
+  /* Buttons */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding: 16px 24px; border-radius: 999px;
+    font-family:'Nunito',sans-serif; font-size:16px; font-weight:700;
+    letter-spacing:.005em;
+    background: linear-gradient(180deg, #ff9e87 0%, #ff7e70 100%);
+    color:#fff;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.35) inset,
+      0 2px 0 rgba(255,255,255,.45) inset,
+      0 14px 26px -10px rgba(255,120,110,.5),
+      0 0 40px -5px rgba(255,180,150,.4);
+    transition: transform .2s ease, box-shadow .2s ease, opacity .2s;
+    cursor:pointer;
+  }
+  .btn:active{ transform: translateY(1px) scale(.99); }
+  .btn-peri{
+    background: linear-gradient(180deg,#b8c2ff 0%, #8f9eff 100%);
+    box-shadow: 0 0 0 1px rgba(255,255,255,.35) inset, 0 2px 0 rgba(255,255,255,.45) inset, 0 14px 26px -10px rgba(140,150,255,.55);
+  }
+  .btn-butter{
+    background: linear-gradient(180deg,#ffe38a 0%, #ffc95f 100%);
+    color:#5a3d14;
+    box-shadow: 0 0 0 1px rgba(255,255,255,.55) inset, 0 2px 0 rgba(255,255,255,.6) inset, 0 14px 26px -10px rgba(255,190,90,.55);
+  }
+  .btn-ghost{
+    background: rgba(255,255,255,.7);
+    color: var(--ink);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 0 1px rgba(90,70,150,.12) inset;
+  }
+
+  .pill{
+    padding:6px 12px; border-radius:999px;
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color: var(--ink-dim);
+    background: rgba(255,255,255,.65);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 0 1px rgba(110,90,170,.1) inset;
+    font-weight:700;
+  }
+  .pill-solid{
+    background: linear-gradient(180deg, #fff4c4, #ffe38a);
+    color: #6b4a13;
+    box-shadow: 0 0 0 1px rgba(240,180,60,.25) inset;
+  }
+
+  h1.display{
+    font-family:'Fraunces', serif; font-weight:500;
+    font-size: 40px; line-height:1.02; letter-spacing:-0.02em;
+    color:var(--ink);
+  }
+  h2.display{
+    font-family:'Fraunces', serif; font-weight:500;
+    font-size:28px; line-height:1.1; letter-spacing:-0.015em;
+    color:var(--ink);
+  }
+  h3.display{
+    font-family:'Fraunces', serif; font-weight:500;
+    font-size:22px; line-height:1.15; letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+  p.soft{ color: var(--ink-dim); font-size:15px; line-height:1.5; font-weight:500;}
+
+  /* Dots progress */
+  .dots{ display:flex; gap:6px; align-items:center; }
+  .dots .d{
+    width: 22px; height:5px; border-radius:3px;
+    background: rgba(120,100,170,.18);
+    transition: all .4s;
+  }
+  .dots .d.on{ background: linear-gradient(90deg,#ffb37a,#ff8e72); width:28px; box-shadow: 0 0 14px rgba(255,140,110,.4); }
+
+  /* Color chip */
+  .chip{
+    width:68px; height:68px; border-radius: 22px;
+    cursor:pointer; position:relative;
+    transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s;
+    box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, 0 10px 20px -8px rgba(90,70,150,.2);
+  }
+  .chip::after{
+    content:""; position:absolute; inset:-5px; border-radius: 26px;
+    box-shadow: 0 0 0 2.5px #ff9e87;
+    opacity:0; transition: opacity .25s;
+  }
+  .chip.selected{ transform: translateY(-4px) scale(1.04); }
+  .chip.selected::after{ opacity:1; }
+  .chip-lav   { background: linear-gradient(160deg,#e3d4ff,#b89ff2); }
+  .chip-sky   { background: linear-gradient(160deg,#d4ebff,#8dc6ff); }
+  .chip-butter{ background: linear-gradient(160deg,#fff2bf,#ffcf66); }
+  .chip-peach { background: linear-gradient(160deg,#ffe2c8,#ffb082); }
+  .chip-mint  { background: linear-gradient(160deg,#d3f2e1,#7edbb0); }
+  .chip-coral { background: linear-gradient(160deg,#ffc1b0,#ff8e7a); }
+
+  /* Soft card for choices */
+  .choice{
+    position:relative;
+    border-radius: 22px;
+    background: rgba(255,255,255,.72);
+    backdrop-filter: blur(10px);
+    box-shadow:
+      0 0 0 1px rgba(120,100,170,.08) inset,
+      0 6px 16px -8px rgba(90,60,160,.15);
+    cursor:pointer;
+    transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s, background .3s;
+  }
+  .choice:hover{ transform: translateY(-2px); }
+  .choice.selected{
+    background: rgba(255,255,255,.95);
+    transform: translateY(-3px);
+    box-shadow:
+      0 0 0 2px #ff9e87 inset,
+      0 0 0 5px rgba(255,158,135,.18),
+      0 14px 26px -10px rgba(255,150,110,.25);
+  }
+  .choice .lbl{
+    font-size:12px; font-weight:700;
+    color: var(--ink); letter-spacing:.005em;
+  }
+
+  /* Composition canvas */
+  .world{
+    position:relative; width:100%;
+    border-radius: 28px;
+    overflow:hidden;
+    background: linear-gradient(180deg, #fff4e1 0%, #ffe5f0 60%, #e8d8ff 100%);
+    box-shadow: 0 0 0 1px rgba(120,100,170,.08) inset, 0 12px 28px -12px rgba(90,60,160,.2);
+    transition: background 1s ease;
+  }
+
+  /* World preview cards */
+  .world-card{
+    position:relative;
+    height: 96px;
+    border-radius: 22px;
+    overflow: hidden;
+    cursor:pointer;
+    transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s;
+    box-shadow: 0 0 0 1px rgba(120,100,170,.08) inset, 0 10px 22px -10px rgba(90,60,160,.2);
+  }
+  .world-card:hover{ transform: translateY(-3px); }
+  .world-card.selected{
+    box-shadow: 0 14px 28px -12px rgba(255,140,110,.4);
+  }
+  .world-card.selected::after{
+    content:"";
+    position:absolute; inset:0;
+    border-radius: inherit;
+    border: 3px solid #ff9e87;
+    pointer-events:none;
+    z-index: 5;
+  }
+  .world-card .title{
+    position:absolute; left:14px; bottom:10px;
+    font-family:'Fraunces',serif; font-weight:500;
+    font-size:17px; letter-spacing:-.01em; color: var(--ink);
+  }
+  .world-card .tag{
+    position:absolute; right:10px; top:10px;
+    font-size:9.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+    color: var(--ink-dim);
+    background: rgba(255,255,255,.72);
+    padding:3px 7px; border-radius:999px;
+  }
+
+  /* Floating scene objects inside world */
+  .scene-obj{ position:absolute; transition: all 1s cubic-bezier(.2,.7,.2,1); }
+
+  /* Story card */
+  .story-card{
+    background: linear-gradient(180deg,#fff 0%, #fff6e8 100%);
+    border-radius: 28px;
+    padding: 26px 24px 22px;
+    box-shadow:
+      0 0 0 1px rgba(120,100,170,.06) inset,
+      0 20px 46px -16px rgba(90,60,160,.22);
+    position:relative;
+    overflow:hidden;
+  }
+  .story-card::before{
+    content:""; position:absolute; top:-40px; right:-30px; width:120px; height:120px;
+    background: radial-gradient(circle, rgba(255,220,140,.8) 0%, transparent 70%);
+    border-radius:50%; pointer-events:none;
+  }
+  .line { opacity:0; transform: translateY(6px); animation: lineIn .8s cubic-bezier(.2,.7,.2,1) forwards; }
+  .line.d1{ animation-delay:.15s } .line.d2{ animation-delay:.65s } .line.d3{ animation-delay:1.15s } .line.d4{ animation-delay:1.65s }
+  @keyframes lineIn{ to{ opacity:1; transform: translateY(0)} }
+
+  .back-btn{
+    width:40px; height:40px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background: rgba(255,255,255,.75);
+    color: var(--ink);
+    cursor:pointer; transition: background .2s, transform .2s;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 0 1px rgba(120,100,170,.1) inset;
+  }
+  .back-btn:hover{ background: #fff; transform: translateX(-1px); }
+
+  /* Breathing ring */
+  .breathe{
+    width:150px; height:150px; border-radius:50%;
+    background: radial-gradient(circle at 50% 40%, rgba(255,220,150,.85) 0%, rgba(255,180,140,.2) 55%, transparent 75%);
+    box-shadow: 0 0 0 2px rgba(255,210,160,.5) inset, 0 0 60px rgba(255,200,150,.5);
+    animation: breathe 6s ease-in-out infinite;
+    position:relative;
+  }
+  .breathe::after{
+    content:""; position:absolute; inset:30%; border-radius:50%;
+    background: radial-gradient(circle, #fff2c9 0%, #ffd68c 70%);
+    box-shadow: 0 0 30px rgba(255,210,140,.6);
+  }
+  @keyframes breathe{ 0%,100%{ transform:scale(.9)} 50%{ transform:scale(1.06)} }
+
+  /* Lumo (moon guide) */
+  .lumo{
+    width:170px; height:170px; position:relative;
+  }
+  .lumo .halo{
+    position:absolute; inset:-14px; border-radius:50%;
+    background: radial-gradient(circle, rgba(255,230,150,.55) 0%, transparent 70%);
+    filter: blur(8px);
+    animation: breathe 6s ease-in-out infinite;
+  }
+
+  /* Scaling */
+  .stage{
+    position: fixed; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    padding: 24px;
+  }
+  .device-wrap{ transform-origin: center center; }
+  @media (max-height: 940px){ .device-wrap{ transform: scale(.92); } }
+  @media (max-height: 880px){ .device-wrap{ transform: scale(.84); } }
+  @media (max-height: 800px){ .device-wrap{ transform: scale(.76); } }
+  @media (max-height: 720px){ .device-wrap{ transform: scale(.68); } }
+
+  /* Corner marks */
+  .corner-mark{
+    position:fixed; left:28px; top:24px; display:flex; align-items:center; gap:10px;
+    color: rgba(70,50,110,.7); font-size:12px; letter-spacing:.22em; text-transform:uppercase; font-weight:800;
+  }
+  .corner-mark .dot{ width:10px; height:10px; border-radius:50%;
+    background: linear-gradient(180deg,#ffd68c,#ff9b72);
+    box-shadow:0 0 14px #ffb88c;
+  }
+  .corner-right{
+    position:fixed; right:28px; top:24px; color: rgba(70,50,110,.55);
+    font-size:11px; letter-spacing:.2em; text-transform:uppercase; font-weight:700;
+  }
+  .footer-mark{
+    position:fixed; bottom:22px; left:50%; transform:translateX(-50%);
+    color: rgba(70,50,110,.4); font-size:10.5px; letter-spacing:.28em; text-transform:uppercase; font-weight:700;
+  }
+
+  .phone *::-webkit-scrollbar { display:none; }
+  .phone *{ scrollbar-width:none; }
+
+  /* Weather & symbol tile icons (monochromatic soft) */
+  .tile-svg svg{ filter: drop-shadow(0 6px 10px rgba(90,60,160,.12)); }
+
+  /* Lumo on welcome */
+  .lumo-hero{ position:relative; width:230px; height:230px; }
+
+  /* gentle decorative stars inside phone */
+  .mini-stars span{
+    position:absolute; width:6px; height:6px; border-radius:50%;
+    background:#ffdf8c;
+    box-shadow: 0 0 10px #ffdf8c;
+  }
+
+  /* World previews big */
+  .wp-moon{ background: linear-gradient(160deg,#e9dcff 0%, #bfcaff 100%); }
+  .wp-forest{ background: linear-gradient(160deg,#d6f2df 0%, #9ed8b8 100%); }
+  .wp-cloud{ background: linear-gradient(160deg,#daecff 0%, #b0d4ff 100%); }
+  .wp-star{ background: linear-gradient(160deg,#fff2c9 0%, #ffc98a 100%); }
+  .wp-hill{ background: linear-gradient(160deg,#ffdfc5 0%, #f2b59a 100%); }
+
+  /* Weather tile backgrounds */
+  .w-sun  { background: linear-gradient(160deg,#fff2bf,#ffcf66);}
+  .w-cloud{ background: linear-gradient(160deg,#e6f1ff,#b8d5ff);}
+  .w-rain { background: linear-gradient(160deg,#dae8ff,#a7b4ff);}
+  .w-stars{ background: linear-gradient(160deg,#e4daff,#b49cf5);}
+  .w-bow  { background: linear-gradient(160deg,#ffe0cf,#ff9eb5);}
+  .w-snow { background: linear-gradient(160deg,#f2f6ff,#cfe4ff);}
+</style>
+</head>
+<body class="bg-deco">
+  <div class="sky-dots"></div>
+  <div class="corner-mark"><span class="dot"></span> StoryBloom</div>
+  <div class="corner-right">Bedtime · Concept 2026</div>
+
+  <div class="stage">
+    <div class="device-wrap">
+      <div class="phone" id="phone">
+        <div class="notch"></div>
+        <div class="status">
+          <span>9:41</span>
+          <span class="flex items-center gap-1.5">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="none"><rect x="0" y="7" width="3" height="4" rx="1" fill="#3b2d5a"/><rect x="4.5" y="5" width="3" height="6" rx="1" fill="#3b2d5a"/><rect x="9" y="3" width="3" height="8" rx="1" fill="#3b2d5a"/><rect x="13.5" y="0" width="3" height="11" rx="1" fill="#3b2d5a"/></svg>
+            <svg width="15" height="11" viewBox="0 0 15 11" fill="none"><path d="M7.5 10.5a1 1 0 100-2 1 1 0 000 2zM7.5 7c1.3 0 2.5.5 3.5 1.4l1.4-1.4A7 7 0 007.5 5 7 7 0 002.6 7l1.4 1.4A5 5 0 017.5 7zM7.5 3.5c2.3 0 4.4.9 6 2.4l1.4-1.4A10 10 0 007.5 1 10 10 0 00.1 4.5l1.4 1.4A8 8 0 017.5 3.5z" fill="#3b2d5a"/></svg>
+            <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="0.5" y="0.5" width="22" height="11" rx="3" stroke="#3b2d5a" opacity=".55"/><rect x="2" y="2" width="18" height="8" rx="1.5" fill="#3b2d5a"/><rect x="23.5" y="4" width="1.5" height="4" rx=".75" fill="#3b2d5a" opacity=".55"/></svg>
+          </span>
+        </div>
+
+        <!-- =================== SCREEN 1: WELCOME =================== -->
+        <div class="screen active" id="scr-1">
+          <!-- soft ambient blobs -->
+          <div class="blob" style="width:260px;height:260px;top:80px;left:-60px;background: radial-gradient(circle,#d2c1ff 0%, transparent 70%);"></div>
+          <div class="blob" style="width:230px;height:230px;bottom:140px;right:-70px;background: radial-gradient(circle,#ffd1aa 0%, transparent 70%);"></div>
+
+          <!-- mini stars -->
+          <div class="mini-stars">
+            <span class="tw" style="top:120px;left:40px;"></span>
+            <span class="tw" style="top:160px;right:58px; animation-delay:.8s"></span>
+            <span class="tw" style="top:240px;left:80px; animation-delay:1.6s"></span>
+            <span class="tw" style="top:300px;right:42px; animation-delay:.4s"></span>
+          </div>
+
+          <div class="flex items-center justify-between mt-2">
+            <span class="pill pill-solid">For parent &amp; child</span>
+            <span class="text-[11px] tracking-[.18em] uppercase font-bold" style="color:var(--ink-mute)">Tonight</span>
+          </div>
+
+          <!-- Lumo hero -->
+          <div class="flex-1 flex flex-col items-center justify-center text-center px-2">
+            <div class="lumo-hero mb-6 f2">
+              <!-- glow -->
+              <div class="absolute inset-0 rounded-full" style="background: radial-gradient(circle, rgba(255,232,170,.75) 0%, transparent 65%); filter: blur(4px);"></div>
+              <!-- cloud bed -->
+              <svg viewBox="0 0 230 230" class="absolute inset-0">
+                <!-- cloud pillow -->
+                <g transform="translate(25 130)">
+                  <ellipse cx="90" cy="30" rx="90" ry="22" fill="#ffffff" opacity=".85"/>
+                  <ellipse cx="45" cy="22" rx="38" ry="22" fill="#ffffff" opacity=".95"/>
+                  <ellipse cx="130" cy="22" rx="42" ry="22" fill="#ffffff" opacity=".95"/>
+                  <ellipse cx="85" cy="12" rx="35" ry="18" fill="#ffffff"/>
+                </g>
+                <!-- moon Lumo -->
+                <g transform="translate(65 40)">
+                  <circle cx="50" cy="50" r="50" fill="url(#lumoG)"/>
+                  <!-- crescent bite suggestion -->
+                  <circle cx="70" cy="42" r="42" fill="#fff4d5" opacity=".7"/>
+                  <!-- sleepy eyes -->
+                  <path d="M32 54c2-4 8-4 10 0" stroke="#5a3d14" stroke-width="3" stroke-linecap="round" fill="none"/>
+                  <path d="M55 54c2-4 8-4 10 0" stroke="#5a3d14" stroke-width="3" stroke-linecap="round" fill="none"/>
+                  <!-- cheek -->
+                  <circle cx="28" cy="66" r="5" fill="#ffb0a0" opacity=".75"/>
+                  <circle cx="72" cy="66" r="5" fill="#ffb0a0" opacity=".75"/>
+                  <!-- smile -->
+                  <path d="M42 70 Q50 76 58 70" stroke="#5a3d14" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+                </g>
+                <!-- zzz -->
+                <g fill="#7a6d98" font-family="Fraunces" font-weight="600">
+                  <text x="175" y="50" font-size="14" opacity=".7">z</text>
+                  <text x="188" y="38" font-size="18" opacity=".85">z</text>
+                  <text x="202" y="24" font-size="22">z</text>
+                </g>
+                <defs>
+                  <linearGradient id="lumoG" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#fff7d1"/>
+                    <stop offset="1" stop-color="#ffd373"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+
+            <h1 class="display mb-3">Let's make<br/>tonight's story.</h1>
+            <p class="soft max-w-[280px]">A bedtime ritual for you and your little one — built from how today felt.</p>
+          </div>
+
+          <div class="flex flex-col items-center gap-3 pb-1">
+            <button class="btn w-[250px]" onclick="go(2)">
+              Start tonight's story
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <span class="text-[11px] tracking-[.2em] uppercase font-bold" style="color:var(--ink-mute)">Takes about 3 minutes</span>
+          </div>
+        </div>
+
+        <!-- =================== SCREEN 2: FEELING =================== -->
+        <div class="screen" id="scr-2">
+          <!-- dynamic ambient blobs -->
+          <div class="blob" id="f-blob-a" style="width:260px;height:260px;top:-40px;left:-80px;background: radial-gradient(circle,#d2c1ff 0%, transparent 70%);"></div>
+          <div class="blob" id="f-blob-b" style="width:230px;height:230px;top:420px;right:-90px;background: radial-gradient(circle,#ffd1aa 0%, transparent 70%);"></div>
+
+          <!-- header -->
+          <div class="flex items-center justify-between mt-2">
+            <div class="back-btn" onclick="prevStep()" id="fBack">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 3 5 7l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="dots">
+              <div class="d on" id="dot-1"></div>
+              <div class="d" id="dot-2"></div>
+              <div class="d" id="dot-3"></div>
+              <div class="d" id="dot-4"></div>
+            </div>
+            <div style="width:40px"></div>
+          </div>
+
+          <!-- Prompt -->
+          <div class="mt-6 mb-4">
+            <span class="text-[11px] tracking-[.2em] uppercase font-bold" style="color:var(--ink-mute)" id="stepLabel">Step 1 of 4</span>
+            <h2 class="display mt-2" id="stepPrompt">How did today feel?</h2>
+            <p class="soft mt-1" id="stepHint">Pick a color that feels a bit like today.</p>
+          </div>
+
+          <!-- Step content -->
+          <div class="flex-1 overflow-y-auto pb-2" id="stepContent">
+            <!-- Step 1: Colors -->
+            <div id="step-1" class="grid grid-cols-3 gap-y-6 gap-x-3 place-items-center py-4">
+              <div class="flex flex-col items-center gap-2.5">
+                <div class="chip chip-lav" data-color="lav" onclick="selectColor(this)"></div>
+                <span class="text-[12px] font-bold" style="color:var(--ink-dim)">Dreamy</span>
+              </div>
+              <div class="flex flex-col items-center gap-2.5">
+                <div class="chip chip-sky" data-color="sky" onclick="selectColor(this)"></div>
+                <span class="text-[12px] font-bold" style="color:var(--ink-dim)">Breezy</span>
+              </div>
+              <div class="flex flex-col items-center gap-2.5">
+                <div class="chip chip-butter" data-color="butter" onclick="selectColor(this)"></div>
+                <span class="text-[12px] font-bold" style="color:var(--ink-dim)">Sunny</span>
+              </div>
+              <div class="flex flex-col items-center gap-2.5">
+                <div class="chip chip-peach" data-color="peach" onclick="selectColor(this)"></div>
+                <span class="text-[12px] font-bold" style="color:var(--ink-dim)">Cozy</span>
+              </div>
+              <div class="flex flex-col items-center gap-2.5">
+                <div class="chip chip-mint" data-color="mint" onclick="selectColor(this)"></div>
+                <span class="text-[12px] font-bold" style="color:var(--ink-dim)">Calm</span>
+              </div>
+              <div class="flex flex-col items-center gap-2.5">
+                <div class="chip chip-coral" data-color="coral" onclick="selectColor(this)"></div>
+                <span class="text-[12px] font-bold" style="color:var(--ink-dim)">Tender</span>
+              </div>
+            </div>
+
+            <!-- Step 2: Weather -->
+            <div id="step-2" class="hidden grid grid-cols-3 gap-3 py-3">
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-weather="sun" onclick="selectWeather(this)">
+                <div class="w-[70px] h-[70px] rounded-2xl w-sun flex items-center justify-center">
+                  <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="8" fill="#ff9b4a"/><g stroke="#ff9b4a" stroke-width="2.6" stroke-linecap="round"><line x1="20" y1="4" x2="20" y2="9"/><line x1="20" y1="31" x2="20" y2="36"/><line x1="4" y1="20" x2="9" y2="20"/><line x1="31" y1="20" x2="36" y2="20"/><line x1="9" y1="9" x2="12" y2="12"/><line x1="28" y1="28" x2="31" y2="31"/><line x1="9" y1="31" x2="12" y2="28"/><line x1="28" y1="12" x2="31" y2="9"/></g></svg>
+                </div>
+                <span class="lbl">Bright</span>
+              </div>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-weather="cloud" onclick="selectWeather(this)">
+                <div class="w-[70px] h-[70px] rounded-2xl w-cloud flex items-center justify-center">
+                  <svg width="46" height="30" viewBox="0 0 46 30"><path d="M12 24c-5 0-8-3-8-7s3-7 8-7c1-4 5-7 10-7s9 3 10 7c5 0 8 3 8 7s-3 7-8 7H12z" fill="#fff"/></svg>
+                </div>
+                <span class="lbl">Cloudy</span>
+              </div>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-weather="rain" onclick="selectWeather(this)">
+                <div class="w-[70px] h-[70px] rounded-2xl w-rain flex items-center justify-center">
+                  <svg width="42" height="40" viewBox="0 0 42 40"><path d="M10 20c-4 0-7-3-7-6s3-6 7-6c1-3 5-6 9-6s8 3 9 6c4 0 7 3 7 6s-3 6-7 6H10z" fill="#fff"/><g stroke="#7ca3ff" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="26" x2="10" y2="32"/><line x1="22" y1="26" x2="20" y2="32"/><line x1="32" y1="26" x2="30" y2="32"/></g></svg>
+                </div>
+                <span class="lbl">Drizzly</span>
+              </div>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-weather="stars" onclick="selectWeather(this)">
+                <div class="w-[70px] h-[70px] rounded-2xl w-stars flex items-center justify-center">
+                  <svg width="44" height="40" viewBox="0 0 44 40"><g fill="#fff7d1"><path d="M14 8l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/><path d="M32 22l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5z"/><circle cx="26" cy="10" r="2"/></g></svg>
+                </div>
+                <span class="lbl">Starry</span>
+              </div>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-weather="bow" onclick="selectWeather(this)">
+                <div class="w-[70px] h-[70px] rounded-2xl w-bow flex items-center justify-center">
+                  <svg width="46" height="32" viewBox="0 0 46 32"><path d="M4 28 A19 19 0 0 1 42 28" stroke="#ff9b7a" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M10 28 A13 13 0 0 1 36 28" stroke="#ffd17a" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M16 28 A7 7 0 0 1 30 28" stroke="#b8ea9a" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+                </div>
+                <span class="lbl">Rainbow</span>
+              </div>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-weather="snow" onclick="selectWeather(this)">
+                <div class="w-[70px] h-[70px] rounded-2xl w-snow flex items-center justify-center">
+                  <svg width="40" height="40" viewBox="0 0 40 40"><g stroke="#8cbaf0" stroke-width="2.2" stroke-linecap="round"><line x1="20" y1="6" x2="20" y2="34"/><line x1="6" y1="20" x2="34" y2="20"/><line x1="10" y1="10" x2="30" y2="30"/><line x1="10" y1="30" x2="30" y2="10"/></g><circle cx="20" cy="20" r="3" fill="#fff"/></svg>
+                </div>
+                <span class="lbl">Snowy</span>
+              </div>
+            </div>
+
+            <!-- Step 3: Shapes -->
+            <div id="step-3" class="hidden grid grid-cols-2 gap-3 py-3">
+              <div class="choice p-4 flex items-center gap-3" data-shape="bouncy" onclick="selectShape(this)">
+                <svg width="58" height="44" viewBox="0 0 58 44"><g fill="#ffb37a"><circle cx="12" cy="30" r="8"/><circle cx="30" cy="18" r="10"/><circle cx="48" cy="28" r="7"/></g></svg>
+                <span class="lbl">Bouncy</span>
+              </div>
+              <div class="choice p-4 flex items-center gap-3" data-shape="wavy" onclick="selectShape(this)">
+                <svg width="58" height="44" viewBox="0 0 58 44"><path d="M4 30 Q15 12 26 26 T48 26 T62 26" stroke="#8fa6ff" stroke-width="5" fill="none" stroke-linecap="round"/></svg>
+                <span class="lbl">Wavy</span>
+              </div>
+              <div class="choice p-4 flex items-center gap-3" data-shape="still" onclick="selectShape(this)">
+                <svg width="58" height="44" viewBox="0 0 58 44"><rect x="6" y="18" width="46" height="8" rx="4" fill="#9bd8b8"/><circle cx="29" cy="22" r="4" fill="#4aa480"/></svg>
+                <span class="lbl">Still</span>
+              </div>
+              <div class="choice p-4 flex items-center gap-3" data-shape="sparkly" onclick="selectShape(this)">
+                <svg width="58" height="44" viewBox="0 0 58 44"><g fill="#ffd17a"><path d="M29 8l2.5 7 7 2.5-7 2.5L29 27l-2.5-7-7-2.5 7-2.5z"/><circle cx="14" cy="14" r="2.5"/><circle cx="46" cy="30" r="2.5"/><circle cx="48" cy="12" r="2"/></g></svg>
+                <span class="lbl">Sparkly</span>
+              </div>
+              <div class="choice p-4 flex items-center gap-3" data-shape="tangled" onclick="selectShape(this)">
+                <svg width="58" height="44" viewBox="0 0 58 44"><path d="M10 30 Q4 18 18 16 T40 18 Q54 22 46 32 T22 28 Q10 24 18 14" stroke="#d17ab8" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+                <span class="lbl">Tangled</span>
+              </div>
+              <div class="choice p-4 flex items-center gap-3" data-shape="round" onclick="selectShape(this)">
+                <svg width="58" height="44" viewBox="0 0 58 44"><ellipse cx="29" cy="22" rx="20" ry="14" fill="#c9b5f5"/><ellipse cx="25" cy="18" rx="8" ry="5" fill="#fff" opacity=".5"/></svg>
+                <span class="lbl">Round</span>
+              </div>
+            </div>
+
+            <!-- Step 4: Symbols -->
+            <div id="step-4" class="hidden grid grid-cols-3 gap-3 py-3">
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="moon" onclick="selectSym(this)">
+                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#fff7d1,#ffd373)">
+                  <svg width="32" height="32" viewBox="0 0 32 32"><path d="M22 19a10 10 0 1 1-9-15 8 8 0 0 0 9 15z" fill="#fff2c7"/></svg>
+                </div>
+                <span class="lbl">Moon</span>
+              </div>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="cloud" onclick="selectSym(this)">
+                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#e6f1ff,#b8d5ff)">
+                  <svg width="36" height="24" viewBox="0 0 36 24"><path d="M10 20c-4 0-6-3-6-6s2-6 6-6c1-4 4-6 8-6s7 2 8 6c4 0 6 3 6 6s-2 6-6 6H10z" fill="#fff"/></svg>
+                </div>
+                <span class="lbl">Cloud</span>
+              </div>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="star" onclick="selectSym(this)">
+                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#fff4c4,#ffcf66)">
+                  <svg width="32" height="32" viewBox="0 0 32 32"><path d="M16 3l3 10 10 3-10 3-3 10-3-10-10-3 10-3z" fill="#fff7c7"/></svg>
+                </div>
+                <span class="lbl">Star</span>
+              </div>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="tree" onclick="selectSym(this)">
+                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#d3f2e1,#7edbb0)">
+                  <svg width="30" height="34" viewBox="0 0 30 34"><path d="M15 3 L6 17 H10 L3 28 H27 L20 17 H24 Z" fill="#fff"/><rect x="13" y="28" width="4" height="4" fill="#a8784a"/></svg>
+                </div>
+                <span class="lbl">Tree</span>
+              </div>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="blanket" onclick="selectSym(this)">
+                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#ffc1b0,#ff8e7a)">
+                  <svg width="36" height="26" viewBox="0 0 36 26"><path d="M4 20 Q10 10 18 14 Q26 18 32 8 L34 20 Q26 24 18 22 Q10 20 4 20Z" fill="#fff"/></svg>
+                </div>
+                <span class="lbl">Blanket</span>
+              </div>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="nest" onclick="selectSym(this)">
+                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#ffe2c8,#ffb082)">
+                  <svg width="36" height="28" viewBox="0 0 36 28"><path d="M4 22 Q18 6 32 22 Q27 26 18 26 Q9 26 4 22Z" fill="#a8784a"/><circle cx="14" cy="18" r="3.5" fill="#fff"/><circle cx="22" cy="18" r="3.5" fill="#fff"/></svg>
+                </div>
+                <span class="lbl">Nest</span>
+              </div>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="window" onclick="selectSym(this)">
+                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#e3d4ff,#b89ff2)">
+                  <svg width="28" height="32" viewBox="0 0 28 32"><rect x="3" y="3" width="22" height="26" rx="3" fill="#fff"/><line x1="14" y1="3" x2="14" y2="29" stroke="#b89ff2" stroke-width="2"/><line x1="3" y1="16" x2="25" y2="16" stroke="#b89ff2" stroke-width="2"/></svg>
+                </div>
+                <span class="lbl">Window</span>
+              </div>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="boat" onclick="selectSym(this)">
+                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#d4ebff,#8dc6ff)">
+                  <svg width="36" height="32" viewBox="0 0 36 32"><path d="M6 22 L30 22 L26 28 L10 28 Z" fill="#fff"/><path d="M18 4 L18 22 L28 22 Z" fill="#ff9e87"/></svg>
+                </div>
+                <span class="lbl">Boat</span>
+              </div>
+              <div class="choice p-3 flex flex-col items-center gap-2 tile-svg" data-sym="hill" onclick="selectSym(this)">
+                <div class="w-[60px] h-[60px] rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#d3f2e1,#7edbb0)">
+                  <svg width="40" height="24" viewBox="0 0 40 24"><path d="M2 22 Q10 6 20 14 Q30 22 38 10 L38 22 Z" fill="#fff"/></svg>
+                </div>
+                <span class="lbl">Hill</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Continue button -->
+          <div class="pt-2 pb-1 flex items-center justify-between">
+            <button class="text-[12px] tracking-[.16em] uppercase font-bold" style="color:var(--ink-mute)" onclick="skipStep()">Skip</button>
+            <button class="btn" id="nextBtn" onclick="nextStep()" disabled style="opacity:.35">
+              Next
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- =================== SCREEN 3: WORLD SELECTION =================== -->
+        <div class="screen" id="scr-3">
+          <div class="blob" style="width:260px;height:260px;top:60px;right:-90px;background: radial-gradient(circle,#c9d2ff 0%, transparent 70%);"></div>
+          <div class="blob" style="width:200px;height:200px;bottom:200px;left:-70px;background: radial-gradient(circle,#ffd9c2 0%, transparent 70%);"></div>
+
+          <div class="flex items-center justify-between mt-2">
+            <div class="back-btn" onclick="go(2)">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 3 5 7l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <span class="pill">Pick a world</span>
+            <div style="width:40px"></div>
+          </div>
+
+          <div class="mt-4 mb-3">
+            <span class="text-[11px] tracking-[.2em] uppercase font-bold" style="color:var(--ink-mute)">A place for tonight</span>
+            <h2 class="display mt-1.5" style="font-size:24px">Where should the<br/>story happen?</h2>
+            <p class="soft mt-1" style="font-size:14px">A little dreamland for your story to rest in.</p>
+          </div>
+
+          <div class="flex-1 min-h-0 overflow-y-auto space-y-2.5 pb-1">
+            <!-- moon garden -->
+            <div class="world-card wp-moon" data-world="moon-garden" onclick="selectWorld(this)">
+              <svg viewBox="0 0 330 128" class="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
+                <!-- moon -->
+                <circle cx="56" cy="46" r="30" fill="#fff7d1"/>
+                <circle cx="70" cy="38" r="24" fill="#f3e7ff"/>
+                <!-- flowers -->
+                <g transform="translate(180 78)">
+                  <circle cx="0" cy="0" r="8" fill="#ff9eb5"/><circle cx="14" cy="-4" r="6" fill="#ffcf66"/><circle cx="-10" cy="8" r="7" fill="#fff"/>
+                </g>
+                <g transform="translate(236 94)">
+                  <circle cx="0" cy="0" r="9" fill="#c9b5f5"/><circle cx="12" cy="-6" r="6" fill="#fff"/>
+                </g>
+                <!-- stars -->
+                <g fill="#fff2c7" class="tw">
+                  <circle cx="120" cy="28" r="2.5"/><circle cx="250" cy="30" r="2"/><circle cx="280" cy="58" r="2.5"/>
+                </g>
+              </svg>
+              <span class="tag">Gentle</span>
+              <span class="title">Moon Garden</span>
+            </div>
+            <!-- sleepy forest -->
+            <div class="world-card wp-forest" data-world="sleepy-forest" onclick="selectWorld(this)">
+              <svg viewBox="0 0 330 128" class="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
+                <g transform="translate(0 20)">
+                  <path d="M40 88 L20 88 L30 50 Z" fill="#5aaa82"/>
+                  <path d="M70 88 L46 88 L58 40 Z" fill="#4a9a72"/>
+                  <path d="M105 88 L80 88 L92 46 Z" fill="#5aaa82"/>
+                  <path d="M260 88 L236 88 L248 42 Z" fill="#4a9a72"/>
+                  <path d="M300 88 L276 88 L288 50 Z" fill="#5aaa82"/>
+                </g>
+                <!-- firefly -->
+                <circle cx="180" cy="48" r="4" fill="#fff7c7"/>
+                <circle cx="180" cy="48" r="9" fill="#fff7c7" opacity=".35"/>
+                <circle cx="150" cy="72" r="3" fill="#fff7c7"/>
+                <circle cx="210" cy="80" r="3" fill="#fff7c7"/>
+              </svg>
+              <span class="tag">Cozy</span>
+              <span class="title">Sleepy Forest</span>
+            </div>
+            <!-- cloud sea -->
+            <div class="world-card wp-cloud" data-world="cloud-sea" onclick="selectWorld(this)">
+              <svg viewBox="0 0 330 128" class="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
+                <ellipse cx="60" cy="96" rx="70" ry="16" fill="#fff"/>
+                <ellipse cx="260" cy="100" rx="80" ry="18" fill="#fff"/>
+                <ellipse cx="170" cy="110" rx="130" ry="18" fill="#fff" opacity=".8"/>
+                <!-- little boat -->
+                <g transform="translate(148 58)">
+                  <path d="M2 22 L34 22 L30 30 L6 30 Z" fill="#ff9e87"/>
+                  <path d="M18 6 L18 22 L30 22 Z" fill="#fff2c7"/>
+                </g>
+                <circle cx="260" cy="34" r="10" fill="#fff7d1"/>
+              </svg>
+              <span class="tag">Drifty</span>
+              <span class="title">Cloud Sea</span>
+            </div>
+            <!-- tiny star village -->
+            <div class="world-card wp-star" data-world="star-village" onclick="selectWorld(this)">
+              <svg viewBox="0 0 330 128" class="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
+                <!-- houses -->
+                <g transform="translate(40 60)">
+                  <rect x="0" y="18" width="28" height="22" fill="#ff9e87"/><polygon points="-4,18 14,2 32,18" fill="#c9b5f5"/>
+                  <rect x="10" y="28" width="8" height="12" fill="#fff2c7"/>
+                </g>
+                <g transform="translate(112 54)">
+                  <rect x="0" y="22" width="34" height="28" fill="#ffe38a"/><polygon points="-4,22 17,4 38,22" fill="#ff9e87"/>
+                  <rect x="12" y="34" width="10" height="16" fill="#fff"/>
+                </g>
+                <g transform="translate(210 58)">
+                  <rect x="0" y="20" width="30" height="22" fill="#a7d9ff"/><polygon points="-4,20 15,4 34,20" fill="#ff9e87"/>
+                </g>
+                <!-- stars -->
+                <g fill="#fff7c7">
+                  <path d="M270 30l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/>
+                  <circle cx="290" cy="60" r="2.5"/>
+                  <circle cx="20" cy="30" r="2"/>
+                </g>
+              </svg>
+              <span class="tag">Twinkly</span>
+              <span class="title">Tiny Star Village</span>
+            </div>
+            <!-- dream hill -->
+            <div class="world-card wp-hill" data-world="dream-hill" onclick="selectWorld(this)">
+              <svg viewBox="0 0 330 128" class="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
+                <path d="M-10 100 Q80 40 170 80 Q260 110 340 60 L340 128 L-10 128 Z" fill="#ffd1aa"/>
+                <path d="M-10 118 Q90 80 180 110 Q270 128 340 100 L340 128 L-10 128 Z" fill="#ffb188"/>
+                <circle cx="240" cy="34" r="16" fill="#fff7d1"/>
+                <path d="M230 30c4-8 14-8 18 0 4-2 9 0 9 5s-4 7-9 7-14-1-18-4c-3-2-3-6 0-8z" fill="#fff"/>
+              </svg>
+              <span class="tag">Warm</span>
+              <span class="title">Dream Hill</span>
+            </div>
+          </div>
+
+          <div class="pt-3 pb-1 flex items-center justify-between">
+            <span class="text-[12px] font-bold" style="color:var(--ink-mute)" id="worldChosen">Tap one to choose</span>
+            <button class="btn btn-peri" id="worldNext" onclick="go(4)" disabled style="opacity:.35">
+              Build my world
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- =================== SCREEN 4: STORY =================== -->
+        <div class="screen" id="scr-4">
+          <div class="blob" style="width:280px;height:280px;top:-40px;right:-100px;background: radial-gradient(circle,#ffd1aa 0%, transparent 70%);"></div>
+          <div class="blob" style="width:240px;height:240px;bottom:80px;left:-80px;background: radial-gradient(circle,#d2c1ff 0%, transparent 70%);"></div>
+
+          <div class="flex items-center justify-between mt-2">
+            <div class="back-btn" onclick="go(3)">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 3 5 7l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <span class="pill pill-solid">Tonight's story</span>
+            <div style="width:40px"></div>
+          </div>
+
+          <!-- Illustrated scene -->
+          <div class="mt-4 mb-4">
+            <div class="world" id="storyScene" style="height:196px">
+              <!-- built by JS: gradient, world backdrop, symbols, floating stars -->
+            </div>
+          </div>
+
+          <div class="story-card flex-1 flex flex-col">
+            <div class="flex items-center gap-2 mb-3 relative z-10">
+              <span class="text-[10.5px] tracking-[.24em] uppercase font-bold" style="color:var(--ink-mute)">A little story</span>
+              <span class="flex-1 h-px" style="background: rgba(120,100,170,.12)"></span>
+              <span class="text-[10.5px] font-bold" style="color:var(--ink-mute)" id="storyMeta">~1 min read</span>
+            </div>
+            <h3 class="display mb-3 relative z-10" id="storyTitle">The little cloud and the moon garden</h3>
+            <div class="font-serif text-[18px] leading-[1.55] font-normal relative z-10" style="color:var(--ink); letter-spacing:-.005em" id="storyText"></div>
+            <div class="mt-auto flex items-center justify-between pt-5 relative z-10">
+              <button class="text-[12px] tracking-[.14em] uppercase font-bold" style="color:var(--ink-dim)" onclick="writeStory()">↺ Read again</button>
+              <button class="btn btn-peri" onclick="go(5)">
+                Goodnight step
+                <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- =================== SCREEN 5: CLOSING RITUAL =================== -->
+        <div class="screen" id="scr-5">
+          <div class="blob" style="width:260px;height:260px;top:80px;left:-70px;background: radial-gradient(circle,#ffe0b3 0%, transparent 70%);"></div>
+          <div class="blob" style="width:240px;height:240px;bottom:60px;right:-80px;background: radial-gradient(circle,#c9d2ff 0%, transparent 70%);"></div>
+
+          <!-- twinkle stars behind -->
+          <div class="mini-stars">
+            <span class="tw" style="top:90px;left:50px;"></span>
+            <span class="tw" style="top:160px;right:60px; animation-delay:.8s"></span>
+            <span class="tw" style="top:230px;left:80px; animation-delay:1.6s"></span>
+            <span class="tw" style="top:360px;right:50px; animation-delay:1.2s"></span>
+          </div>
+
+          <div class="flex items-center justify-between mt-2">
+            <div class="back-btn" onclick="go(4)">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 3 5 7l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <span class="pill">Goodnight step</span>
+            <div style="width:40px"></div>
+          </div>
+
+          <div class="flex-1 flex flex-col items-center justify-center text-center px-3">
+            <div class="breathe mb-8"></div>
+            <h2 class="display max-w-[300px]" id="careTitle">Take one slow breath together.</h2>
+            <p class="soft mt-3 max-w-[270px]" id="careHint">Breathe in like you smell warm cocoa. Breathe out like you blow a soft wish.</p>
+          </div>
+
+          <!-- alt card -->
+          <div class="choice p-4 mb-3 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl flex items-center justify-center" style="background: linear-gradient(160deg,#ffe38a,#ffb37a);">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3v16M3 11h16" stroke="#5a3d14" stroke-width="2.2" stroke-linecap="round"/></svg>
+            </div>
+            <div class="flex-1">
+              <div class="font-bold text-[14px]" id="altTitle">Or snuggle up a little closer</div>
+              <div class="text-[12px] font-medium mt-0.5" style="color:var(--ink-dim)" id="altHint">Pull the blanket up. Say something kind about today.</div>
+            </div>
+            <button class="w-9 h-9 rounded-full flex items-center justify-center font-bold" style="background:rgba(255,255,255,.8); color:var(--ink-dim)" onclick="rotateCare()">↺</button>
+          </div>
+
+          <div class="flex items-center gap-3 pb-1">
+            <button class="btn btn-ghost flex-1" onclick="go(1)">Tuck away</button>
+            <button class="btn flex-1" onclick="go(1)">
+              Goodnight
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12 8a5 5 0 1 1-6-6 4 4 0 0 0 6 6z" stroke="#fff" stroke-width="1.6" fill="none" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="home-indicator"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-mark">A bedtime ritual · Concept prototype</div>
+
+<script>
+  // ============== STATE ==============
+  const state = {
+    step: 1,            // 1 color, 2 weather, 3 shape, 4 symbol
+    color:null, weather:null, shape:null, sym:null,
+    world:null,
+    care:0,
+  };
+
+  const colorWords = {
+    lav:   { mood:'dreamy',  tint1:'#e3d4ff', tint2:'#b89ff2', adj:'dreamy' },
+    sky:   { mood:'breezy',  tint1:'#d4ebff', tint2:'#8dc6ff', adj:'breezy' },
+    butter:{ mood:'sunny',   tint1:'#fff2bf', tint2:'#ffcf66', adj:'sunny' },
+    peach: { mood:'cozy',    tint1:'#ffe2c8', tint2:'#ffb082', adj:'cozy' },
+    mint:  { mood:'calm',    tint1:'#d3f2e1', tint2:'#7edbb0', adj:'calm' },
+    coral: { mood:'tender',  tint1:'#ffc1b0', tint2:'#ff8e7a', adj:'tender' },
+  };
+  const weatherWords = {
+    sun:'a bright day', cloud:'a soft, cloudy day', rain:'a drizzly little day',
+    stars:'a starry kind of day', bow:'a rainbow day', snow:'a quiet, snowy day',
+  };
+  const shapeWords = {
+    bouncy:'bouncy', wavy:'wavy and rolling', still:'very still',
+    sparkly:'a little sparkly', tangled:'a bit tangled', round:'round and soft',
+  };
+  const symWords = {
+    moon:'a gentle moon', cloud:'a little cloud', star:'a tiny star',
+    tree:'an old friendly tree', blanket:'a warm blanket', nest:'a soft nest',
+    window:'a window full of light', boat:'a tiny paper boat', hill:'a slow hill',
+  };
+  const worlds = {
+    'moon-garden':  { title:'the moon garden',    short:'Moon Garden',    bg:'linear-gradient(180deg,#ece0ff 0%, #d9c9ff 60%, #f4e8ff 100%)' },
+    'sleepy-forest':{ title:'the sleepy forest',  short:'Sleepy Forest',  bg:'linear-gradient(180deg,#e2f3e8 0%, #b5dfc4 60%, #f0fbe6 100%)' },
+    'cloud-sea':    { title:'the cloud sea',      short:'Cloud Sea',      bg:'linear-gradient(180deg,#e0f0ff 0%, #b0d4ff 60%, #f3faff 100%)' },
+    'star-village': { title:'the tiny star village',short:'Star Village', bg:'linear-gradient(180deg,#fff4d0 0%, #ffd79a 60%, #fff8e0 100%)' },
+    'dream-hill':   { title:'the dream hill',     short:'Dream Hill',     bg:'linear-gradient(180deg,#ffe4d0 0%, #f4b69c 60%, #fff2e4 100%)' },
+  };
+
+  const cares = [
+    { t:'Take one slow breath together.', h:'Breathe in like you smell warm cocoa. Breathe out like you blow a soft wish.', alt:{t:'Or snuggle up a little closer', h:'Pull the blanket up. Say something kind about today.'} },
+    { t:'Make a small wish on a star.', h:'Close your eyes and whisper something you hope for tomorrow.', alt:{t:'Or say goodnight to something', h:'The moon, a teddy, a tree outside the window.'} },
+    { t:'Think of one safe, warm place.', h:'It can be real or imagined. Stay there for three slow breaths.', alt:{t:'Or hum a tiny song', h:'Even just two little notes, soft and sleepy.'} },
+    { t:'Say goodnight to the star.', h:'Wave a little wave, then tuck your hands back under the blanket.', alt:{t:'Or give one gentle squeeze', h:'A hug, a hand-hold, or a squeeze of the pillow.'} },
+  ];
+
+  // ============== NAV ==============
+  function go(n){
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('scr-'+n).classList.add('active');
+    if(n===4){ renderStoryScene(); writeStory(); }
+    if(n===5){ applyCare(); }
+  }
+
+  // ============== STEP ENGINE ==============
+  const stepMeta = [
+    null,
+    { prompt:'How did today feel?',        hint:'Pick a color that feels a bit like today.',       label:'Step 1 of 4' },
+    { prompt:"What's the weather inside?", hint:'Choose a little weather for your feeling.',        label:'Step 2 of 4' },
+    { prompt:'What shape was today?',      hint:'Soft and wavy? Bouncy? Still and quiet?',          label:'Step 3 of 4' },
+    { prompt:'Pick a little friend.',      hint:'One tiny something to keep you company.',          label:'Step 4 of 4' },
+  ];
+  function setStep(n){
+    state.step = n;
+    [1,2,3,4].forEach(i => {
+      document.getElementById('step-'+i).classList.toggle('hidden', i!==n);
+      document.getElementById('dot-'+i).classList.toggle('on', i<=n);
+    });
+    document.getElementById('stepPrompt').textContent = stepMeta[n].prompt;
+    document.getElementById('stepHint').textContent = stepMeta[n].hint;
+    document.getElementById('stepLabel').textContent = stepMeta[n].label;
+    updateNextBtn();
+  }
+  function nextStep(){
+    if(state.step < 4) setStep(state.step+1);
+    else go(3);
+  }
+  function prevStep(){
+    if(state.step > 1) setStep(state.step-1);
+    else go(1);
+  }
+  function skipStep(){
+    if(state.step < 4) setStep(state.step+1);
+    else go(3);
+  }
+  function updateNextBtn(){
+    const b = document.getElementById('nextBtn');
+    const ready =
+      (state.step===1 && state.color) ||
+      (state.step===2 && state.weather) ||
+      (state.step===3 && state.shape) ||
+      (state.step===4 && state.sym);
+    b.disabled = !ready;
+    b.style.opacity = ready ? '1' : '.35';
+    if(state.step===4 && state.sym){
+      b.innerHTML = 'Pick a world <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    } else {
+      b.innerHTML = 'Next <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    }
+  }
+
+  // ============== SELECTORS ==============
+  function clearSelected(scope, key){ document.querySelectorAll(scope).forEach(el => el.classList.remove('selected')); }
+
+  function selectColor(el){
+    clearSelected('.chip');
+    el.classList.add('selected');
+    state.color = el.dataset.color;
+    const c = colorWords[state.color];
+    document.getElementById('f-blob-a').style.background = `radial-gradient(circle, ${c.tint2} 0%, transparent 70%)`;
+    document.getElementById('f-blob-b').style.background = `radial-gradient(circle, ${c.tint1} 0%, transparent 70%)`;
+    updateNextBtn();
+  }
+  function selectWeather(el){ clearSelected('[data-weather]'); el.classList.add('selected'); state.weather = el.dataset.weather; updateNextBtn(); }
+  function selectShape(el){ clearSelected('[data-shape]');   el.classList.add('selected'); state.shape   = el.dataset.shape;   updateNextBtn(); }
+  function selectSym(el){   clearSelected('[data-sym]');     el.classList.add('selected'); state.sym     = el.dataset.sym;     updateNextBtn(); }
+
+  function selectWorld(el){
+    document.querySelectorAll('[data-world]').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    state.world = el.dataset.world;
+    document.getElementById('worldChosen').textContent = worlds[state.world].short + ' · ready';
+    const nextBtn = document.getElementById('worldNext');
+    nextBtn.disabled = false; nextBtn.style.opacity = '1';
+  }
+
+  // ============== STORY SCENE (illustration on screen 4) ==============
+  function renderStoryScene(){
+    const scene = document.getElementById('storyScene');
+    const w = state.world ? worlds[state.world] : worlds['moon-garden'];
+    const sym = state.sym || 'moon';
+
+    // scene backdrop svg by world
+    const worldSvg = {
+      'moon-garden': `
+        <svg viewBox="0 0 340 196" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 w-full h-full">
+          <defs><linearGradient id="mg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ece0ff"/><stop offset="1" stop-color="#d9c9ff"/></linearGradient></defs>
+          <rect width="340" height="196" fill="url(#mg)"/>
+          <circle cx="58" cy="60" r="36" fill="#fff7d1"/>
+          <circle cx="76" cy="48" r="28" fill="#ece0ff" opacity=".8"/>
+          <g transform="translate(200 140)"><circle r="10" fill="#ff9eb5"/><circle cx="18" cy="-4" r="7" fill="#ffcf66"/><circle cx="-12" cy="8" r="8" fill="#fff"/></g>
+          <g transform="translate(280 160)"><circle r="10" fill="#c9b5f5"/><circle cx="14" cy="-6" r="6" fill="#fff"/></g>
+          <g fill="#fff2c7"><circle cx="140" cy="40" r="2.5"/><circle cx="260" cy="36" r="2"/><circle cx="300" cy="80" r="2.5"/><circle cx="180" cy="20" r="2"/></g>
+        </svg>`,
+      'sleepy-forest': `
+        <svg viewBox="0 0 340 196" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 w-full h-full">
+          <defs><linearGradient id="sf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2f3e8"/><stop offset="1" stop-color="#b5dfc4"/></linearGradient></defs>
+          <rect width="340" height="196" fill="url(#sf)"/>
+          <g><path d="M50 160 L20 160 L35 100 Z" fill="#5aaa82"/><path d="M92 160 L60 160 L76 90 Z" fill="#4a9a72"/><path d="M140 160 L108 160 L124 100 Z" fill="#5aaa82"/><path d="M260 160 L228 160 L244 90 Z" fill="#4a9a72"/><path d="M320 160 L288 160 L304 100 Z" fill="#5aaa82"/></g>
+          <circle cx="200" cy="60" r="5" fill="#fff7c7"/><circle cx="200" cy="60" r="14" fill="#fff7c7" opacity=".35"/>
+          <circle cx="170" cy="100" r="3" fill="#fff7c7"/><circle cx="240" cy="120" r="3" fill="#fff7c7"/>
+        </svg>`,
+      'cloud-sea': `
+        <svg viewBox="0 0 340 196" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 w-full h-full">
+          <defs><linearGradient id="cs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e0f0ff"/><stop offset="1" stop-color="#b0d4ff"/></linearGradient></defs>
+          <rect width="340" height="196" fill="url(#cs)"/>
+          <ellipse cx="60" cy="160" rx="80" ry="20" fill="#fff"/>
+          <ellipse cx="280" cy="168" rx="90" ry="22" fill="#fff"/>
+          <ellipse cx="170" cy="182" rx="150" ry="24" fill="#fff" opacity=".8"/>
+          <circle cx="270" cy="48" r="14" fill="#fff7d1"/>
+          <g transform="translate(134 90)"><path d="M2 34 L40 34 L36 44 L6 44 Z" fill="#ff9e87"/><path d="M22 10 L22 34 L36 34 Z" fill="#fff2c7"/></g>
+        </svg>`,
+      'star-village': `
+        <svg viewBox="0 0 340 196" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 w-full h-full">
+          <defs><linearGradient id="sv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff4d0"/><stop offset="1" stop-color="#ffd79a"/></linearGradient></defs>
+          <rect width="340" height="196" fill="url(#sv)"/>
+          <g transform="translate(40 100)"><rect x="0" y="20" width="36" height="32" fill="#ff9e87"/><polygon points="-6,20 18,0 42,20" fill="#c9b5f5"/><rect x="13" y="34" width="10" height="18" fill="#fff2c7"/></g>
+          <g transform="translate(128 92)"><rect x="0" y="28" width="44" height="36" fill="#ffe38a"/><polygon points="-6,28 22,4 50,28" fill="#ff9e87"/><rect x="16" y="44" width="12" height="20" fill="#fff"/></g>
+          <g transform="translate(230 100)"><rect x="0" y="24" width="40" height="30" fill="#a7d9ff"/><polygon points="-6,24 20,2 46,24" fill="#ff9e87"/><rect x="14" y="36" width="12" height="18" fill="#fff2c7"/></g>
+          <g fill="#fff"><path d="M280 40l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/><circle cx="300" cy="80" r="3"/><circle cx="40" cy="40" r="2.5"/></g>
+        </svg>`,
+      'dream-hill': `
+        <svg viewBox="0 0 340 196" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 w-full h-full">
+          <defs><linearGradient id="dh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe4d0"/><stop offset="1" stop-color="#f4b69c"/></linearGradient></defs>
+          <rect width="340" height="196" fill="url(#dh)"/>
+          <circle cx="260" cy="54" r="22" fill="#fff7d1"/>
+          <path d="M-10 160 Q80 80 180 130 Q260 170 350 110 L350 200 L-10 200 Z" fill="#ffd1aa"/>
+          <path d="M-10 180 Q90 130 180 170 Q270 200 350 160 L350 200 L-10 200 Z" fill="#ffb188"/>
+          <g fill="#fff" opacity=".9"><circle cx="60" cy="56" r="3"/><circle cx="120" cy="32" r="2.5"/><circle cx="200" cy="40" r="2"/></g>
+        </svg>`,
+    }[state.world || 'moon-garden'];
+
+    scene.innerHTML = worldSvg + `
+      <div class="scene-obj f1" style="top:14%; right:12%;">${symSvg(sym, 40)}</div>
+      <div class="scene-obj f3" style="bottom:10%; left:14%; opacity:.85;">${symSvg(sym, 26)}</div>
+    `;
+  }
+
+  function symSvg(name, size){
+    const s = size;
+    const sw = Math.max(1.4, size/22);
+    if(name==='moon')    return `<svg width="${s}" height="${s}" viewBox="0 0 32 32"><path d="M22 19a10 10 0 1 1-9-15 8 8 0 0 0 9 15z" fill="#fff2c7" stroke="#e6c27a" stroke-width="${sw}" stroke-linejoin="round"/></svg>`;
+    if(name==='cloud')   return `<svg width="${s*1.4}" height="${s}" viewBox="0 0 40 28"><path d="M12 22c-4 0-7-3-7-6s3-6 7-6c1-4 4-6 8-6s7 2 8 6c4 0 7 3 7 6s-3 6-7 6H12z" fill="#fff" stroke="#b9c5dd" stroke-width="${sw}" stroke-linejoin="round"/></svg>`;
+    if(name==='star')    return `<svg width="${s}" height="${s}" viewBox="0 0 32 32"><path d="M16 3l3 10 10 3-10 3-3 10-3-10-10-3 10-3z" fill="#fff7c7" stroke="#e6c27a" stroke-width="${sw}" stroke-linejoin="round"/></svg>`;
+    if(name==='tree')    return `<svg width="${s}" height="${s*1.2}" viewBox="0 0 30 36"><path d="M15 3 L6 17 H10 L3 28 H27 L20 17 H24 Z" fill="#7ed8a8" stroke="#3d8a62" stroke-width="${sw}" stroke-linejoin="round"/><rect x="13" y="28" width="4" height="5" fill="#a8784a"/></svg>`;
+    if(name==='blanket') return `<svg width="${s*1.4}" height="${s}" viewBox="0 0 40 28"><path d="M4 22 Q12 10 20 16 Q28 22 36 8 L38 22 Q28 26 20 24 Q12 22 4 22Z" fill="#ffd1aa" stroke="#c98f6a" stroke-width="${sw}" stroke-linejoin="round"/></svg>`;
+    if(name==='nest')    return `<svg width="${s*1.3}" height="${s}" viewBox="0 0 38 28"><path d="M4 22 Q19 6 34 22 Q28 26 19 26 Q10 26 4 22Z" fill="#c98f6a" stroke="#8a5a3a" stroke-width="${sw}" stroke-linejoin="round"/><circle cx="15" cy="18" r="3.5" fill="#fff"/><circle cx="23" cy="18" r="3.5" fill="#fff"/></svg>`;
+    if(name==='window')  return `<svg width="${s}" height="${s*1.15}" viewBox="0 0 28 32"><rect x="3" y="3" width="22" height="26" rx="3" fill="#fff" stroke="#b89ff2" stroke-width="${sw}"/><line x1="14" y1="3" x2="14" y2="29" stroke="#b89ff2" stroke-width="${sw}"/><line x1="3" y1="16" x2="25" y2="16" stroke="#b89ff2" stroke-width="${sw}"/></svg>`;
+    if(name==='boat')    return `<svg width="${s*1.3}" height="${s}" viewBox="0 0 38 30"><path d="M6 20 L32 20 L28 28 L10 28 Z" fill="#ff9e87" stroke="#c76d5a" stroke-width="${sw}" stroke-linejoin="round"/><path d="M19 3 L19 20 L30 20 Z" fill="#fff2c7" stroke="#e6c27a" stroke-width="${sw}" stroke-linejoin="round"/></svg>`;
+    if(name==='hill')    return `<svg width="${s*1.4}" height="${s*.8}" viewBox="0 0 40 22"><path d="M2 20 Q10 4 20 12 Q30 20 38 6 L38 22 L2 22 Z" fill="#ffd1aa" stroke="#c98f6a" stroke-width="${sw}" stroke-linejoin="round"/></svg>`;
+    return '';
+  }
+
+  // ============== STORY GENERATION ==============
+  function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
+
+  function writeStory(){
+    const c = state.color ? colorWords[state.color] : colorWords.peach;
+    const w = state.world ? worlds[state.world] : worlds['moon-garden'];
+    const friend = state.sym ? symWords[state.sym] : 'a little cloud';
+    const friendShort = state.sym ? state.sym : 'cloud';
+    const wm = state.weather ? weatherWords[state.weather] : 'a soft, cloudy day';
+    const sh = state.shape ? shapeWords[state.shape] : 'round and soft';
+
+    const titleOptions = [
+      `The little ${friendShort} and ${w.title}`,
+      `A ${c.adj} visit to ${w.title}`,
+      `Goodnight, ${w.title}`,
+      `The ${friendShort} who found ${w.title}`,
+    ];
+    document.getElementById('storyTitle').textContent = pick(titleOptions);
+
+    const variants = [
+      `Tonight, ${friend} drifted into ${w.title}. It had been ${wm}, and the little feeling inside felt ${sh}. So it curled up where the sky was softest, and listened to the quiet grow. Slowly, everything felt a little lighter — just right for sleep.`,
+      `Once upon a ${c.adj} evening, ${friend} tiptoed into ${w.title}. The day had been ${sh}, but here everything moved slowly and kindly. A gentle breeze said hello, and ${friend} whispered hello back. It was a good place to rest.`,
+      `In ${w.title}, there lived ${friend}. Today was ${wm}, and ${friend} felt ${sh} inside. It found a warm spot, took three soft breaths, and the ${c.adj} sky tucked itself in around it, just like a blanket.`,
+      `${friend} had been busy all day, with a heart that felt ${sh}. So it made its way to ${w.title}, where the light was ${c.adj} and the world was slow. It rested. It listened. And little by little, it was ready to dream.`,
+    ];
+    const text = pick(variants);
+
+    const el = document.getElementById('storyText');
+    const parts = text.split(/(?<=\.)\s/);
+    el.innerHTML = parts.map((p,i)=> `<span class="line d${Math.min(i+1,4)}">${p}${i<parts.length-1?' ':''}</span>`).join('');
+    document.getElementById('storyMeta').textContent = '~1 min read · for bedtime';
+  }
+
+  // ============== CLOSING RITUAL ==============
+  function applyCare(){
+    const c = cares[state.care % cares.length];
+    document.getElementById('careTitle').textContent = c.t;
+    document.getElementById('careHint').textContent = c.h;
+    document.getElementById('altTitle').textContent = c.alt.t;
+    document.getElementById('altHint').textContent = c.alt.h;
+  }
+  function rotateCare(){ state.care++; applyCare(); }
+
+  // init
+  setStep(1);
+</script>
+</body>
+</html>
