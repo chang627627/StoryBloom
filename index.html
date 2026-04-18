@@ -523,14 +523,63 @@
   @media (max-height: 800px){ .device-wrap{ transform: scale(.76); } }
   @media (max-height: 720px){ .device-wrap{ transform: scale(.68); } }
 
+  /* Mobile: hide desktop-only chrome so the phone is the only thing on screen */
+  @media (max-width: 560px){
+    .corner-mark,
+    .corner-right,
+    #demoReset { display: none !important; }
+  }
+
+  /* Splash / launch screen */
+  #scr-0 { position: absolute; inset: 0; overflow: hidden; }
+  .splash-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(620px 380px at 50% 30%, #e5dbff 0%, transparent 70%),
+      radial-gradient(520px 300px at 50% 90%, #ffe2c8 0%, transparent 70%),
+      linear-gradient(180deg, #f7efff 0%, #fff4e4 55%, #f7efff 100%);
+  }
+  .splash-lockup {
+    position: relative; z-index: 1;
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 0 24px;
+    opacity: 0; transform: translateY(6px);
+    animation: splash-in .9s cubic-bezier(.2,.7,.2,1) .25s forwards;
+  }
+  .splash-dot {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fff 0%, #b8c2ff 45%, #8f9eff 100%);
+    box-shadow: 0 0 28px rgba(143,158,255,.55), inset 0 -4px 8px rgba(59,45,90,.18);
+    animation: splash-dot-breath 3.2s ease-in-out infinite;
+  }
+  .splash-word {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-weight: 500; font-size: 34px; letter-spacing: -.015em;
+    color: #3b2d5a;
+  }
+  .splash-tag {
+    position: absolute; bottom: 120px; left: 0; right: 0;
+    text-align: center;
+    font-size: 13px; font-weight: 600; color: #7a6d98;
+    letter-spacing: .01em;
+    opacity: 0; transform: translateY(4px);
+    animation: splash-in 1s cubic-bezier(.2,.7,.2,1) .6s forwards;
+  }
+  @keyframes splash-in { to { opacity: 1; transform: translateY(0); } }
+  @keyframes splash-dot-breath {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 28px rgba(143,158,255,.5), inset 0 -4px 8px rgba(59,45,90,.18); }
+    50% { transform: scale(1.08); box-shadow: 0 0 40px rgba(143,158,255,.7), inset 0 -4px 8px rgba(59,45,90,.18); }
+  }
+
   /* Corner marks */
   .corner-mark{
     position:fixed; left:28px; top:24px; display:flex; align-items:center; gap:10px;
     color: rgba(70,50,110,.7); font-size:12px; letter-spacing:.22em; text-transform:uppercase; font-weight:800;
   }
-  .corner-mark .dot{ width:10px; height:10px; border-radius:50%;
-    background: linear-gradient(180deg,#ffd68c,#ff9b72);
-    box-shadow:0 0 14px #ffb88c;
+  .corner-mark .dot{ width:12px; height:12px; border-radius:50%;
+    background: radial-gradient(circle at 35% 35%, #fff 0%, #b8c2ff 45%, #8f9eff 100%);
+    box-shadow: 0 0 14px rgba(143,158,255,.55), inset 0 -2px 4px rgba(59,45,90,.15);
   }
   .corner-right{
     position:fixed; right:28px; top:24px; color: rgba(70,50,110,.55);
@@ -1141,8 +1190,18 @@
         <!-- Status bar (image) -->
         <img class="status-bar" src="assets/status-bar.png" alt="">
 
+        <!-- =================== SCREEN 0: LAUNCH / SPLASH =================== -->
+        <div class="screen active" id="scr-0" style="padding:0; align-items:center; justify-content:center;">
+          <div class="splash-bg"></div>
+          <div class="splash-lockup">
+            <span class="splash-dot"></span>
+            <span class="splash-word serif">StoryBloom</span>
+          </div>
+          <div class="splash-tag">A bedtime ritual, shaped by today.</div>
+        </div>
+
         <!-- =================== SCREEN 1: WELCOME =================== -->
-        <div class="screen active" id="scr-1">
+        <div class="screen" id="scr-1">
           <!-- soft ambient blobs -->
           <div class="blob" style="width:260px;height:260px;top:80px;left:-60px;background: radial-gradient(circle,#d2c1ff 0%, transparent 70%);"></div>
           <div class="blob" style="width:230px;height:230px;bottom:140px;right:-70px;background: radial-gradient(circle,#ffd1aa 0%, transparent 70%);"></div>
@@ -3170,6 +3229,21 @@
   setStep(1);
   renderConstellation();
   renderCustomFriends();
+
+  // Splash → Welcome auto-advance. Tap anywhere on the splash also skips ahead.
+  (function wireSplash(){
+    const splash = document.getElementById('scr-0');
+    if(!splash) return;
+    let advanced = false;
+    const goWelcome = () => {
+      if (advanced) return;
+      advanced = true;
+      splash.classList.remove('active');
+      document.getElementById('scr-1').classList.add('active');
+    };
+    setTimeout(goWelcome, 1800);
+    splash.addEventListener('click', goWelcome);
+  })();
 
   // ============== DEMO RESET BUTTON (outside the phone) ==============
   (function wireDemoReset(){
