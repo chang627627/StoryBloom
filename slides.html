@@ -54,6 +54,16 @@
     .slide{ transform: translate(-50%, -50%) scale(var(--deck-scale, 1)); }
   }
 
+  /* ?all — stack every slide vertically for full-deck capture */
+  body.all-mode{ overflow:auto !important; }
+  body.all-mode .deck{ position:static; overflow:visible; height:auto; background:transparent; }
+  body.all-mode .slide{
+    position:relative; left:auto; top:auto;
+    transform:none !important; opacity:1 !important; pointer-events:auto !important;
+    margin:0 auto; display:block;
+  }
+  body.all-mode .nav{ display:none !important; }
+
   /* ============== SLIDE LAYOUTS ============== */
   /* Two-column: copy left, one phone right */
   .slide-grid{
@@ -84,13 +94,13 @@
   }
   h1.title{
     font-family:'Fraunces',Georgia,serif; font-variation-settings:"opsz" 144;
-    font-weight:500; font-size: 132px; line-height:.96;
+    font-weight:500; font-size: 108px; line-height:.96;
     letter-spacing:-.028em; margin:0; color:var(--ink); text-wrap:balance;
   }
   h1.title em{ font-style:italic; font-weight:400; color: var(--bedtime); }
   h2.heading{
     font-family:'Fraunces',Georgia,serif; font-variation-settings:"opsz" 144;
-    font-weight:500; font-size: 84px; line-height:1.02;
+    font-weight:500; font-size: 68px; line-height:1.02;
     letter-spacing:-.024em; margin:0; color:var(--ink); text-wrap:balance;
   }
   h2.heading em{ font-style:italic; font-weight:400; color: var(--bedtime); }
@@ -108,15 +118,24 @@
   .phone-unit{ display:flex; flex-direction:column; align-items:center; }
   .phone-unit .phone{ transform: scale(.62); transform-origin: center top; }
   .phone-unit{ height: 560px; }
-  /* Larger phones in 2-up slides */
-  .slide[data-slide="4"] .phone-unit .phone,
-  .slide[data-slide="5"] .phone-unit .phone{ transform: scale(.78); }
-  .slide[data-slide="4"] .phone-unit,
-  .slide[data-slide="5"] .phone-unit{ height: 680px; }
+  /* 2-up slides: left-right layout (copy on left, two phones on right) */
+  .slide[data-slide="3"] .slide-stack,
+  .slide[data-slide="5"] .slide-stack{
+    display:grid; grid-template-columns: .9fr 1.1fr;
+    gap:60px; align-items:center; padding: 100px 120px; flex-direction: row;
+  }
+  .slide[data-slide="3"] .stack-copy,
+  .slide[data-slide="5"] .stack-copy{ max-width: 680px; }
+  .slide[data-slide="3"] .phone-row,
+  .slide[data-slide="5"] .phone-row{ flex: initial; gap: 24px !important; justify-content: flex-start; }
+  .slide[data-slide="3"] .phone-unit .phone,
+  .slide[data-slide="5"] .phone-unit .phone{ transform: scale(.7); transform-origin: top center; }
+  .slide[data-slide="3"] .phone-unit,
+  .slide[data-slide="5"] .phone-unit{ width: 300px; height: 650px; }
   /* Slide 7: 3-up, keep scale moderate so all three sit comfortably */
-  .slide[data-slide="7"] .phone-unit .phone{ transform: scale(.68); }
-  .slide[data-slide="7"] .phone-unit{ height: 600px; }
-  .slide[data-slide="7"] .phone-row{ gap: 40px !important; }
+  .slide[data-slide="6"] .phone-unit .phone{ transform: scale(.56); transform-origin: top center; }
+  .slide[data-slide="6"] .phone-unit{ width: 240px; height: 520px; }
+  .slide[data-slide="6"] .phone-row{ gap: 24px !important; }
 
   /* ============== PHONE MOCKUP ============== */
   .phone{
@@ -380,6 +399,20 @@
     font-size:12px; letter-spacing:.22em; text-transform:uppercase; font-weight:700;
     color:var(--ink-dim); min-width:70px; text-align:center;
   }
+  .nav .divider{ width:1px; height:22px; background:rgba(59,45,90,.15); }
+  .nav #copy-slide{ width:auto; padding: 0 14px; gap:8px; display:inline-flex; align-items:center; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+  .nav #copy-slide.busy{ opacity:.6; pointer-events:none; }
+  .nav #copy-slide svg{ width:14px; height:14px; }
+  .toast{
+    position:fixed; bottom:88px; left:50%; transform:translateX(-50%) translateY(6px);
+    padding: 10px 18px; border-radius:999px;
+    background: rgba(59,45,90,.94); color:#fff;
+    font-size:12.5px; font-weight:600; letter-spacing:.02em;
+    z-index:101; opacity:0; pointer-events:none;
+    transition: opacity .25s ease, transform .25s ease;
+    box-shadow: 0 10px 30px -12px rgba(0,0,0,.4);
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
@@ -390,7 +423,6 @@
   <section class="slide active" data-slide="1">
     <div class="slide-grid">
       <div class="copy">
-        <div class="eyebrow">A bedtime ritual, shaped by today</div>
         <h1 class="title">StoryBloom</h1>
         <p class="lede">A bedtime storytelling app for parents and children, ages three to eight. The child expresses how today felt through four soft, nonverbal choices. The day becomes tonight's story.</p>
       </div>
@@ -464,8 +496,7 @@
   <section class="slide" data-slide="2">
     <div class="slide-stack">
       <div class="stack-copy">
-        <div class="eyebrow">The ritual</div>
-        <h2 class="heading" style="font-size:72px; margin-top:16px;">Four soft questions.<br/>The day <em>becomes</em> a story.</h2>
+        <h2 class="heading" style="font-size:60px; margin-top:16px;">Four soft questions.<br/>The day <em>becomes</em> a story.</h2>
         <p class="lede" style="max-width: 1000px; margin-top: 20px;">Before bed, the child makes four nonverbal choices. A color for the day, the weather inside, the shape of the feeling, a little friend for company. No typing, no reading required. Designed so a three year old can answer before they have the words.</p>
       </div>
 
@@ -597,177 +628,11 @@
   </section>
 
 
-  <!-- ============== SLIDE 03 · FIVE WORLDS ============== -->
+  <!-- ============== SLIDE 03 · LITTLE FRIENDS + CREATE ============== -->
   <section class="slide" data-slide="3">
-    <div class="slide-grid">
-      <div class="copy">
-        <div class="eyebrow">Five dreamlands</div>
-        <h2 class="heading">Five hand-drawn worlds.<br/>One picked <em>for tonight</em>.</h2>
-        <p class="lede">The Moon Garden, the Sleepy Forest, the Cloud Sea, the Star Village, Dream Hill. Each has a distinct time of day, atmosphere, and visual vocabulary. No two bedtimes look the same.</p>
-      </div>
-      <div class="phone-col">
-        <div class="phone">
-          <div class="phone-screen">
-            <img class="status-img" src="assets/status-bar.png" alt="">
-            <div class="screen-body">
-              <div class="blob" style="width:260px;height:260px;top:60px;right:-90px;background: radial-gradient(circle,#c9d2ff 0%, transparent 70%);"></div>
-              <div class="blob" style="width:200px;height:200px;bottom:200px;left:-70px;background: radial-gradient(circle,#ffd9c2 0%, transparent 70%);"></div>
-              <div style="margin-top:6px;">
-                <span class="eyebrow" style="font-size:11px;">A place for tonight</span>
-                <h2 class="serif" style="font-weight:500; font-size:24px; line-height:1.1; letter-spacing:-.015em; margin:8px 0 4px;">Where should the<br/>story happen?</h2>
-                <p style="font-size:14px; color:var(--ink-dim); margin:0;">A little dreamland for your story to rest in.</p>
-              </div>
-              <div style="display:flex; flex-direction:column; gap:10px; margin-top: 18px; flex:1;">
-                <div class="world-card wp-moon">
-                  <svg viewBox="0 0 330 96" style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="xMidYMid slice"><circle cx="56" cy="36" r="24" fill="#fff7d1"/><circle cx="70" cy="28" r="20" fill="#f3e7ff"/><g transform="translate(180 62)"><circle cx="0" cy="0" r="7" fill="#ff9eb5"/><circle cx="12" cy="-4" r="5" fill="#ffcf66"/><circle cx="-9" cy="6" r="6" fill="#fff"/></g><g fill="#fff2c7"><circle cx="120" cy="18" r="2"/><circle cx="250" cy="20" r="2"/></g></svg>
-                  <span class="title">Moon Garden</span>
-                </div>
-                <div class="world-card wp-forest selected">
-                  <svg viewBox="0 0 330 96" style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="xMidYMid slice"><g transform="translate(0 10)"><path d="M40 72 L20 72 L30 38 Z" fill="#5aaa82"/><path d="M70 72 L46 72 L58 28 Z" fill="#4a9a72"/><path d="M105 72 L80 72 L92 34 Z" fill="#5aaa82"/><path d="M260 72 L236 72 L248 30 Z" fill="#4a9a72"/><path d="M300 72 L276 72 L288 38 Z" fill="#5aaa82"/></g><circle cx="180" cy="40" r="3" fill="#fff7c7"/><circle cx="180" cy="40" r="8" fill="#fff7c7" opacity=".35"/></svg>
-                  <span class="title">Sleepy Forest</span>
-                </div>
-                <div class="world-card wp-cloud">
-                  <svg viewBox="0 0 330 96" style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="xMidYMid slice"><ellipse cx="60" cy="72" rx="70" ry="12" fill="#fff"/><ellipse cx="260" cy="76" rx="80" ry="14" fill="#fff"/><ellipse cx="170" cy="84" rx="130" ry="14" fill="#fff" opacity=".8"/><g transform="translate(148 40)"><path d="M2 18 L34 18 L30 26 L6 26 Z" fill="#ff9e87"/><path d="M18 4 L18 18 L30 18 Z" fill="#fff2c7"/></g><circle cx="260" cy="24" r="8" fill="#fff7d1"/></svg>
-                  <span class="title">Cloud Sea</span>
-                </div>
-                <div class="world-card wp-star">
-                  <svg viewBox="0 0 330 96" style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="xMidYMid slice"><g transform="translate(40 46)"><rect x="0" y="14" width="22" height="18" fill="#ff9e87"/><polygon points="-3,14 11,1 25,14" fill="#c9b5f5"/></g><g transform="translate(112 40)"><rect x="0" y="18" width="26" height="22" fill="#ffe38a"/><polygon points="-3,18 13,3 29,18" fill="#ff9e87"/></g><g transform="translate(210 44)"><rect x="0" y="16" width="24" height="18" fill="#a7d9ff"/><polygon points="-3,16 12,2 27,16" fill="#ff9e87"/></g><g fill="#fff7c7"><path d="M270 22l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g></svg>
-                  <span class="title">Tiny Star Village</span>
-                </div>
-                <div class="world-card wp-hill">
-                  <svg viewBox="0 0 330 96" style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="xMidYMid slice"><circle cx="240" cy="26" r="13" fill="#fff7d1"/><path d="M-10 76 Q80 30 170 60 Q260 84 340 46 L340 96 L-10 96 Z" fill="#ffd1aa"/><path d="M-10 88 Q90 60 180 82 Q270 96 340 76 L340 96 L-10 96 Z" fill="#ffb188"/></svg>
-                  <span class="title">Dream Hill</span>
-                </div>
-              </div>
-            </div>
-            <div class="home-indicator"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ============== SLIDE 04 · THE STORY (2 phones: two tellings, "Another" button) ============== -->
-  <section class="slide" data-slide="4">
     <div class="slide-stack">
       <div class="stack-copy">
-        <div class="eyebrow">Tonight's story</div>
-        <h2 class="heading" style="font-size:72px; margin-top:16px;">Written <em>for tonight</em>.</h2>
-        <p class="lede" style="max-width:980px; margin-top:20px;">Every story is shaped by the child's picks and set in the world they chose. Tap <b style="color:var(--ink)">Another</b> for a fresh telling. The writing pulse plays again, the text fades back in one line at a time, and the night gets a new little story without losing any of the choices.</p>
-      </div>
-
-      <div class="phone-row" style="gap:120px;">
-        <!-- Phone A: first telling -->
-        <div class="phone-unit">
-          <div class="phone">
-            <div class="phone-screen">
-              <img class="status-img" src="assets/status-bar.png" alt="">
-              <div class="screen-body">
-                <div class="blob" style="width:280px;height:280px;top:-40px;right:-100px;background: radial-gradient(circle,#ffd1aa 0%, transparent 70%);"></div>
-                <div style="display:flex; align-items:center; justify-content:center; margin-top:2px;">
-                  <span style="padding:6px 12px; border-radius:999px; background: linear-gradient(180deg,#fff4c4,#ffe38a); color:#6b4a13; font-size:11px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;">Tonight's story</span>
-                </div>
-                <div style="margin-top:12px;">
-                  <div style="width:100%; height:130px; border-radius:22px; overflow:hidden; position:relative;">
-                    <svg viewBox="0 0 340 196" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">
-                      <defs><linearGradient id="mgWa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d6c6ff"/><stop offset="1" stop-color="#a897e0"/></linearGradient></defs>
-                      <rect width="340" height="196" fill="url(#mgWa)"/>
-                      <circle cx="70" cy="58" r="32" fill="#fff7d1"/>
-                      <circle cx="86" cy="48" r="26" fill="#c9b5f5" opacity=".92"/>
-                      <path d="M0 178 Q 80 158 170 174 Q 260 190 340 170 L340 200 L0 200 Z" fill="#8c73c4" opacity=".55"/>
-                      <g transform="translate(200 148)"><circle r="11" fill="#ff9eb5"/><circle cx="22" cy="-6" r="8" fill="#ffd17a"/><circle cx="-14" cy="10" r="9" fill="#fff"/></g>
-                      <g fill="#fff2c7"><path d="M256 28l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g>
-                      <g transform="translate(250 86) scale(.9)">
-                        <path d="M-2 3 L0 -2 L2 3 Z" fill="#8a5a3a"/><path d="M14 3 L16 -2 L18 3 Z" fill="#8a5a3a"/>
-                        <ellipse cx="8" cy="11" rx="11" ry="12" fill="#c98f6a" stroke="#8a5a3a" stroke-width=".9"/>
-                        <ellipse cx="8" cy="8" rx="9" ry="7.5" fill="#ffe2c8"/>
-                        <circle cx="4" cy="8" r="2.4" fill="#3b2d5a"/><circle cx="12" cy="8" r="2.4" fill="#3b2d5a"/>
-                        <path d="M7 11 L9 11 L8 13.5 Z" fill="#ff9e87"/>
-                      </g>
-                    </svg>
-                  </div>
-                </div>
-                <div class="story-card" style="margin-top:14px;">
-                  <div class="meta-row">
-                    <span style="font-size:10.5px; letter-spacing:.24em; text-transform:uppercase; color:var(--ink-mute); font-weight:700;">A little story</span>
-                    <span style="flex:1; height:1px; background: rgba(120,100,170,.12);"></span>
-                    <span style="font-size:10.5px; font-weight:700; color:var(--ink-mute);">written for tonight</span>
-                  </div>
-                  <h3 class="story-title">Goodnight, moon garden</h3>
-                  <p class="story-body">In the moon garden, all the flowers were going to sleep. A gentle owl said goodnight to each one. It had been a starry kind of day, and its heart still felt very still. Then the cozy sky pulled a soft blanket of moonlight over everything.</p>
-                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
-                    <span style="font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-dim);">Another</span>
-                    <span style="padding:10px 16px; border-radius:999px; background: linear-gradient(180deg,#b8c2ff 0%,#8f9eff 100%); color:#fff; font-size:13px; font-weight:700; box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);">Goodnight step &rsaquo;</span>
-                  </div>
-                </div>
-              </div>
-              <div class="home-indicator"></div>
-            </div>
-          </div>
-          <div class="phone-cap">First telling</div>
-        </div>
-
-        <!-- Phone B: "Another" telling -->
-        <div class="phone-unit">
-          <div class="phone">
-            <div class="phone-screen">
-              <img class="status-img" src="assets/status-bar.png" alt="">
-              <div class="screen-body">
-                <div class="blob" style="width:280px;height:280px;top:-40px;right:-100px;background: radial-gradient(circle,#ffd1aa 0%, transparent 70%);"></div>
-                <div style="display:flex; align-items:center; justify-content:center; margin-top:2px;">
-                  <span style="padding:6px 12px; border-radius:999px; background: linear-gradient(180deg,#fff4c4,#ffe38a); color:#6b4a13; font-size:11px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;">Tonight's story</span>
-                </div>
-                <div style="margin-top:12px;">
-                  <div style="width:100%; height:130px; border-radius:22px; overflow:hidden; position:relative;">
-                    <svg viewBox="0 0 340 196" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">
-                      <defs><linearGradient id="mgWb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d6c6ff"/><stop offset="1" stop-color="#a897e0"/></linearGradient></defs>
-                      <rect width="340" height="196" fill="url(#mgWb)"/>
-                      <circle cx="70" cy="58" r="32" fill="#fff7d1"/>
-                      <circle cx="86" cy="48" r="26" fill="#c9b5f5" opacity=".92"/>
-                      <path d="M0 178 Q 80 158 170 174 Q 260 190 340 170 L340 200 L0 200 Z" fill="#8c73c4" opacity=".55"/>
-                      <g transform="translate(200 148)"><circle r="11" fill="#ff9eb5"/><circle cx="22" cy="-6" r="8" fill="#ffd17a"/><circle cx="-14" cy="10" r="9" fill="#fff"/></g>
-                      <g fill="#fff2c7"><path d="M256 28l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g>
-                      <g transform="translate(250 86) scale(.9)">
-                        <path d="M-2 3 L0 -2 L2 3 Z" fill="#8a5a3a"/><path d="M14 3 L16 -2 L18 3 Z" fill="#8a5a3a"/>
-                        <ellipse cx="8" cy="11" rx="11" ry="12" fill="#c98f6a" stroke="#8a5a3a" stroke-width=".9"/>
-                        <ellipse cx="8" cy="8" rx="9" ry="7.5" fill="#ffe2c8"/>
-                        <circle cx="4" cy="8" r="2.4" fill="#3b2d5a"/><circle cx="12" cy="8" r="2.4" fill="#3b2d5a"/>
-                        <path d="M7 11 L9 11 L8 13.5 Z" fill="#ff9e87"/>
-                      </g>
-                    </svg>
-                  </div>
-                </div>
-                <div class="story-card" style="margin-top:14px;">
-                  <div class="meta-row">
-                    <span style="font-size:10.5px; letter-spacing:.24em; text-transform:uppercase; color:var(--ink-mute); font-weight:700;">A little story</span>
-                    <span style="flex:1; height:1px; background: rgba(120,100,170,.12);"></span>
-                    <span style="font-size:10.5px; font-weight:700; color:var(--ink-mute);">written for tonight</span>
-                  </div>
-                  <h3 class="story-title">Where the moonlight waits</h3>
-                  <p class="story-body">The moon likes to stay up a little late. Tonight it saw a gentle owl come in, feeling very still. The moon smiled and made a cozy path of light. It was soft enough for a little one to sleep on.</p>
-                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
-                    <span style="font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--bedtime); background: rgba(143,158,255,.15); padding:6px 10px; border-radius:999px;">Another ✓</span>
-                    <span style="padding:10px 16px; border-radius:999px; background: linear-gradient(180deg,#b8c2ff 0%,#8f9eff 100%); color:#fff; font-size:13px; font-weight:700; box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);">Goodnight step &rsaquo;</span>
-                  </div>
-                </div>
-              </div>
-              <div class="home-indicator"></div>
-            </div>
-          </div>
-          <div class="phone-cap">After "Another"</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ============== SLIDE 05 · LITTLE FRIENDS + CREATE ============== -->
-  <section class="slide" data-slide="5">
-    <div class="slide-stack">
-      <div class="stack-copy">
-        <div class="eyebrow">Companions</div>
-        <h2 class="heading" style="font-size:72px; margin-top:16px;">Nine friends.<br/>Or <em>make your own</em>.</h2>
+        <h2 class="heading" style="font-size:60px; margin-top:16px;">Nine friends.<br/>Or <em>make your own</em>.</h2>
         <p class="lede" style="max-width:980px; margin-top:20px;">Nine curated companions, time-agnostic and portable, so any friend fits any world. A Create a Friend sheet lets the child invent their own. A name, a shape, a color, a few words about what it's like. Saved to the device and starring in every future story.</p>
       </div>
 
@@ -876,18 +741,183 @@
   </section>
 
 
-  <!-- ============== SLIDE 06 · GOODNIGHT ============== -->
-  <section class="slide" data-slide="6">
+  <!-- ============== SLIDE 04 · FIVE WORLDS ============== -->
+  <section class="slide" data-slide="4">
     <div class="slide-grid">
       <div class="copy">
-        <div class="eyebrow">Closing the night</div>
-        <h2 class="heading">A bedtime<br/>that <em>ends</em>.</h2>
-        <p class="lede">After the story, one small bonding action. Take a slow breath together, make a wish, snuggle up. That's the whole next step. The breathing orb paces the breath at four seconds in, six seconds out.</p>
+        <h2 class="heading">Five hand-drawn worlds.<br/>One picked <em>for tonight</em>.</h2>
+        <p class="lede">The Moon Garden, the Sleepy Forest, the Cloud Sea, the Star Village, Dream Hill. Each has a distinct time of day, atmosphere, and visual vocabulary. No two bedtimes look the same.</p>
       </div>
       <div class="phone-col">
         <div class="phone">
           <div class="phone-screen">
             <img class="status-img" src="assets/status-bar.png" alt="">
+            <div class="screen-body">
+              <div class="blob" style="width:260px;height:260px;top:60px;right:-90px;background: radial-gradient(circle,#c9d2ff 0%, transparent 70%);"></div>
+              <div class="blob" style="width:200px;height:200px;bottom:200px;left:-70px;background: radial-gradient(circle,#ffd9c2 0%, transparent 70%);"></div>
+              <div style="margin-top:6px;">
+                <span class="eyebrow" style="font-size:11px;">A place for tonight</span>
+                <h2 class="serif" style="font-weight:500; font-size:24px; line-height:1.1; letter-spacing:-.015em; margin:8px 0 4px;">Where should the<br/>story happen?</h2>
+                <p style="font-size:14px; color:var(--ink-dim); margin:0;">A little dreamland for your story to rest in.</p>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:10px; margin-top: 18px; flex:1;">
+                <div class="world-card wp-moon">
+                  <svg viewBox="0 0 330 96" style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="xMidYMid slice"><circle cx="56" cy="36" r="24" fill="#fff7d1"/><circle cx="70" cy="28" r="20" fill="#f3e7ff"/><g transform="translate(180 62)"><circle cx="0" cy="0" r="7" fill="#ff9eb5"/><circle cx="12" cy="-4" r="5" fill="#ffcf66"/><circle cx="-9" cy="6" r="6" fill="#fff"/></g><g fill="#fff2c7"><circle cx="120" cy="18" r="2"/><circle cx="250" cy="20" r="2"/></g></svg>
+                  <span class="title">Moon Garden</span>
+                </div>
+                <div class="world-card wp-forest selected">
+                  <svg viewBox="0 0 330 96" style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="xMidYMid slice"><g transform="translate(0 10)"><path d="M40 72 L20 72 L30 38 Z" fill="#5aaa82"/><path d="M70 72 L46 72 L58 28 Z" fill="#4a9a72"/><path d="M105 72 L80 72 L92 34 Z" fill="#5aaa82"/><path d="M260 72 L236 72 L248 30 Z" fill="#4a9a72"/><path d="M300 72 L276 72 L288 38 Z" fill="#5aaa82"/></g><circle cx="180" cy="40" r="3" fill="#fff7c7"/><circle cx="180" cy="40" r="8" fill="#fff7c7" opacity=".35"/></svg>
+                  <span class="title">Sleepy Forest</span>
+                </div>
+                <div class="world-card wp-cloud">
+                  <svg viewBox="0 0 330 96" style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="xMidYMid slice"><ellipse cx="60" cy="72" rx="70" ry="12" fill="#fff"/><ellipse cx="260" cy="76" rx="80" ry="14" fill="#fff"/><ellipse cx="170" cy="84" rx="130" ry="14" fill="#fff" opacity=".8"/><g transform="translate(148 40)"><path d="M2 18 L34 18 L30 26 L6 26 Z" fill="#ff9e87"/><path d="M18 4 L18 18 L30 18 Z" fill="#fff2c7"/></g><circle cx="260" cy="24" r="8" fill="#fff7d1"/></svg>
+                  <span class="title">Cloud Sea</span>
+                </div>
+                <div class="world-card wp-star">
+                  <svg viewBox="0 0 330 96" style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="xMidYMid slice"><g transform="translate(40 46)"><rect x="0" y="14" width="22" height="18" fill="#ff9e87"/><polygon points="-3,14 11,1 25,14" fill="#c9b5f5"/></g><g transform="translate(112 40)"><rect x="0" y="18" width="26" height="22" fill="#ffe38a"/><polygon points="-3,18 13,3 29,18" fill="#ff9e87"/></g><g transform="translate(210 44)"><rect x="0" y="16" width="24" height="18" fill="#a7d9ff"/><polygon points="-3,16 12,2 27,16" fill="#ff9e87"/></g><g fill="#fff7c7"><path d="M270 22l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g></svg>
+                  <span class="title">Tiny Star Village</span>
+                </div>
+                <div class="world-card wp-hill">
+                  <svg viewBox="0 0 330 96" style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="xMidYMid slice"><circle cx="240" cy="26" r="13" fill="#fff7d1"/><path d="M-10 76 Q80 30 170 60 Q260 84 340 46 L340 96 L-10 96 Z" fill="#ffd1aa"/><path d="M-10 88 Q90 60 180 82 Q270 96 340 76 L340 96 L-10 96 Z" fill="#ffb188"/></svg>
+                  <span class="title">Dream Hill</span>
+                </div>
+              </div>
+            </div>
+            <div class="home-indicator"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============== SLIDE 05 · THE STORY (2 phones: two tellings, "Another" button) ============== -->
+  <section class="slide" data-slide="5">
+    <div class="slide-stack">
+      <div class="stack-copy">
+        <h2 class="heading" style="font-size:60px; margin-top:16px;">Written <em>for tonight</em>.</h2>
+        <p class="lede" style="max-width:980px; margin-top:20px;">Every story is shaped by the child's picks and set in the world they chose. Tap <b style="color:var(--ink)">Another</b> for a fresh telling. The writing pulse plays again, the text fades back in one line at a time, and the night gets a new little story without losing any of the choices.</p>
+      </div>
+
+      <div class="phone-row" style="gap:120px;">
+        <!-- Phone A: first telling -->
+        <div class="phone-unit">
+          <div class="phone">
+            <div class="phone-screen">
+              <img class="status-img" src="assets/status-bar.png" alt="">
+              <div class="screen-body">
+                <div class="blob" style="width:280px;height:280px;top:-40px;right:-100px;background: radial-gradient(circle,#ffd1aa 0%, transparent 70%);"></div>
+                <div style="display:flex; align-items:center; justify-content:center; margin-top:2px;">
+                  <span style="padding:6px 12px; border-radius:999px; background: linear-gradient(180deg,#fff4c4,#ffe38a); color:#6b4a13; font-size:11px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;">Tonight's story</span>
+                </div>
+                <div style="margin-top:12px;">
+                  <div style="width:100%; height:130px; border-radius:22px; overflow:hidden; position:relative;">
+                    <svg viewBox="0 0 340 196" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">
+                      <defs><linearGradient id="mgWa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d6c6ff"/><stop offset="1" stop-color="#a897e0"/></linearGradient></defs>
+                      <rect width="340" height="196" fill="url(#mgWa)"/>
+                      <circle cx="70" cy="58" r="32" fill="#fff7d1"/>
+                      <circle cx="86" cy="48" r="26" fill="#c9b5f5" opacity=".92"/>
+                      <path d="M0 178 Q 80 158 170 174 Q 260 190 340 170 L340 200 L0 200 Z" fill="#8c73c4" opacity=".55"/>
+                      <g transform="translate(200 148)"><circle r="11" fill="#ff9eb5"/><circle cx="22" cy="-6" r="8" fill="#ffd17a"/><circle cx="-14" cy="10" r="9" fill="#fff"/></g>
+                      <g fill="#fff2c7"><path d="M256 28l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g>
+                      <g transform="translate(250 86) scale(.9)">
+                        <path d="M-2 3 L0 -2 L2 3 Z" fill="#8a5a3a"/><path d="M14 3 L16 -2 L18 3 Z" fill="#8a5a3a"/>
+                        <ellipse cx="8" cy="11" rx="11" ry="12" fill="#c98f6a" stroke="#8a5a3a" stroke-width=".9"/>
+                        <ellipse cx="8" cy="8" rx="9" ry="7.5" fill="#ffe2c8"/>
+                        <circle cx="4" cy="8" r="2.4" fill="#3b2d5a"/><circle cx="12" cy="8" r="2.4" fill="#3b2d5a"/>
+                        <path d="M7 11 L9 11 L8 13.5 Z" fill="#ff9e87"/>
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+                <div class="story-card" style="margin-top:14px;">
+                  <div class="meta-row">
+                    <span style="font-size:10.5px; letter-spacing:.24em; text-transform:uppercase; color:var(--ink-mute); font-weight:700;">A little story</span>
+                    <span style="flex:1; height:1px; background: rgba(120,100,170,.12);"></span>
+                    <span style="font-size:10.5px; font-weight:700; color:var(--ink-mute);">written for tonight</span>
+                  </div>
+                  <h3 class="story-title">Goodnight, moon garden</h3>
+                  <p class="story-body">In the moon garden, all the flowers were going to sleep. A gentle owl said goodnight to each one. It had been a starry kind of day, and its heart still felt very still. Then the cozy sky pulled a soft blanket of moonlight over everything.</p>
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
+                    <span style="font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-dim);">Another</span>
+                    <span style="padding:10px 16px; border-radius:999px; background: linear-gradient(180deg,#b8c2ff 0%,#8f9eff 100%); color:#fff; font-size:13px; font-weight:700; box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);">Goodnight step &rsaquo;</span>
+                  </div>
+                </div>
+              </div>
+              <div class="home-indicator"></div>
+            </div>
+          </div>
+          <div class="phone-cap">First telling</div>
+        </div>
+
+        <!-- Phone B: "Another" telling -->
+        <div class="phone-unit">
+          <div class="phone">
+            <div class="phone-screen">
+              <img class="status-img" src="assets/status-bar.png" alt="">
+              <div class="screen-body">
+                <div class="blob" style="width:280px;height:280px;top:-40px;right:-100px;background: radial-gradient(circle,#ffd1aa 0%, transparent 70%);"></div>
+                <div style="display:flex; align-items:center; justify-content:center; margin-top:2px;">
+                  <span style="padding:6px 12px; border-radius:999px; background: linear-gradient(180deg,#fff4c4,#ffe38a); color:#6b4a13; font-size:11px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;">Tonight's story</span>
+                </div>
+                <div style="margin-top:12px;">
+                  <div style="width:100%; height:130px; border-radius:22px; overflow:hidden; position:relative;">
+                    <svg viewBox="0 0 340 196" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">
+                      <defs><linearGradient id="mgWb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d6c6ff"/><stop offset="1" stop-color="#a897e0"/></linearGradient></defs>
+                      <rect width="340" height="196" fill="url(#mgWb)"/>
+                      <circle cx="70" cy="58" r="32" fill="#fff7d1"/>
+                      <circle cx="86" cy="48" r="26" fill="#c9b5f5" opacity=".92"/>
+                      <path d="M0 178 Q 80 158 170 174 Q 260 190 340 170 L340 200 L0 200 Z" fill="#8c73c4" opacity=".55"/>
+                      <g transform="translate(200 148)"><circle r="11" fill="#ff9eb5"/><circle cx="22" cy="-6" r="8" fill="#ffd17a"/><circle cx="-14" cy="10" r="9" fill="#fff"/></g>
+                      <g fill="#fff2c7"><path d="M256 28l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g>
+                      <g transform="translate(250 86) scale(.9)">
+                        <path d="M-2 3 L0 -2 L2 3 Z" fill="#8a5a3a"/><path d="M14 3 L16 -2 L18 3 Z" fill="#8a5a3a"/>
+                        <ellipse cx="8" cy="11" rx="11" ry="12" fill="#c98f6a" stroke="#8a5a3a" stroke-width=".9"/>
+                        <ellipse cx="8" cy="8" rx="9" ry="7.5" fill="#ffe2c8"/>
+                        <circle cx="4" cy="8" r="2.4" fill="#3b2d5a"/><circle cx="12" cy="8" r="2.4" fill="#3b2d5a"/>
+                        <path d="M7 11 L9 11 L8 13.5 Z" fill="#ff9e87"/>
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+                <div class="story-card" style="margin-top:14px;">
+                  <div class="meta-row">
+                    <span style="font-size:10.5px; letter-spacing:.24em; text-transform:uppercase; color:var(--ink-mute); font-weight:700;">A little story</span>
+                    <span style="flex:1; height:1px; background: rgba(120,100,170,.12);"></span>
+                    <span style="font-size:10.5px; font-weight:700; color:var(--ink-mute);">written for tonight</span>
+                  </div>
+                  <h3 class="story-title">Where the moonlight waits</h3>
+                  <p class="story-body">The moon likes to stay up a little late. Tonight it saw a gentle owl come in, feeling very still. The moon smiled and made a cozy path of light. It was soft enough for a little one to sleep on.</p>
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
+                    <span style="font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--bedtime); background: rgba(143,158,255,.15); padding:6px 10px; border-radius:999px;">Another ✓</span>
+                    <span style="padding:10px 16px; border-radius:999px; background: linear-gradient(180deg,#b8c2ff 0%,#8f9eff 100%); color:#fff; font-size:13px; font-weight:700; box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);">Goodnight step &rsaquo;</span>
+                  </div>
+                </div>
+              </div>
+              <div class="home-indicator"></div>
+            </div>
+          </div>
+          <div class="phone-cap">After "Another"</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============== SLIDE 06 · GOODNIGHT STEP + SLEEP + WELCOME + SHELF (4-up) ============== -->
+  <section class="slide" data-slide="6">
+    <div class="slide-stack" style="padding: 80px 120px; gap: 40px;">
+      <div class="stack-copy">
+        <h2 class="heading" style="font-size:56px;">End, dim, <em>keep</em>.</h2>
+        <p class="lede" style="max-width:1020px; margin-top:16px;">The story closes with one slow breath together. The app dims into sleep mode. One tap keeps tonight's story as a star. Next night, it's waiting in the Welcome sky, and Lily's shelf holds every kept story side by side.</p>
+      </div>
+
+      <div class="phone-row" style="gap:36px; flex:1;">
+        <!-- Phone 1: Goodnight step (breathing orb) -->
+        <div class="phone-unit">
+          <div class="phone">
+            <div class="phone-screen">
+<img class="status-img" src="assets/status-bar.png" alt="">
             <div class="screen-body">
               <div class="blob" style="width:260px;height:260px;top:80px;left:-70px;background: radial-gradient(circle,#ffe0b3 0%, transparent 70%);"></div>
               <div class="blob" style="width:240px;height:240px;bottom:60px;right:-80px;background: radial-gradient(circle,#c9d2ff 0%, transparent 70%);"></div>
@@ -909,22 +939,11 @@
               </div>
             </div>
             <div class="home-indicator"></div>
+            </div>
           </div>
+          <div class="phone-cap">Goodnight step</div>
         </div>
-      </div>
-    </div>
-  </section>
 
-
-  <!-- ============== SLIDE 07 · SLEEP MODE + CONSTELLATION + SHELF ============== -->
-  <section class="slide" data-slide="7">
-    <div class="slide-stack" style="padding: 80px 120px; gap: 40px;">
-      <div class="stack-copy">
-        <h2 class="heading" style="font-size:64px;">Dim, keep, <em>return</em>.</h2>
-        <p class="lede" style="max-width:1020px; margin-top:16px;">After goodnight, the app dims into sleep mode. One tap keeps tonight's story as a star. Next night, it's waiting in the Welcome sky. Tap Lily's shelf to see them organized.</p>
-      </div>
-
-      <div class="phone-row" style="gap:70px; flex:1;">
         <!-- Phone A: sleep mode -->
         <div class="phone-unit">
           <div class="phone">
@@ -1106,11 +1125,10 @@
   </section>
 
 
-  <!-- ============== SLIDE 08 · SETTINGS (for grown-ups) ============== -->
-  <section class="slide" data-slide="8">
+  <!-- ============== SLIDE 07 · SETTINGS (for grown-ups) ============== -->
+  <section class="slide" data-slide="7">
     <div class="slide-grid">
       <div class="copy">
-        <div class="eyebrow">For grown-ups</div>
         <h2 class="heading">The <em>parent</em> side<br/>of the ritual.</h2>
         <p class="lede">Quiet controls for the adult. The child's name and age tune the gentle vocabulary. Narrator voice and reading speed support pre-readers. Toggles for dimming, auto-sleep, and soft ambient sound. Theme preferences guide which stories are drawn tonight. All local, no account needed.</p>
       </div>
@@ -1226,7 +1244,14 @@
   <button id="prev" aria-label="Previous">‹</button>
   <span class="counter" id="counter">01 / 08</span>
   <button id="next" aria-label="Next">›</button>
+  <span class="divider"></span>
+  <button id="copy-slide" aria-label="Copy slide to clipboard" title="Copy current slide as image, paste into Figma">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+    <span id="copy-label">Copy slide</span>
+  </button>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 
 <script>
   const slides = [...document.querySelectorAll('.slide')];
@@ -1258,9 +1283,57 @@
     if (e.key === 'End') { show(slides.length - 1); }
   });
 
-  const m = location.hash.match(/^#s(\d+)$/);
-  if (m) show(parseInt(m[1], 10) - 1);
-  else show(0);
+  const allMode = new URLSearchParams(location.search).has('all');
+  if (allMode) {
+    document.body.classList.add('all-mode');
+    slides.forEach(s => s.classList.add('active'));
+  } else {
+    const m = location.hash.match(/^#s(\d+)$/);
+    if (m) show(parseInt(m[1], 10) - 1);
+    else show(0);
+  }
+
+  // Copy current slide as PNG to clipboard (paste into Figma)
+  function showToast(msg){
+    let t = document.getElementById('toast');
+    if (!t){ t = document.createElement('div'); t.id = 'toast'; t.className = 'toast'; document.body.appendChild(t); }
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._h);
+    t._h = setTimeout(() => t.classList.remove('show'), 1800);
+  }
+  async function copySlide(){
+    const btn = document.getElementById('copy-slide');
+    const label = document.getElementById('copy-label');
+    const active = document.querySelector('.slide.active');
+    if (!active || !window.html2canvas) return;
+    btn.classList.add('busy');
+    label.textContent = 'Capturing…';
+    // Clone into an offscreen holder so we capture at native 1920×1080 without the deck transform
+    const holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed; left:-10000px; top:0; width:1920px; height:1080px; overflow:hidden; z-index:-1;';
+    const clone = active.cloneNode(true);
+    clone.style.cssText = 'position:absolute; left:0; top:0; transform:none; opacity:1; width:1920px; height:1080px;';
+    holder.appendChild(clone);
+    document.body.appendChild(holder);
+    try {
+      const canvas = await html2canvas(clone, { width:1920, height:1080, scale:2, backgroundColor:null, useCORS:true, logging:false });
+      const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+      await navigator.clipboard.write([ new ClipboardItem({ 'image/png': blob }) ]);
+      showToast('Copied — paste into Figma (⌘V)');
+    } catch (e) {
+      console.error(e);
+      showToast('Copy failed — check console');
+    } finally {
+      document.body.removeChild(holder);
+      btn.classList.remove('busy');
+      label.textContent = 'Copy slide';
+    }
+  }
+  document.getElementById('copy-slide').addEventListener('click', copySlide);
+  window.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.key === 'c' || e.key === 'C')) { e.preventDefault(); copySlide(); }
+  });
 </script>
 
 </body>
