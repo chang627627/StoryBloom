@@ -1,0 +1,72 @@
+name: Auto-sync CLAUDE.md
+
+# On every push to main, ask Claude to read the current source files
+# and rewrite CLAUDE.md so it stays in sync with the project. The bot
+# commits its own update back with [skip-claudemd] in the message so
+# it does not trigger itself in a loop.
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: claudemd-sync-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    # Skip the bot's own commits, and skip if only CLAUDE.md / workflows changed.
+    if: "!contains(github.event.head_commit.message, '[skip-claudemd]')"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 2
+
+      - name: Decide whether to run
+        id: filter
+        run: |
+          set -euo pipefail
+          # If this is the first commit ever, HEAD~1 won't exist — run anyway.
+          if git rev-parse HEAD~1 >/dev/null 2>&1; then
+            CHANGED=$(git diff --name-only HEAD~1 HEAD | grep -v -E '^(CLAUDE\.md|\.github/)' || true)
+          else
+            CHANGED="initial"
+          fi
+          if [ -z "$CHANGED" ]; then
+            echo "skip=true"  >> "$GITHUB_OUTPUT"
+            echo "Only CLAUDE.md or workflow files changed — skipping sync."
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up Python
+        if: steps.filter.outputs.skip != 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Refresh CLAUDE.md
+        if: steps.filter.outputs.skip != 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 .github/scripts/update-claude-md.py
+
+      - name: Commit & push if CLAUDE.md changed
+        if: steps.filter.outputs.skip != 'true'
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- CLAUDE.md; then
+            echo "CLAUDE.md already up to date."
+            exit 0
+          fi
+          git config user.name  "claude-md-bot"
+          git config user.email "claude-md-bot@users.noreply.github.com"
+          git add CLAUDE.md
+          git commit -m "chore: sync CLAUDE.md with latest changes [skip-claudemd]"
+          git push
