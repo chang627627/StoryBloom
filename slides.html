@@ -120,18 +120,23 @@
   .phone-unit{ height: 560px; }
   /* 2-up slides: left-right layout (copy on left, two phones on right) */
   .slide[data-slide="3"] .slide-stack,
-  .slide[data-slide="5"] .slide-stack{
+  .slide[data-slide="5"] .slide-stack,
+  .slide[data-slide="7"] .slide-stack{
     display:grid; grid-template-columns: .9fr 1.1fr;
     gap:60px; align-items:center; padding: 100px 120px; flex-direction: row;
   }
   .slide[data-slide="3"] .stack-copy,
-  .slide[data-slide="5"] .stack-copy{ max-width: 680px; }
+  .slide[data-slide="5"] .stack-copy,
+  .slide[data-slide="7"] .stack-copy{ max-width: 680px; }
   .slide[data-slide="3"] .phone-row,
-  .slide[data-slide="5"] .phone-row{ flex: initial; gap: 24px !important; justify-content: flex-start; }
+  .slide[data-slide="5"] .phone-row,
+  .slide[data-slide="7"] .phone-row{ flex: initial; gap: 24px !important; justify-content: flex-start; }
   .slide[data-slide="3"] .phone-unit .phone,
-  .slide[data-slide="5"] .phone-unit .phone{ transform: scale(.7); transform-origin: top center; }
+  .slide[data-slide="5"] .phone-unit .phone,
+  .slide[data-slide="7"] .phone-unit .phone{ transform: scale(.7); transform-origin: top center; }
   .slide[data-slide="3"] .phone-unit,
-  .slide[data-slide="5"] .phone-unit{ width: 300px; height: 650px; }
+  .slide[data-slide="5"] .phone-unit,
+  .slide[data-slide="7"] .phone-unit{ width: 300px; height: 650px; }
   /* Slide 7: 3-up, keep scale moderate so all three sit comfortably */
   .slide[data-slide="6"] .phone-unit .phone{ transform: scale(.56); transform-origin: top center; }
   .slide[data-slide="6"] .phone-unit{ width: 240px; height: 520px; }
@@ -1125,113 +1130,161 @@
   </section>
 
 
-  <!-- ============== SLIDE 07 · SETTINGS (for grown-ups) ============== -->
+  <!-- ============== SLIDE 07 · SETTINGS (for grown-ups) — top + bottom of scrolling sheet ============== -->
   <section class="slide" data-slide="7">
-    <div class="slide-grid">
-      <div class="copy">
+    <div class="slide-stack">
+      <div class="stack-copy">
         <h2 class="heading">The <em>parent</em> side<br/>of the ritual.</h2>
         <p class="lede">Quiet controls for the adult. The child's name and age tune the gentle vocabulary. Narrator voice and reading speed support pre-readers. Toggles for dimming, auto-sleep, and soft ambient sound. Theme preferences guide which stories are drawn tonight. All local, no account needed.</p>
       </div>
-      <div class="phone-col">
-        <div class="phone">
-          <div class="phone-screen">
-            <img class="status-img" src="assets/status-bar.png" alt="">
-            <!-- Welcome peeking behind the sheet -->
-            <div class="screen-body" style="filter: brightness(.9); padding: 60px 22px 60px;">
-              <div class="blob" style="width:260px;height:260px;top:80px;left:-60px;background: radial-gradient(circle,#d2c1ff 0%, transparent 70%);"></div>
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
-                <span class="wl-shelf"><span class="av">L</span> Lily's shelf</span>
-                <span class="wl-gear"></span>
-              </div>
-            </div>
-            <!-- Settings sheet -->
-            <div style="position:absolute; inset:0; z-index:4; background: rgba(40,28,70,.42); backdrop-filter: blur(2px); display:flex; flex-direction:column; justify-content:flex-end; padding: 20px 12px 12px;">
-              <div style="background: linear-gradient(180deg, #fff 0%, #fff6e8 100%); border-radius: 28px 28px 22px 22px; padding: 14px 18px 16px; box-shadow: 0 -30px 80px -20px rgba(59,45,90,.3); overflow: hidden;">
-                <div style="width:46px; height:5px; border-radius:3px; background: rgba(120,100,170,.22); margin: 0 auto 8px;"></div>
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-                  <div>
-                    <div class="eyebrow" style="font-size:10px;">For grown-ups</div>
-                    <h3 class="serif" style="font-weight:500; font-size:22px; letter-spacing:-.015em; margin:3px 0 0;">Settings</h3>
-                  </div>
-                  <span style="width:28px; height:28px; border-radius:50%; background: rgba(255,255,255,.8); display:inline-flex; align-items:center; justify-content:center; box-shadow: inset 0 0 0 1px rgba(120,100,170,.12); color:var(--ink-dim); font-size:14px;">×</span>
-                </div>
 
-                <!-- Little one -->
-                <div style="font-size:10px; letter-spacing:.22em; text-transform:uppercase; font-weight:700; color:var(--ink-mute); margin:6px 0 6px;">Little one</div>
-                <div style="background: rgba(255,255,255,.6); border-radius:14px; padding:10px 12px;">
-                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                    <div style="font-size:12px; font-weight:700; color:var(--ink);">Name</div>
-                    <div style="font-size:12px; font-weight:700; color:var(--ink); background:rgba(255,255,255,.85); padding:5px 10px; border-radius:8px; box-shadow: inset 0 0 0 1px rgba(120,100,170,.15);">Lily</div>
-                  </div>
-                  <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="font-size:12px; font-weight:700; color:var(--ink);">Age</div>
-                    <div style="display:flex; gap:2px; background:rgba(120,100,170,.12); padding:3px; border-radius:10px;">
-                      <span style="padding:4px 8px; font-size:11px; font-weight:700; color:var(--ink-dim);">3</span>
-                      <span style="padding:4px 8px; font-size:11px; font-weight:700; color:var(--ink); background:#fff; border-radius:7px; box-shadow: 0 2px 4px rgba(59,45,90,.08);">4</span>
-                      <span style="padding:4px 8px; font-size:11px; font-weight:700; color:var(--ink-dim);">5</span>
-                      <span style="padding:4px 8px; font-size:11px; font-weight:700; color:var(--ink-dim);">6</span>
-                      <span style="padding:4px 8px; font-size:11px; font-weight:700; color:var(--ink-dim);">7+</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Story -->
-                <div style="font-size:10px; letter-spacing:.22em; text-transform:uppercase; font-weight:700; color:var(--ink-mute); margin:12px 0 6px;">Story</div>
-                <div style="background: rgba(255,255,255,.6); border-radius:14px; padding:10px 12px;">
-                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                    <div style="font-size:12px; font-weight:700; color:var(--ink);">Narrator</div>
-                    <div style="display:flex; gap:2px; background:rgba(120,100,170,.12); padding:3px; border-radius:10px;">
-                      <span style="padding:4px 9px; font-size:11px; font-weight:700; color:var(--ink); background:#fff; border-radius:7px;">Mira</span>
-                      <span style="padding:4px 9px; font-size:11px; font-weight:700; color:var(--ink-dim);">Onyx</span>
-                      <span style="padding:4px 9px; font-size:11px; font-weight:700; color:var(--ink-dim);">Silent</span>
-                    </div>
-                  </div>
-                  <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="font-size:12px; font-weight:700; color:var(--ink);">Reading speed</div>
-                    <div style="display:flex; gap:2px; background:rgba(120,100,170,.12); padding:3px; border-radius:10px;">
-                      <span style="padding:4px 9px; font-size:11px; font-weight:700; color:var(--ink); background:#fff; border-radius:7px;">Slow</span>
-                      <span style="padding:4px 9px; font-size:11px; font-weight:700; color:var(--ink-dim);">Calm</span>
-                      <span style="padding:4px 9px; font-size:11px; font-weight:700; color:var(--ink-dim);">Steady</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Bedtime -->
-                <div style="font-size:10px; letter-spacing:.22em; text-transform:uppercase; font-weight:700; color:var(--ink-mute); margin:12px 0 6px;">Bedtime</div>
-                <div style="background: rgba(255,255,255,.6); border-radius:14px; padding:10px 12px;">
-                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                    <div style="font-size:12px; font-weight:700; color:var(--ink);">Dim the screen</div>
-                    <span style="width:30px; height:18px; border-radius:999px; background: var(--bedtime); position:relative;"><span style="position:absolute; top:2px; right:2px; width:14px; height:14px; border-radius:50%; background:#fff;"></span></span>
-                  </div>
-                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                    <div style="font-size:12px; font-weight:700; color:var(--ink);">Auto-sleep after story</div>
-                    <span style="width:30px; height:18px; border-radius:999px; background: var(--bedtime); position:relative;"><span style="position:absolute; top:2px; right:2px; width:14px; height:14px; border-radius:50%; background:#fff;"></span></span>
-                  </div>
-                  <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="font-size:12px; font-weight:700; color:var(--ink);">Gentle sounds</div>
-                    <span style="width:30px; height:18px; border-radius:999px; background: rgba(120,100,170,.25); position:relative;"><span style="position:absolute; top:2px; left:2px; width:14px; height:14px; border-radius:50%; background:#fff;"></span></span>
-                  </div>
-                </div>
-
-                <!-- Content preferences -->
-                <div style="font-size:10px; letter-spacing:.22em; text-transform:uppercase; font-weight:700; color:var(--ink-mute); margin:12px 0 6px;">Themes to favor</div>
-                <div style="display:flex; flex-wrap:wrap; gap:6px;">
-                  <span style="padding:5px 10px; border-radius:999px; background: rgba(143,158,255,.2); color:var(--bedtime); font-size:11px; font-weight:700;">Animals</span>
-                  <span style="padding:5px 10px; border-radius:999px; background: rgba(143,158,255,.2); color:var(--bedtime); font-size:11px; font-weight:700;">Nature</span>
-                  <span style="padding:5px 10px; border-radius:999px; background: rgba(255,255,255,.8); color:var(--ink-dim); font-size:11px; font-weight:700;">Stars &amp; sky</span>
-                  <span style="padding:5px 10px; border-radius:999px; background: rgba(143,158,255,.2); color:var(--bedtime); font-size:11px; font-weight:700;">Friendship</span>
-                  <span style="padding:5px 10px; border-radius:999px; background: rgba(255,255,255,.8); color:var(--ink-dim); font-size:11px; font-weight:700;">Tiny adventures</span>
-                  <span style="padding:5px 10px; border-radius:999px; background: rgba(255,255,255,.8); color:var(--ink-dim); font-size:11px; font-weight:700;">Home &amp; family</span>
-                </div>
-
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
-                  <span style="font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-mute);">Reset</span>
-                  <span style="padding:10px 22px; border-radius:999px; background: linear-gradient(180deg,#b8c2ff 0%,#8f9eff 100%); color:#fff; font-size:13px; font-weight:700; box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);">Done</span>
+      <div class="phone-row">
+        <!-- Phone A: top of the settings sheet -->
+        <div class="phone-unit">
+          <div class="phone">
+            <div class="phone-screen">
+              <img class="status-img" src="assets/status-bar.png" alt="">
+              <div class="screen-body" style="filter: brightness(.9); padding: 60px 22px 60px;">
+                <div class="blob" style="width:260px;height:260px;top:80px;left:-60px;background: radial-gradient(circle,#d2c1ff 0%, transparent 70%);"></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
+                  <span class="wl-shelf"><span class="av">L</span> Lily's shelf</span>
+                  <span class="wl-gear"></span>
                 </div>
               </div>
+              <div style="position:absolute; inset:0; z-index:4; background: rgba(40,28,70,.42); backdrop-filter: blur(2px); display:flex; flex-direction:column; justify-content:flex-end; padding: 20px 12px 12px;">
+                <div style="position:relative; background: linear-gradient(180deg, #fff 0%, #fff6e8 100%); border-radius: 28px 28px 22px 22px; padding: 14px 18px 16px; box-shadow: 0 -30px 80px -20px rgba(59,45,90,.3); overflow: hidden;">
+                  <div style="width:46px; height:5px; border-radius:3px; background: rgba(120,100,170,.22); margin: 0 auto 8px;"></div>
+                  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                    <div>
+                      <div class="eyebrow" style="font-size:10px;">For grown-ups</div>
+                      <h3 class="serif" style="font-weight:500; font-size:22px; letter-spacing:-.015em; margin:3px 0 0;">Settings</h3>
+                    </div>
+                    <span style="width:28px; height:28px; border-radius:50%; background: rgba(255,255,255,.8); display:inline-flex; align-items:center; justify-content:center; box-shadow: inset 0 0 0 1px rgba(120,100,170,.12); color:var(--ink-dim); font-size:14px;">×</span>
+                  </div>
+
+                  <!-- Little one -->
+                  <div style="font-size:10px; letter-spacing:.22em; text-transform:uppercase; font-weight:700; color:var(--ink-mute); margin:6px 0 6px;">Little one</div>
+                  <div style="background: rgba(255,255,255,.6); border-radius:14px; padding:10px 12px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                      <div style="font-size:12px; font-weight:700; color:var(--ink);">Name</div>
+                      <div style="font-size:12px; font-weight:700; color:var(--ink); background:rgba(255,255,255,.85); padding:5px 10px; border-radius:8px; box-shadow: inset 0 0 0 1px rgba(120,100,170,.15);">Lily</div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                      <div style="font-size:12px; font-weight:700; color:var(--ink);">Age</div>
+                      <div style="display:flex; gap:2px; background:rgba(120,100,170,.12); padding:3px; border-radius:10px;">
+                        <span style="padding:4px 8px; font-size:11px; font-weight:700; color:var(--ink-dim);">3</span>
+                        <span style="padding:4px 8px; font-size:11px; font-weight:700; color:var(--ink); background:#fff; border-radius:7px; box-shadow: 0 2px 4px rgba(59,45,90,.08);">4</span>
+                        <span style="padding:4px 8px; font-size:11px; font-weight:700; color:var(--ink-dim);">5</span>
+                        <span style="padding:4px 8px; font-size:11px; font-weight:700; color:var(--ink-dim);">6</span>
+                        <span style="padding:4px 8px; font-size:11px; font-weight:700; color:var(--ink-dim);">7+</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Story -->
+                  <div style="font-size:10px; letter-spacing:.22em; text-transform:uppercase; font-weight:700; color:var(--ink-mute); margin:12px 0 6px;">Story</div>
+                  <div style="background: rgba(255,255,255,.6); border-radius:14px; padding:10px 12px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                      <div style="font-size:12px; font-weight:700; color:var(--ink);">Narrator</div>
+                      <div style="display:flex; gap:2px; background:rgba(120,100,170,.12); padding:3px; border-radius:10px;">
+                        <span style="padding:4px 9px; font-size:11px; font-weight:700; color:var(--ink); background:#fff; border-radius:7px;">Mira</span>
+                        <span style="padding:4px 9px; font-size:11px; font-weight:700; color:var(--ink-dim);">Onyx</span>
+                        <span style="padding:4px 9px; font-size:11px; font-weight:700; color:var(--ink-dim);">Silent</span>
+                      </div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                      <div style="font-size:12px; font-weight:700; color:var(--ink);">Reading speed</div>
+                      <div style="display:flex; gap:2px; background:rgba(120,100,170,.12); padding:3px; border-radius:10px;">
+                        <span style="padding:4px 9px; font-size:11px; font-weight:700; color:var(--ink); background:#fff; border-radius:7px;">Slow</span>
+                        <span style="padding:4px 9px; font-size:11px; font-weight:700; color:var(--ink-dim);">Calm</span>
+                        <span style="padding:4px 9px; font-size:11px; font-weight:700; color:var(--ink-dim);">Steady</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Bedtime (start, partially cut off by sheet edge) -->
+                  <div style="font-size:10px; letter-spacing:.22em; text-transform:uppercase; font-weight:700; color:var(--ink-mute); margin:12px 0 6px;">Bedtime</div>
+                  <div style="background: rgba(255,255,255,.6); border-radius:14px; padding:10px 12px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                      <div style="font-size:12px; font-weight:700; color:var(--ink);">Dim the screen</div>
+                      <span style="width:30px; height:18px; border-radius:999px; background: var(--bedtime); position:relative;"><span style="position:absolute; top:2px; right:2px; width:14px; height:14px; border-radius:50%; background:#fff;"></span></span>
+                    </div>
+                  </div>
+
+                  <!-- Bottom fade showing more content below -->
+                  <div style="position:absolute; left:0; right:0; bottom:0; height:44px; background: linear-gradient(180deg, rgba(255,246,232,0), rgba(255,246,232,.95)); pointer-events:none;"></div>
+
+                  <!-- Scroll thumb (positioned near top) -->
+                  <div style="position:absolute; right:6px; top:60px; bottom:18px; width:3px; border-radius:999px; background: rgba(120,100,170,.1);">
+                    <div style="position:absolute; top:0; left:0; right:0; height:38%; background: rgba(143,158,255,.55); border-radius:999px;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="home-indicator"></div>
             </div>
-            <div class="home-indicator"></div>
           </div>
+          <div class="phone-cap">Top of sheet</div>
+        </div>
+
+        <!-- Phone B: scrolled to bottom of the same sheet -->
+        <div class="phone-unit">
+          <div class="phone">
+            <div class="phone-screen">
+              <img class="status-img" src="assets/status-bar.png" alt="">
+              <div class="screen-body" style="filter: brightness(.9); padding: 60px 22px 60px;">
+                <div class="blob" style="width:260px;height:260px;top:80px;left:-60px;background: radial-gradient(circle,#d2c1ff 0%, transparent 70%);"></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
+                  <span class="wl-shelf"><span class="av">L</span> Lily's shelf</span>
+                  <span class="wl-gear"></span>
+                </div>
+              </div>
+              <div style="position:absolute; inset:0; z-index:4; background: rgba(40,28,70,.42); backdrop-filter: blur(2px); display:flex; flex-direction:column; justify-content:flex-end; padding: 20px 12px 12px;">
+                <div style="position:relative; background: linear-gradient(180deg, #fff 0%, #fff6e8 100%); border-radius: 28px 28px 22px 22px; padding: 14px 18px 16px; box-shadow: 0 -30px 80px -20px rgba(59,45,90,.3); overflow: hidden;">
+                  <div style="width:46px; height:5px; border-radius:3px; background: rgba(120,100,170,.22); margin: 0 auto 8px;"></div>
+
+                  <!-- Top fade showing more content above -->
+                  <div style="position:absolute; left:0; right:0; top:16px; height:34px; background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,0)); pointer-events:none; z-index:2;"></div>
+
+                  <!-- Bedtime (continuing) -->
+                  <div style="font-size:10px; letter-spacing:.22em; text-transform:uppercase; font-weight:700; color:var(--ink-mute); margin:10px 0 6px;">Bedtime</div>
+                  <div style="background: rgba(255,255,255,.6); border-radius:14px; padding:10px 12px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                      <div style="font-size:12px; font-weight:700; color:var(--ink);">Auto-sleep after story</div>
+                      <span style="width:30px; height:18px; border-radius:999px; background: var(--bedtime); position:relative;"><span style="position:absolute; top:2px; right:2px; width:14px; height:14px; border-radius:50%; background:#fff;"></span></span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                      <div style="font-size:12px; font-weight:700; color:var(--ink);">Gentle sounds</div>
+                      <span style="width:30px; height:18px; border-radius:999px; background: rgba(120,100,170,.25); position:relative;"><span style="position:absolute; top:2px; left:2px; width:14px; height:14px; border-radius:50%; background:#fff;"></span></span>
+                    </div>
+                  </div>
+
+                  <!-- Themes -->
+                  <div style="font-size:10px; letter-spacing:.22em; text-transform:uppercase; font-weight:700; color:var(--ink-mute); margin:12px 0 6px;">Themes to favor</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                    <span style="padding:5px 10px; border-radius:999px; background: rgba(143,158,255,.2); color:var(--bedtime); font-size:11px; font-weight:700;">Animals</span>
+                    <span style="padding:5px 10px; border-radius:999px; background: rgba(143,158,255,.2); color:var(--bedtime); font-size:11px; font-weight:700;">Nature</span>
+                    <span style="padding:5px 10px; border-radius:999px; background: rgba(255,255,255,.8); color:var(--ink-dim); font-size:11px; font-weight:700;">Stars &amp; sky</span>
+                    <span style="padding:5px 10px; border-radius:999px; background: rgba(143,158,255,.2); color:var(--bedtime); font-size:11px; font-weight:700;">Friendship</span>
+                    <span style="padding:5px 10px; border-radius:999px; background: rgba(255,255,255,.8); color:var(--ink-dim); font-size:11px; font-weight:700;">Tiny adventures</span>
+                    <span style="padding:5px 10px; border-radius:999px; background: rgba(255,255,255,.8); color:var(--ink-dim); font-size:11px; font-weight:700;">Home &amp; family</span>
+                  </div>
+
+                  <!-- Reset / Done -->
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
+                    <span style="font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-mute);">Reset</span>
+                    <span style="padding:10px 22px; border-radius:999px; background: linear-gradient(180deg,#b8c2ff 0%,#8f9eff 100%); color:#fff; font-size:13px; font-weight:700; box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);">Done</span>
+                  </div>
+
+                  <!-- Scroll thumb (positioned near bottom) -->
+                  <div style="position:absolute; right:6px; top:18px; bottom:18px; width:3px; border-radius:999px; background: rgba(120,100,170,.1);">
+                    <div style="position:absolute; bottom:0; left:0; right:0; height:38%; background: rgba(143,158,255,.55); border-radius:999px;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="home-indicator"></div>
+            </div>
+          </div>
+          <div class="phone-cap">Bottom of sheet</div>
         </div>
       </div>
     </div>
