@@ -1,0 +1,1017 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>StoryBloom · Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:       #fff7ea;
+    --cream-soft:  #fff0dd;
+    --peach:       #ffcfa8;
+    --peach-soft:  #ffe2c8;
+    --coral:       #ff9e87;
+    --butter:      #ffe08a;
+    --butter-soft: #fff2bf;
+    --mint:        #a7e6c4;
+    --mint-soft:   #d3f2e1;
+    --sky:         #a8d6ff;
+    --sky-soft:    #d4ebff;
+    --peri:        #a7b4ff;
+    --peri-soft:   #d2d9ff;
+    --lavender:    #c9b5f5;
+    --lavender-soft:#e5dbff;
+    --ink:         #3b2d5a;
+    --ink-dim:     #7a6d98;
+    --ink-mute:    #a89bc2;
+    --bedtime:     #8f9eff;
+  }
+
+  *{ box-sizing:border-box; }
+  html, body{ margin:0; padding:0; background:#1a1426; color:var(--ink); font-family:'Nunito',system-ui,sans-serif; }
+
+  /* ============================================================
+     PAGE = single landscape A4 (297 × 210 mm) at 1920×1358 design canvas
+     We design at 1920 × 1358 (≈ A4 landscape ratio) so each page
+     prints as one full landscape page.
+     ============================================================ */
+  .page{
+    width: 1920px;
+    height: 1358px;
+    position: relative;
+    overflow: hidden;
+    margin: 28px auto;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,.5);
+    background:
+      radial-gradient(1200px 700px at 12% 0%, #f3e8ff 0%, transparent 60%),
+      radial-gradient(1000px 700px at 92% 88%, #ffe8d2 0%, transparent 60%),
+      linear-gradient(180deg, #f7efff 0%, #fff4e4 50%, #f7efff 100%);
+  }
+  .page-num{ display: none; }
+  .page-mark{
+    position:absolute; left: 80px; bottom: 60px;
+    display:flex; align-items:center; gap:14px;
+    font-family:'Nunito',sans-serif; font-size: 14px; letter-spacing:.28em;
+    text-transform:uppercase; font-weight:700; color: var(--ink-mute);
+  }
+  .brand-dot{
+    width:18px; height:18px; border-radius:50%;
+    background: radial-gradient(circle at 35% 35%, #fff 0%, #b8c2ff 45%, #8f9eff 100%);
+    box-shadow: 0 0 18px rgba(143,158,255,.45);
+  }
+
+  /* ===== Type ===== */
+  .eyebrow{
+    font-family:'Nunito',sans-serif;
+    font-size:18px; letter-spacing:.32em; text-transform:uppercase;
+    font-weight:700; color: var(--ink-mute);
+  }
+  .display{
+    font-family:'Fraunces',Georgia,serif; font-variation-settings:"opsz" 144;
+    font-weight:500; font-size: 168px; line-height:.94;
+    letter-spacing:-.03em; margin:0; color:var(--ink); text-wrap:balance;
+  }
+  .display em{ font-style:italic; font-weight:400; color: var(--bedtime); }
+  .h1{
+    font-family:'Fraunces',Georgia,serif; font-variation-settings:"opsz" 144;
+    font-weight:500; font-size: 96px; line-height:.98;
+    letter-spacing:-.025em; margin:0; color:var(--ink); text-wrap:balance;
+  }
+  .h1 em{ font-style:italic; font-weight:400; color: var(--bedtime); }
+  .h2{
+    font-family:'Fraunces',Georgia,serif; font-variation-settings:"opsz" 96;
+    font-weight:500; font-size: 56px; line-height:1.04;
+    letter-spacing:-.02em; margin:0; color:var(--ink); text-wrap:balance;
+  }
+  .lede{
+    font-family:'Nunito',sans-serif;
+    font-size: 26px; line-height:1.55; color: var(--ink-dim);
+    margin:0; max-width: 56ch;
+    text-wrap: pretty;
+  }
+  .body{
+    font-family:'Nunito',sans-serif;
+    font-size: 22px; line-height:1.6; color: var(--ink-dim);
+    margin:0; max-width: 60ch;
+    text-wrap: pretty;
+  }
+  .small{
+    font-family:'Nunito',sans-serif;
+    font-size: 18px; line-height:1.5; color: var(--ink-dim);
+    margin:0;
+  }
+  .serif{ font-family:'Fraunces',Georgia,serif; font-variation-settings:"opsz" 96; }
+
+  /* ===== Page 1 — Cover ===== */
+  .cover{
+    display:grid; grid-template-columns: 1.05fr .95fr;
+    width:100%; height:100%; padding: 130px 140px;
+    align-items: center; gap: 80px;
+  }
+  .cover .col-l{ display:flex; flex-direction:column; gap: 56px; }
+  .cover .wordmark{ display:flex; align-items:center; gap:22px; }
+  .cover .wordmark .dot{
+    width:46px; height:46px; border-radius:50%;
+    background: radial-gradient(circle at 35% 35%, #fff 0%, #b8c2ff 45%, #8f9eff 100%);
+    box-shadow: 0 0 30px rgba(143,158,255,.6), inset 0 -6px 12px rgba(80,90,180,.25);
+  }
+  .cover .wordmark .name{
+    font-family:'Fraunces',serif; font-variation-settings:"opsz" 144;
+    font-weight:500; font-size: 38px; letter-spacing:-.01em; color: var(--ink);
+  }
+  .cover .tagline{
+    font-family:'Fraunces',serif; font-style:italic;
+    font-weight:400; font-size: 38px; line-height:1.3;
+    letter-spacing:-.012em; color: var(--ink-dim);
+    max-width: 22ch;
+  }
+  .cover .scope{
+    display:flex; gap: 28px; align-items: center;
+    font-family:'Nunito',sans-serif; font-size: 16px; letter-spacing:.28em;
+    text-transform:uppercase; font-weight:700; color: var(--ink-mute);
+  }
+  .cover .scope .div{ width: 48px; height: 1px; background: var(--ink-mute); opacity:.5; }
+
+  .cover .col-r{ position:relative; display:flex; align-items:center; justify-content:center; }
+
+  /* Hero "moon" composition */
+  .hero-moon{
+    position:relative; width: 640px; height: 640px;
+  }
+  .hero-moon .glow{
+    position:absolute; inset:-80px; border-radius:50%;
+    background: radial-gradient(circle, rgba(184,194,255,.55) 0%, transparent 70%);
+    filter: blur(20px);
+  }
+  .hero-moon svg{ position:relative; width:100%; height:100%; display:block; }
+
+  /* ===== Page common: section pad ===== */
+  .pad{
+    width:100%; height:100%; padding: 120px 140px;
+    display:flex; flex-direction:column;
+  }
+  .col-2{
+    display:grid; grid-template-columns: .95fr 1.05fr;
+    gap: 100px; align-items: center;
+  }
+  .stack-gap-lg > * + *{ margin-top: 40px; }
+  .stack-gap-md > * + *{ margin-top: 28px; }
+  .stack-gap-sm > * + *{ margin-top: 18px; }
+
+  /* ===== Page 2 — Problem ===== */
+  .problem-art{
+    width: 720px; height: 720px;
+    position: relative;
+    border-radius: 36px;
+    background: linear-gradient(180deg,#fff7ea 0%, #f1e6ff 50%, #ffe0cf 100%);
+    box-shadow: 0 30px 70px -25px rgba(120,80,180,.3), inset 0 0 0 1px rgba(120,100,170,.1);
+    overflow: hidden;
+  }
+  .problem-art .row{
+    position: absolute; left: 56px; right: 56px;
+    display:flex; align-items:center; gap: 22px;
+    font-family:'Fraunces',serif; font-style:italic; font-weight:400;
+    font-size: 32px; line-height:1.25; color: var(--ink);
+  }
+  .problem-art .row .strike{ text-decoration: line-through; text-decoration-thickness: 3px; text-decoration-color: rgba(143,158,255,.55); color: var(--ink-mute); }
+  .problem-art .row .stamp{
+    font-family:'Nunito',sans-serif; font-style:normal; font-weight:800;
+    font-size: 14px; letter-spacing:.22em; text-transform:uppercase;
+    padding: 6px 12px; border-radius:999px;
+    background: rgba(143,158,255,.18); color: #6171d6;
+  }
+  .problem-art .r1{ top: 90px; }
+  .problem-art .r2{ top: 200px; }
+  .problem-art .r3{ top: 310px; }
+  .problem-art .r4{ top: 420px; }
+  .problem-art .r5{ top: 540px; }
+  .problem-art .r5 .strike{ font-size: 28px; color: #c0afe0; }
+
+  /* ===== Page 3 — Insight ===== */
+  .picks-row{
+    display:flex; gap: 28px; align-items: stretch; flex-wrap:wrap;
+  }
+  .pick{
+    flex: 1 1 0;
+    min-width: 200px;
+    border-radius: 28px;
+    background: rgba(255,255,255,.6);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 0 1px rgba(120,100,170,.08) inset, 0 16px 30px -16px rgba(90,60,160,.18);
+    padding: 32px 28px;
+    display:flex; flex-direction:column; align-items:center; gap: 18px;
+    text-align: center;
+  }
+  .pick .ico{
+    width: 110px; height: 110px; border-radius: 26px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .pick .lbl{
+    font-family:'Nunito',sans-serif; font-size: 14px; letter-spacing:.24em;
+    text-transform:uppercase; font-weight:700; color: var(--ink-mute);
+  }
+  .pick .val{
+    font-family:'Fraunces',serif; font-weight:500; font-size: 28px;
+    letter-spacing:-.012em; color: var(--ink);
+  }
+  .ico.color-lav,    .pico.color-lav{ background: linear-gradient(160deg,#e3d4ff,#b89ff2); }
+  .ico.weather-rain, .pico.weather-rain{ background: linear-gradient(160deg,#dae8ff,#a7b4ff); }
+  .ico.shape-tangled,.pico.shape-tangled{ background: linear-gradient(160deg,#ffe0cf,#ff9eb5); }
+  .ico.friend-crane, .pico.friend-crane{ background: linear-gradient(160deg,#fff4e4,#ffe0cf); }
+
+  /* ===== Page 4 — Ritual flow ===== */
+  .flow{
+    display:flex; align-items: center; gap: 0;
+    width: 100%;
+  }
+  .flow .step{
+    flex: 1 1 0; display:flex; flex-direction:column; align-items:center; gap: 16px;
+    text-align:center;
+  }
+  .flow .step .badge{
+    width: 88px; height: 88px; border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 0 0 6px rgba(255,255,255,.6), 0 16px 30px -12px rgba(90,60,160,.22);
+  }
+  .flow .step .num{
+    font-family:'Nunito',sans-serif; font-size:13px; letter-spacing:.24em;
+    text-transform:uppercase; font-weight:800; color: var(--ink-mute);
+  }
+  .flow .step .nm{
+    font-family:'Fraunces',serif; font-weight:500; font-size: 26px;
+    letter-spacing:-.01em; color: var(--ink); line-height:1.05;
+  }
+  .flow .step .du{
+    font-family:'Nunito',sans-serif; font-size: 15px; color: var(--ink-mute);
+  }
+  .flow .arrow{
+    flex: 0 0 auto; width: 60px; height: 2px;
+    background: linear-gradient(90deg, rgba(143,158,255,.45), rgba(143,158,255,.15));
+    position:relative;
+  }
+  .flow .arrow::after{
+    content:""; position:absolute; right:0; top:-4px;
+    width:10px; height:10px; border-right: 2px solid rgba(143,158,255,.45);
+    border-top: 2px solid rgba(143,158,255,.45); transform: rotate(45deg);
+  }
+  .flow-cap{
+    margin-top: 80px; text-align:center;
+    font-family:'Fraunces',serif; font-style:italic; font-size: 32px;
+    color: var(--ink-dim);
+  }
+
+  /* ===== Page 5 — Worked example ===== */
+  .worked{
+    display:grid; grid-template-columns: 1fr auto 1.1fr; gap: 60px;
+    align-items: center; flex: 1;
+  }
+  .worked .arrow-big{
+    font-family:'Fraunces',serif; font-weight: 300; font-size: 96px;
+    color: var(--bedtime); line-height: 1; padding: 0 10px;
+  }
+  .picks-stack{ display:flex; flex-direction:column; gap: 18px; }
+  .pick-row{
+    display:flex; align-items:center; gap: 22px;
+    background: rgba(255,255,255,.7);
+    border-radius: 22px;
+    padding: 18px 22px;
+    box-shadow: 0 0 0 1px rgba(120,100,170,.07) inset, 0 8px 18px -10px rgba(90,60,160,.15);
+  }
+  .pick-row .pico{
+    width: 64px; height: 64px; border-radius: 18px; flex: 0 0 auto;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .pick-row .ptxt{ display:flex; flex-direction:column; gap: 2px; }
+  .pick-row .plbl{
+    font-family:'Nunito',sans-serif; font-size: 12px; letter-spacing:.24em;
+    text-transform:uppercase; font-weight:700; color: var(--ink-mute);
+  }
+  .pick-row .pval{
+    font-family:'Fraunces',serif; font-weight:500; font-size: 24px;
+    color: var(--ink); letter-spacing:-.01em;
+  }
+
+  .story-card{
+    background: linear-gradient(180deg,#fff 0%, #fff6e8 100%);
+    border-radius: 32px;
+    padding: 48px 52px;
+    box-shadow: 0 0 0 1px rgba(120,100,170,.07) inset, 0 30px 60px -22px rgba(90,60,160,.25);
+    position:relative; overflow:hidden;
+  }
+  .story-card .meta{
+    display:flex; align-items:center; gap: 12px;
+    font-family:'Nunito',sans-serif; font-size: 13px; letter-spacing:.24em;
+    text-transform:uppercase; font-weight:700; color: var(--ink-mute);
+    margin-bottom: 16px;
+  }
+  .story-card .meta .moon{
+    width: 12px; height: 12px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #fff 0%, #b8c2ff 50%, #8f9eff 100%);
+  }
+  .story-card .stitle{
+    font-family:'Fraunces',serif; font-weight:500; font-size: 44px;
+    line-height: 1.1; letter-spacing:-.018em; color: var(--ink); margin: 0 0 22px;
+  }
+  .story-card .sbody{
+    font-family:'Fraunces',serif; font-weight:400; font-size: 28px;
+    line-height: 1.55; color: var(--ink); letter-spacing:-.005em;
+  }
+  .story-card .hl{
+    background: linear-gradient(180deg, transparent 60%, rgba(143,158,255,.22) 60%);
+    padding: 0 4px;
+  }
+
+  /* ===== Page 6 — Design language ===== */
+  .grid-2{
+    display:grid; grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+  .ds-block{
+    background: rgba(255,255,255,.55);
+    border-radius: 28px;
+    padding: 40px 44px;
+    box-shadow: 0 0 0 1px rgba(120,100,170,.08) inset, 0 16px 30px -16px rgba(90,60,160,.15);
+  }
+  .ds-block h3{
+    font-family:'Fraunces',serif; font-weight:500; font-size: 32px;
+    letter-spacing:-.01em; color: var(--ink); margin: 0 0 16px;
+  }
+  .ds-block p{
+    font-family:'Nunito',sans-serif; font-size: 17px; line-height: 1.55;
+    color: var(--ink-dim); margin: 0;
+  }
+
+  .swatches{ display:flex; gap: 12px; margin: 18px 0 14px; }
+  .swatches .sw{
+    flex: 1 1 0; height: 88px; border-radius: 18px;
+    box-shadow: 0 0 0 1px rgba(120,100,170,.08) inset, 0 8px 16px -10px rgba(90,60,160,.18);
+    display:flex; align-items:flex-end; padding: 10px;
+  }
+  .swatches .sw .nm{
+    font-family:'Nunito',sans-serif; font-size: 11px; font-weight:800;
+    letter-spacing:.16em; text-transform:uppercase;
+    color: rgba(59,45,90,.7);
+  }
+  .sw-lav{ background: linear-gradient(160deg,#e3d4ff,#b89ff2); }
+  .sw-sky{ background: linear-gradient(160deg,#d4ebff,#8dc6ff); }
+  .sw-butter{ background: linear-gradient(160deg,#fff2bf,#ffcf66); }
+  .sw-peach{ background: linear-gradient(160deg,#ffe2c8,#ffb082); }
+  .sw-mint{ background: linear-gradient(160deg,#d3f2e1,#7edbb0); }
+  .sw-coral{ background: linear-gradient(160deg,#ffc1b0,#ff8e7a); }
+  .sw-peri{ background: linear-gradient(160deg,#d2d9ff,#8f9eff); }
+  .sw-peri .nm{ color: rgba(255,255,255,.95); }
+
+  .type-spec{
+    display:flex; gap: 32px; align-items:flex-end; margin-top: 4px;
+  }
+  .type-spec .tcol{ display:flex; flex-direction:column; gap: 4px; }
+  .type-spec .glyph{
+    font-family:'Fraunces',serif; font-variation-settings:"opsz" 144;
+    font-weight:500; font-size: 100px; line-height:.85;
+    color: var(--ink); letter-spacing:-.02em;
+  }
+  .type-spec .glyph.ital{ font-style:italic; font-weight:400; color: var(--bedtime); }
+  .type-spec .glyph.sans{
+    font-family:'Nunito',sans-serif; font-weight:800; font-size: 86px;
+    letter-spacing:-.02em; color: var(--ink);
+  }
+  .type-spec .label{
+    font-family:'Nunito',sans-serif; font-size: 12px; letter-spacing:.22em;
+    text-transform:uppercase; font-weight:700; color: var(--ink-mute);
+  }
+
+  .worlds-row{
+    display:grid; grid-template-columns: repeat(5, 1fr); gap: 14px;
+    margin-top: 16px;
+  }
+  .world-thumb{
+    position:relative; height: 110px; border-radius: 18px; overflow:hidden;
+    box-shadow: 0 0 0 1px rgba(120,100,170,.1) inset;
+  }
+  .world-thumb svg{ position:absolute; inset:0; width:100%; height:100%; }
+  .world-thumb .wnm{
+    position:absolute; left:10px; bottom:6px;
+    font-family:'Fraunces',serif; font-weight:500; font-size: 13px;
+    letter-spacing:-.01em; color: var(--ink);
+  }
+  .wt-moon{ background: linear-gradient(160deg,#e9dcff 0%, #bfcaff 100%); }
+  .wt-forest{ background: linear-gradient(160deg,#d6f2df 0%, #9ed8b8 100%); }
+  .wt-cloud{ background: linear-gradient(160deg,#daecff 0%, #b0d4ff 100%); }
+  .wt-star{ background: linear-gradient(160deg,#fff2c9 0%, #ffc98a 100%); }
+  .wt-hill{ background: linear-gradient(160deg,#ffdfc5 0%, #f2b59a 100%); }
+
+  /* ===== Page 7 — Principles ===== */
+  .principles{
+    display:grid; grid-template-columns: 1fr 1fr;
+    gap: 40px 60px;
+  }
+  .principle{
+    padding: 36px 0 36px 80px;
+    border-left: 4px solid rgba(143,158,255,.4);
+    position: relative;
+  }
+  .principle .pn{
+    position:absolute; left: -2px; top: 36px;
+    font-family:'Fraunces',serif; font-weight:400; font-style:italic;
+    font-size: 56px; line-height: 1;
+    color: var(--bedtime);
+    background: var(--cream); padding: 0 12px 0 8px;
+    transform: translateX(-50%);
+  }
+  .principle h3{
+    font-family:'Fraunces',serif; font-weight:500; font-size: 36px;
+    letter-spacing:-.014em; color: var(--ink); margin: 0 0 14px;
+  }
+  .principle h3 em{ font-style: italic; color: var(--bedtime); font-weight:400; }
+  .principle p{
+    font-family:'Nunito',sans-serif; font-size: 19px; line-height: 1.6;
+    color: var(--ink-dim); margin: 0; max-width: 46ch;
+  }
+
+  /* ===== Page 8 — Closing ===== */
+  .closing{
+    width:100%; height:100%; padding: 120px 140px;
+    display:flex; flex-direction: column; justify-content: space-between;
+  }
+  .constellation{
+    flex: 1; position: relative;
+    margin: 60px 0; min-height: 400px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .star-spark{
+    position:absolute; width:22px; height:22px;
+    filter: drop-shadow(0 1px 1px rgba(180,80,50,.25))
+            drop-shadow(0 0 14px rgba(255,150,100,.6))
+            drop-shadow(0 0 26px rgba(255,170,120,.4));
+  }
+  .star-spark svg path{ fill:#ff9e72; }
+  .closing .lockup{
+    text-align: center;
+    display:flex; flex-direction:column; align-items:center; gap: 64px;
+  }
+
+  /* ============================================================
+     Print: each .page = one A4 landscape page.
+     ============================================================ */
+  @page{
+    size: A4 landscape;
+    margin: 0;
+  }
+  @media print{
+    html, body{
+      background: #fff;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    *, *::before, *::after{
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    /* Wrap each page so transform doesn't break pagination */
+    .page-wrap{
+      width: 297mm;
+      height: 210mm;
+      overflow: hidden;
+      page-break-after: always;
+      break-after: page;
+      margin: 0;
+      padding: 0;
+      box-shadow: none;
+      display: block;
+    }
+    .page-wrap:last-child{ page-break-after: auto; break-after: auto; }
+    .page{
+      width: 1920px;
+      height: 1358px;
+      margin: 0;
+      box-shadow: none;
+      /* scale the 1920×1358 design canvas down to fit 297×210mm */
+      transform: scale(calc(297mm / 1920px));
+      transform-origin: top left;
+    }
+    .no-print{ display:none !important; }
+  }
+
+  .page-wrap{ display: block; }
+  .no-print{ position: fixed; bottom: 24px; right: 24px; z-index: 999; }
+  .print-btn{
+    background: var(--bedtime); color:#fff; border: 0;
+    padding: 14px 22px; border-radius: 999px;
+    font-family:'Nunito',sans-serif; font-weight:800; font-size: 14px;
+    letter-spacing:.18em; text-transform:uppercase;
+    box-shadow: 0 12px 30px -10px rgba(143,158,255,.7);
+    cursor: pointer;
+  }
+  .print-btn:hover{ background:#7a8aff; }
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     PAGE 1 — COVER
+     ============================================================ -->
+<div class="page-wrap"><section class="page" data-screen-label="01 Cover">
+  <div class="cover">
+    <div class="col-l">
+      <div class="wordmark">
+        <span class="dot"></span>
+        <span class="name">StoryBloom</span>
+      </div>
+      <h1 class="display">A bedtime ritual,<br/>shaped by <em>today</em>.</h1>
+      <p class="tagline">A storytelling app for parents and children, ages three to eight.</p>
+      <div class="scope">
+        <span>Case&nbsp;Study</span>
+        <span class="div"></span>
+        <span>Interface&nbsp;&amp;&nbsp;UX</span>
+      </div>
+    </div>
+    <div class="col-r">
+      <div class="hero-moon">
+        <div class="glow"></div>
+        <svg viewBox="0 0 640 640" aria-hidden="true">
+          <defs>
+            <radialGradient id="moon-g" cx="38%" cy="36%" r="62%">
+              <stop offset="0%" stop-color="#fffaf0"/>
+              <stop offset="55%" stop-color="#f3e8ff"/>
+              <stop offset="100%" stop-color="#c9b5f5"/>
+            </radialGradient>
+            <radialGradient id="moon-shade" cx="62%" cy="68%" r="50%">
+              <stop offset="0%" stop-color="rgba(110,80,180,0)"/>
+              <stop offset="100%" stop-color="rgba(110,80,180,.18)"/>
+            </radialGradient>
+          </defs>
+          <!-- Stars -->
+          <g fill="#ffd98a" opacity=".85">
+            <circle cx="60" cy="100" r="3"/>
+            <circle cx="120" cy="200" r="2"/>
+            <circle cx="540" cy="80" r="3.5"/>
+            <circle cx="600" cy="180" r="2"/>
+            <circle cx="80" cy="540" r="2.5"/>
+            <circle cx="560" cy="540" r="3"/>
+            <circle cx="500" cy="600" r="2"/>
+          </g>
+          <!-- 4-point sparkles -->
+          <g fill="#ffe9a8">
+            <path d="M580 250 L584 264 L598 268 L584 272 L580 286 L576 272 L562 268 L576 264 Z"/>
+            <path d="M70 380 L74 392 L86 396 L74 400 L70 412 L66 400 L54 396 L66 392 Z"/>
+          </g>
+          <!-- Moon body -->
+          <circle cx="320" cy="320" r="240" fill="url(#moon-g)"/>
+          <circle cx="320" cy="320" r="240" fill="url(#moon-shade)"/>
+          <!-- Soft craters -->
+          <g fill="rgba(110,80,180,.08)">
+            <ellipse cx="260" cy="280" rx="32" ry="24"/>
+            <ellipse cx="380" cy="380" rx="22" ry="18"/>
+            <ellipse cx="240" cy="380" rx="14" ry="11"/>
+          </g>
+          <!-- Closed eyes (sleepy) -->
+          <g stroke="#3b2d5a" stroke-width="6" stroke-linecap="round" fill="none" opacity=".7">
+            <path d="M250 320 q15 14 30 0"/>
+            <path d="M360 320 q15 14 30 0"/>
+          </g>
+          <!-- Tiny smile -->
+          <path d="M298 372 q22 16 44 0" stroke="#3b2d5a" stroke-width="5" stroke-linecap="round" fill="none" opacity=".55"/>
+          <!-- Cloud below -->
+          <g fill="#ffffff" opacity=".85">
+            <ellipse cx="320" cy="560" rx="220" ry="32"/>
+            <ellipse cx="220" cy="555" rx="80" ry="22"/>
+            <ellipse cx="430" cy="552" rx="90" ry="24"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="page-mark"><span class="brand-dot"></span><span>StoryBloom · Case Study</span></div>
+  <div class="page-num">01 / 08</div>
+</section></div>
+
+<!-- ============================================================
+     PAGE 2 — THE PROBLEM
+     ============================================================ -->
+<div class="page-wrap"><section class="page" data-screen-label="02 Problem">
+  <div class="pad col-2">
+    <div class="stack-gap-lg">
+      <span class="eyebrow">01 · The problem</span>
+      <h2 class="h1">The same story, <em>every night</em>.</h2>
+      <p class="body">Bedtime is repetitive by design; children find comfort in the familiar. But the story itself rarely catches what the child actually carried into bed. The day's small frustrations, the new feeling without a name, the question never asked. Parents reach for the same five books, or skip the story entirely.</p>
+      <p class="body">Generic AI storytellers don't fix this. A chat box at bedtime is the wrong instrument. A pre-reader can't type. A tired parent doesn't want a prompt window. The product that meets this moment has to be quieter than that.</p>
+    </div>
+    <div style="display:flex; align-items:center; justify-content:center;">
+      <div class="problem-art">
+        <div class="row r1"><span class="strike">The Very Hungry Caterpillar</span></div>
+        <div class="row r2"><span class="strike">Goodnight Moon</span><span class="stamp">Again</span></div>
+        <div class="row r3"><span class="strike">Where the Wild Things Are</span></div>
+        <div class="row r4"><span>"Can we just go to sleep?"</span></div>
+        <div class="row r5"><span class="strike">a feeling without a name</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-mark"><span class="brand-dot"></span><span>StoryBloom · Case Study</span></div>
+  <div class="page-num">02 / 08</div>
+</section></div>
+
+<!-- ============================================================
+     PAGE 3 — THE INSIGHT
+     ============================================================ -->
+<div class="page-wrap"><section class="page" data-screen-label="03 Insight">
+  <div class="pad stack-gap-lg">
+    <span class="eyebrow">02 · The insight</span>
+    <h2 class="h1">Children don't process<br/>the day in <em>words</em>.</h2>
+    <p class="lede" style="max-width: 84ch;">A three-year-old can't say "I felt overwhelmed at preschool." But she can point to a color. She can say it felt like rain. She can pick the shape of the feeling out of three soft drawings. She has a small companion in mind, even if she can't name why.</p>
+
+    <div style="margin-top: 60px; display:flex; flex-direction:column; gap: 30px;">
+      <div class="picks-row">
+        <div class="pick">
+          <div class="ico color-lav">
+            <svg viewBox="0 0 100 100" width="64" height="64"><circle cx="50" cy="50" r="40" fill="#fff" opacity=".35"/></svg>
+          </div>
+          <span class="lbl">Color</span>
+          <span class="val">A color for the day</span>
+        </div>
+        <div class="pick">
+          <div class="ico weather-rain">
+            <svg viewBox="0 0 100 100" width="64" height="64" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round">
+              <path d="M28 46 q-8 0 -8 -10 q0 -10 12 -10 q4 -16 22 -16 q18 0 22 18 q14 2 14 16 q0 14 -16 14 z" fill="#fff" opacity=".7" stroke="none"/>
+              <line x1="34" y1="68" x2="30" y2="80"/>
+              <line x1="50" y1="68" x2="46" y2="84"/>
+              <line x1="66" y1="68" x2="62" y2="80"/>
+            </svg>
+          </div>
+          <span class="lbl">Weather</span>
+          <span class="val">The weather inside</span>
+        </div>
+        <div class="pick">
+          <div class="ico shape-tangled">
+            <svg viewBox="0 0 100 100" width="64" height="64" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round">
+              <path d="M20 50 q10 -20 25 0 t25 0 q10 -20 20 0" opacity=".9"/>
+              <path d="M22 65 q12 14 24 0 t24 0" opacity=".7"/>
+            </svg>
+          </div>
+          <span class="lbl">Shape</span>
+          <span class="val">The shape of the feeling</span>
+        </div>
+        <div class="pick">
+          <div class="ico friend-crane">
+            <svg viewBox="0 0 100 100" width="64" height="64">
+              <g fill="#fff" stroke="#3b2d5a" stroke-width="2" stroke-linejoin="round" opacity=".85">
+                <path d="M20 60 L50 30 L80 60 L66 56 L50 70 L34 56 Z"/>
+                <path d="M50 30 L52 14 L56 30 Z" fill="#3b2d5a" opacity=".4" stroke="none"/>
+              </g>
+            </svg>
+          </div>
+          <span class="lbl">Friend</span>
+          <span class="val">A little something for company</span>
+        </div>
+      </div>
+
+      <p class="body" style="max-width: 78ch; margin-top: 20px;">Four nonverbal picks. The day is now legible to a system, without ever asking the child to put a feeling into language. From those four tiny acts, the night's story is built.</p>
+    </div>
+  </div>
+  <div class="page-mark"><span class="brand-dot"></span><span>StoryBloom · Case Study</span></div>
+  <div class="page-num">03 / 08</div>
+</section></div>
+
+<!-- ============================================================
+     PAGE 4 — THE RITUAL FLOW
+     ============================================================ -->
+<div class="page-wrap"><section class="page" data-screen-label="04 Ritual">
+  <div class="pad stack-gap-lg" style="justify-content: center;">
+    <span class="eyebrow">03 · The ritual, end to end</span>
+    <h2 class="h1">From the day,<br/>to the <em>goodnight</em>.</h2>
+    <p class="lede" style="max-width: 78ch;">Seven moments, about three minutes total. The first four are inward: how today felt. The fifth is outward: where tonight's story should happen. The last two close the night.</p>
+
+    <div style="margin-top: 80px;">
+      <div class="flow">
+        <div class="step">
+          <div class="badge" style="background: linear-gradient(160deg,#e3d4ff,#b89ff2);">
+            <span style="font-family:'Fraunces',serif; font-size:36px; color:#fff; font-weight:500;">1</span>
+          </div>
+          <div class="num">Step 01</div>
+          <div class="nm">Color</div>
+          <div class="du">·30s·</div>
+        </div>
+        <div class="arrow"></div>
+        <div class="step">
+          <div class="badge" style="background: linear-gradient(160deg,#dae8ff,#a7b4ff);">
+            <span style="font-family:'Fraunces',serif; font-size:36px; color:#fff; font-weight:500;">2</span>
+          </div>
+          <div class="num">Step 02</div>
+          <div class="nm">Weather</div>
+          <div class="du">·30s·</div>
+        </div>
+        <div class="arrow"></div>
+        <div class="step">
+          <div class="badge" style="background: linear-gradient(160deg,#ffe0cf,#ff9eb5);">
+            <span style="font-family:'Fraunces',serif; font-size:36px; color:#fff; font-weight:500;">3</span>
+          </div>
+          <div class="num">Step 03</div>
+          <div class="nm">Shape</div>
+          <div class="du">·30s·</div>
+        </div>
+        <div class="arrow"></div>
+        <div class="step">
+          <div class="badge" style="background: linear-gradient(160deg,#fff4e4,#ffe0cf);">
+            <span style="font-family:'Fraunces',serif; font-size:36px; color:#3b2d5a; font-weight:500;">4</span>
+          </div>
+          <div class="num">Step 04</div>
+          <div class="nm">Friend</div>
+          <div class="du">·30s·</div>
+        </div>
+        <div class="arrow"></div>
+        <div class="step">
+          <div class="badge" style="background: linear-gradient(160deg,#d3f2e1,#7edbb0);">
+            <span style="font-family:'Fraunces',serif; font-size:36px; color:#fff; font-weight:500;">5</span>
+          </div>
+          <div class="num">World</div>
+          <div class="nm">Dreamland</div>
+          <div class="du">·20s·</div>
+        </div>
+        <div class="arrow"></div>
+        <div class="step">
+          <div class="badge" style="background: linear-gradient(160deg,#fff2c9,#ffc98a);">
+            <span style="font-family:'Fraunces',serif; font-size:36px; color:#3b2d5a; font-weight:500;">6</span>
+          </div>
+          <div class="num">Read</div>
+          <div class="nm">Story</div>
+          <div class="du">·1m·</div>
+        </div>
+        <div class="arrow"></div>
+        <div class="step">
+          <div class="badge" style="background: linear-gradient(160deg,#d2d9ff,#8f9eff);">
+            <span style="font-family:'Fraunces',serif; font-size:36px; color:#fff; font-weight:500;">7</span>
+          </div>
+          <div class="num">End</div>
+          <div class="nm">Goodnight</div>
+          <div class="du">·40s·</div>
+        </div>
+      </div>
+      <p class="flow-cap">Inward · Inward · Inward · Inward · Outward · Read · Goodnight.</p>
+    </div>
+  </div>
+  <div class="page-mark"><span class="brand-dot"></span><span>StoryBloom · Case Study</span></div>
+  <div class="page-num">04 / 08</div>
+</section></div>
+
+<!-- ============================================================
+     PAGE 5 — WORKED EXAMPLE
+     ============================================================ -->
+<div class="page-wrap"><section class="page" data-screen-label="05 Worked example">
+  <div class="pad stack-gap-md">
+    <span class="eyebrow">04 · How a feeling becomes a story</span>
+    <h2 class="h1">One night,<br/>worked <em>through</em>.</h2>
+    <p class="lede" style="max-width: 76ch;">Tonight's picks compose the story's emotional palette. The same world can hold many nights; the difference is the child.</p>
+
+    <div class="worked" style="margin-top: 40px;">
+      <div class="picks-stack">
+        <div class="pick-row">
+          <div class="pico color-lav">
+            <svg viewBox="0 0 100 100" width="40" height="40"><circle cx="50" cy="50" r="34" fill="#fff" opacity=".55"/><circle cx="50" cy="50" r="22" fill="#fff" opacity=".4"/></svg>
+          </div>
+          <div class="ptxt"><span class="plbl">Color</span><span class="pval">Lavender · <i style="color:var(--ink-mute); font-weight:400;">"dreamy"</i></span></div>
+        </div>
+        <div class="pick-row">
+          <div class="pico weather-rain">
+            <svg viewBox="0 0 100 100" width="42" height="42">
+              <path d="M28 50 q-10 0 -10 -12 q0 -12 14 -12 q4 -18 24 -18 q20 0 24 20 q14 2 14 18 q0 16 -16 16 z" fill="#ffffff" opacity=".95"/>
+              <g stroke="#6171d6" stroke-width="5" stroke-linecap="round" fill="none">
+                <line x1="34" y1="72" x2="30" y2="86"/>
+                <line x1="52" y1="72" x2="48" y2="88"/>
+                <line x1="70" y1="72" x2="66" y2="86"/>
+              </g>
+            </svg>
+          </div>
+          <div class="ptxt"><span class="plbl">Weather</span><span class="pval">Rain · <i style="color:var(--ink-mute); font-weight:400;">"a drizzly little day"</i></span></div>
+        </div>
+        <div class="pick-row">
+          <div class="pico shape-tangled">
+            <svg viewBox="0 0 100 100" width="44" height="44" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 50 q12 -22 26 0 t26 0 q12 -22 22 0"/>
+              <path d="M22 68 q12 16 24 0 t24 0"/>
+            </svg>
+          </div>
+          <div class="ptxt"><span class="plbl">Shape</span><span class="pval">Tangled · <i style="color:var(--ink-mute); font-weight:400;">"a bit tangled"</i></span></div>
+        </div>
+        <div class="pick-row">
+          <div class="pico friend-crane">
+            <svg viewBox="0 0 100 100" width="46" height="46">
+              <g fill="#fff" stroke="#3b2d5a" stroke-width="3" stroke-linejoin="round" opacity=".95">
+                <path d="M16 64 L50 28 L84 64 L66 60 L50 74 L34 60 Z"/>
+                <path d="M50 28 L52 10 L56 28 Z" fill="#3b2d5a" opacity=".5" stroke="none"/>
+              </g>
+            </svg>
+          </div>
+          <div class="ptxt"><span class="plbl">Friend</span><span class="pval">Paper crane · <i style="color:var(--ink-mute); font-weight:400;">"a little paper crane"</i></span></div>
+        </div>
+        <div class="pick-row">
+          <div class="pico" style="background: linear-gradient(160deg,#e9dcff,#bfcaff); position:relative;">
+            <svg viewBox="0 0 100 100" width="40" height="40">
+              <path d="M52 22 a22 22 0 1 0 20 32 a18 18 0 1 1 -20 -32 z" fill="#fff7d1"/>
+            </svg>
+          </div>
+          <div class="ptxt"><span class="plbl">Dreamland</span><span class="pval">Moon Garden</span></div>
+        </div>
+      </div>
+
+      <div class="arrow-big">→</div>
+
+      <div class="story-card">
+        <div class="meta">
+          <span class="moon"></span>
+          <span>Written for tonight</span>
+        </div>
+        <h3 class="stitle">Goodnight, moon garden</h3>
+        <p class="sbody">In the moon garden, all the flowers were going to sleep. <span class="hl">A little paper crane</span> said goodnight to each one. It had been <span class="hl">a drizzly little day</span>, and its heart still felt <span class="hl">a bit tangled</span>. Then the <span class="hl">dreamy</span> sky pulled a soft blanket of moonlight over everything.</p>
+        <p class="small" style="margin-top: 28px; color: var(--ink-mute); font-size: 15px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;">The four picks shape voice, not just nouns.</p>
+      </div>
+    </div>
+  </div>
+  <div class="page-mark"><span class="brand-dot"></span><span>StoryBloom · Case Study</span></div>
+  <div class="page-num">05 / 08</div>
+</section></div>
+
+<!-- ============================================================
+     PAGE 6 — DESIGN LANGUAGE
+     ============================================================ -->
+<div class="page-wrap"><section class="page" data-screen-label="06 Design language">
+  <div class="pad stack-gap-md">
+    <span class="eyebrow">05 · Design language</span>
+    <h2 class="h1">Bedtime-warm,<br/>quietly <em>geometric</em>.</h2>
+
+    <div class="grid-2" style="margin-top: 50px;">
+      <div class="ds-block">
+        <h3>Palette</h3>
+        <div class="swatches">
+          <div class="sw sw-lav"><span class="nm">Lav</span></div>
+          <div class="sw sw-sky"><span class="nm">Sky</span></div>
+          <div class="sw sw-butter"><span class="nm">Butter</span></div>
+          <div class="sw sw-peach"><span class="nm">Peach</span></div>
+          <div class="sw sw-mint"><span class="nm">Mint</span></div>
+          <div class="sw sw-coral"><span class="nm">Coral</span></div>
+          <div class="sw sw-peri"><span class="nm">Peri</span></div>
+        </div>
+        <p>Six pastels for the day's color picks; periwinkle for every CTA. Coral is activating; periwinkle is sleepy. Bedtime gets the sleepy one.</p>
+      </div>
+
+      <div class="ds-block">
+        <h3>Type</h3>
+        <div class="type-spec">
+          <div class="tcol">
+            <span class="glyph ital">Aa</span>
+            <span class="label">Fraunces · Stories</span>
+          </div>
+          <div class="tcol">
+            <span class="glyph sans">Aa</span>
+            <span class="label">Nunito · Interface</span>
+          </div>
+        </div>
+        <p style="margin-top: 18px;">Fraunces holds the storytelling: display optical size, italic for the warmth. Nunito for every label, button, and step. One narrative voice, one interface voice.</p>
+      </div>
+
+      <div class="ds-block">
+        <h3>Worlds</h3>
+        <div class="worlds-row">
+          <div class="world-thumb wt-moon">
+            <svg viewBox="0 0 100 64" preserveAspectRatio="xMidYMid slice">
+              <circle cx="22" cy="22" r="12" fill="#fff7d1"/>
+              <circle cx="28" cy="20" r="11" fill="#e9dcff"/>
+              <g fill="#9c83d6"><circle cx="58" cy="50" r="3"/><circle cx="72" cy="48" r="2.5"/><circle cx="84" cy="52" r="3"/></g>
+            </svg>
+            <span class="wnm">Moon Garden</span>
+          </div>
+          <div class="world-thumb wt-forest">
+            <svg viewBox="0 0 100 64" preserveAspectRatio="xMidYMid slice">
+              <path d="M14 50 L8 50 L11 32 Z" fill="#3a8a5c"/>
+              <path d="M30 52 L20 52 L25 22 Z" fill="#2f7a4f"/>
+              <path d="M52 52 L40 52 L46 18 Z" fill="#3a8a5c"/>
+              <path d="M76 52 L64 52 L70 26 Z" fill="#2f7a4f"/>
+              <path d="M96 50 L88 50 L92 30 Z" fill="#3a8a5c"/>
+              <g fill="#fff5b8"><circle cx="56" cy="42" r="1.6"/><circle cx="32" cy="48" r="1.4"/><circle cx="80" cy="40" r="1.4"/></g>
+            </svg>
+            <span class="wnm">Sleepy Forest</span>
+          </div>
+          <div class="world-thumb wt-cloud">
+            <svg viewBox="0 0 100 64" preserveAspectRatio="xMidYMid slice">
+              <circle cx="84" cy="16" r="12" fill="#fff2bf" opacity=".9"/>
+              <circle cx="84" cy="16" r="9" fill="#ffe08a"/>
+              <ellipse cx="20" cy="50" rx="22" ry="6" fill="#fff"/>
+              <ellipse cx="60" cy="54" rx="28" ry="6" fill="#fff" opacity=".85"/>
+            </svg>
+            <span class="wnm">Cloud Sea</span>
+          </div>
+          <div class="world-thumb wt-star">
+            <svg viewBox="0 0 100 64" preserveAspectRatio="xMidYMid slice">
+              <g fill="#a87a3e"><rect x="14" y="40" width="14" height="14" rx="2"/><polygon points="14,40 21,32 28,40"/></g>
+              <g fill="#ad7740"><rect x="42" y="36" width="16" height="18" rx="2"/><polygon points="42,36 50,26 58,36"/></g>
+              <g fill="#a87a3e"><rect x="72" y="40" width="14" height="14" rx="2"/><polygon points="72,40 79,32 86,40"/></g>
+              <g fill="#fff5b8"><circle cx="20" cy="14" r="2"/><circle cx="60" cy="10" r="2.5"/><circle cx="80" cy="18" r="2"/></g>
+            </svg>
+            <span class="wnm">Star Village</span>
+          </div>
+          <div class="world-thumb wt-hill">
+            <svg viewBox="0 0 100 64" preserveAspectRatio="xMidYMid slice">
+              <circle cx="78" cy="16" r="9" fill="#fff7d1"/>
+              <path d="M0 50 Q30 36 60 46 Q86 54 100 42 L100 64 L0 64 Z" fill="#e09b73"/>
+              <path d="M0 56 Q40 46 80 54 Q92 56 100 52 L100 64 L0 64 Z" fill="#c4774f"/>
+            </svg>
+            <span class="wnm">Dream Hill</span>
+          </div>
+        </div>
+        <p style="margin-top: 16px;">Five hand-drawn worlds, each its own time of day. No shared motifs; every bedtime looks different.</p>
+      </div>
+
+      <div class="ds-block">
+        <h3>Surface &amp; rhythm</h3>
+        <p>Rounded cards, 20 to 28px radii. Soft pastel blobs behind glass, 24px blur. Animations stay slow: 5 to 8s for floats, 6s for the breathing orb, ~850ms for the writing pulse. Nothing demands attention. Everything earns it.</p>
+        <div style="display:flex; gap: 12px; margin-top: 18px;">
+          <div style="width:60px; height:60px; border-radius: 16px; background: rgba(255,255,255,.8); box-shadow: 0 0 0 1px rgba(120,100,170,.08) inset, 0 8px 18px -10px rgba(90,60,160,.2);"></div>
+          <div style="width:60px; height:60px; border-radius: 22px; background: rgba(255,255,255,.8); box-shadow: 0 0 0 1px rgba(120,100,170,.08) inset, 0 8px 18px -10px rgba(90,60,160,.2);"></div>
+          <div style="width:60px; height:60px; border-radius: 28px; background: rgba(255,255,255,.8); box-shadow: 0 0 0 1px rgba(120,100,170,.08) inset, 0 8px 18px -10px rgba(90,60,160,.2);"></div>
+          <div style="width:60px; height:60px; border-radius: 50%; background: rgba(255,255,255,.8); box-shadow: 0 0 0 1px rgba(120,100,170,.08) inset, 0 8px 18px -10px rgba(90,60,160,.2);"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-mark"><span class="brand-dot"></span><span>StoryBloom · Case Study</span></div>
+  <div class="page-num">06 / 08</div>
+</section></div>
+
+<!-- ============================================================
+     PAGE 7 — PRINCIPLES
+     ============================================================ -->
+<div class="page-wrap"><section class="page" data-screen-label="07 Principles">
+  <div class="pad stack-gap-md">
+    <span class="eyebrow">06 · Principles</span>
+    <h2 class="h1">Quiet, on <em>purpose</em>.</h2>
+    <p class="lede" style="max-width: 78ch;">Four design choices the product is built from. Each one closes a door other AI apps leave open.</p>
+
+    <div class="principles" style="margin-top: 70px;">
+      <div class="principle">
+        <span class="pn">i.</span>
+        <h3>Invisible <em>AI</em>.</h3>
+        <p>No chat, no model picker, no "regenerate." A 0.85-second writing pulse and the line "written for tonight" prove the story is fresh. The intelligence is the medium, never the interface.</p>
+      </div>
+      <div class="principle">
+        <span class="pn">ii.</span>
+        <h3>Nonverbal <em>first</em>.</h3>
+        <p>A pre-reader can't type, but she can point. Every required input is a tap on a colored chip, a soft icon, a face. Words are an output, not an input.</p>
+      </div>
+      <div class="principle">
+        <span class="pn">iii.</span>
+        <h3>One of <em>each</em>.</h3>
+        <p>One color, one weather, one shape, one friend, one world, one story. Not options to compare; picks to commit to. Choice fatigue is the enemy of bedtime.</p>
+      </div>
+      <div class="principle">
+        <span class="pn">iv.</span>
+        <h3>Bedtime, <em>not engagement</em>.</h3>
+        <p>The last screen is Sleep Mode: a dim twilight with no CTA, no streak, no "tomorrow's story." Bedtime apps that fight for attention at bedtime have already lost the brief.</p>
+      </div>
+    </div>
+  </div>
+  <div class="page-mark"><span class="brand-dot"></span><span>StoryBloom · Case Study</span></div>
+  <div class="page-num">07 / 08</div>
+</section></div>
+
+<!-- ============================================================
+     PAGE 8 — THE KEEP
+     ============================================================ -->
+<div class="page-wrap"><section class="page" data-screen-label="08 Keep">
+  <div class="closing">
+    <div>
+      <span class="eyebrow">07 · The keep</span>
+    </div>
+
+    <div class="constellation">
+      <!-- Stars scattered around the title -->
+      <div class="star-spark" style="top: 8%; left: 14%;"><svg viewBox="0 0 24 24"><path d="M12 2 L14 9 L22 12 L14 15 L12 22 L10 15 L2 12 L10 9 Z"/></svg></div>
+      <div class="star-spark" style="top: 22%; left: 78%; width:18px; height:18px;"><svg viewBox="0 0 24 24"><path d="M12 2 L14 9 L22 12 L14 15 L12 22 L10 15 L2 12 L10 9 Z"/></svg></div>
+      <div class="star-spark" style="top: 78%; left: 18%; width:16px; height:16px;"><svg viewBox="0 0 24 24"><path d="M12 2 L14 9 L22 12 L14 15 L12 22 L10 15 L2 12 L10 9 Z"/></svg></div>
+      <div class="star-spark" style="top: 70%; left: 80%; width:24px; height:24px;"><svg viewBox="0 0 24 24"><path d="M12 2 L14 9 L22 12 L14 15 L12 22 L10 15 L2 12 L10 9 Z"/></svg></div>
+      <div class="star-spark" style="top: 6%; left: 56%; width:14px; height:14px;"><svg viewBox="0 0 24 24"><path d="M12 2 L14 9 L22 12 L14 15 L12 22 L10 15 L2 12 L10 9 Z"/></svg></div>
+      <div class="star-spark" style="top: 82%; left: 48%; width:20px; height:20px;"><svg viewBox="0 0 24 24"><path d="M12 2 L14 9 L22 12 L14 15 L12 22 L10 15 L2 12 L10 9 Z"/></svg></div>
+      <div class="star-spark" style="top: 38%; left: 8%; width:14px; height:14px;"><svg viewBox="0 0 24 24"><path d="M12 2 L14 9 L22 12 L14 15 L12 22 L10 15 L2 12 L10 9 Z"/></svg></div>
+      <div class="star-spark" style="top: 50%; left: 90%; width:16px; height:16px;"><svg viewBox="0 0 24 24"><path d="M12 2 L14 9 L22 12 L14 15 L12 22 L10 15 L2 12 L10 9 Z"/></svg></div>
+
+      <div class="lockup">
+        <h2 class="display" style="font-size: 108px; line-height:1.0;">Tonight's story<br/>becomes <em>tomorrow's star</em>.</h2>
+        <p class="lede" style="max-width: 64ch; text-align:center; font-size: 24px;">Saved stories return as a constellation on the welcome screen. The ritual is recurring not because the app demands it, but because the night before kept something worth coming back to.</p>
+      </div>
+    </div>
+
+    <div style="display:flex; align-items:center; justify-content:center; gap: 20px;">
+      <span class="brand-dot" style="width:14px; height:14px;"></span>
+      <span style="font-family:'Fraunces',serif; font-style:italic; font-weight:400; font-size: 22px; color: var(--ink-dim);">A bedtime ritual, shaped by today.</span>
+    </div>
+  </div>
+  <div class="page-mark"><span class="brand-dot"></span><span>StoryBloom · Case Study</span></div>
+  <div class="page-num">08 / 08</div>
+</section></div>
+
+<!-- Floating print button (hidden in print) -->
+<button class="no-print print-btn" onclick="window.print()">Save as PDF →</button>
+
+</body>
+</html>
