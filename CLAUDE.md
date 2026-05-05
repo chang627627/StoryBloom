@@ -9,15 +9,18 @@ A bedtime storytelling app for parents and children, ages 3–8. The child expre
 - Repo is connected to Vercel — `git push origin main` auto-deploys production.
 - A GitHub Action (`.github/workflows/update-claude-md.yml` + `.github/scripts/update-claude-md.py`) auto-updates this file on every push to main. Requires `ANTHROPIC_API_KEY` as a repo secret. Bot commits are tagged `[skip-claudemd]` so the workflow does not loop.
 
-## Files
+## Files & URL routing
 
-- `index.html` — the app (single-file prototype, ~3300 lines)
-- `site.html` — marketing landing page (hero + ritual + worlds + friends + reviews + CTA + footer)
-- `slides.html` — 8-slide 1920×1080 deck for the NY Product Design Awards submission
-- `assets/phone-frame.png`, `assets/status-bar.png`, `assets/home-indicator.png` — PNG chrome shared by the app and slides
+- `index.html` — marketing landing page, served at `/` (hero + ritual + worlds + friends + reviews + CTA + footer)
+- `app/index.html` — the StoryBloom app (single-file prototype, ~3300 lines), served at `/app` and `/app/`
+- `slides.html` — 8-slide 1920×1080 deck for the NY Product Design Awards submission, served at `/slides.html`
+- `_private/red-dot.html` — 8-page A4 landscape case study deck (with a Figma capture script for clipboard mode), served at `/_private/red-dot.html`
+- `assets/phone-frame.png`, `assets/status-bar.png`, `assets/home-indicator.png` — PNG chrome shared by the app and slides. Referenced from the app via absolute paths (`/assets/...`) so they resolve correctly from the `/app/` prefix.
 - `CLAUDE.md` — this file (auto-synced on push)
-- `.github/workflows/update-claude-md.yml` + `.github/scripts/update-claude-md.py` — the sync action
+- `.github/workflows/update-claude-md.yml` + `.github/scripts/update-claude-md.py` — the sync action. Sources are `index.html` and `app/index.html`.
 - `.claude/launch.json` — two static-server configs (`static-python`, `static-npx`). Both run `npx serve` under the hood (ports 4173 / 4174). macOS system Python 3.9's `http.server` fails with a sandbox `PermissionError` calling `os.getcwd()`, so the Python config was quietly swapped to `npx serve`.
+
+**Navigation rule (one-way):** the app links back to the site (small `Site` chip top-right of the phone), but the site does **not** link to the app. No "Try the app" CTAs anywhere on `/`. The app is reachable only by direct URL (`/app`). Don't reintroduce site → app links — this is intentional.
 
 ## Stack
 

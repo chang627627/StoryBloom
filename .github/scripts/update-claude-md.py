@@ -20,7 +20,7 @@ MODEL = "claude-sonnet-4-5-20250929"
 MAX_TOKENS = 8000
 # Files to feed Claude as ground truth. Keep this short — the prompt
 # has to fit in context and bigger files are expensive.
-SOURCE_FILES = ["index.html", "site.html"]
+SOURCE_FILES = ["index.html", "app/index.html"]
 
 
 def read(path: str) -> str:
