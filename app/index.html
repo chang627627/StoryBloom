@@ -524,6 +524,13 @@
   @media (max-height: 880px){ .device-wrap{ transform: scale(.84); } }
   @media (max-height: 800px){ .device-wrap{ transform: scale(.76); } }
   @media (max-height: 720px){ .device-wrap{ transform: scale(.68); } }
+  /* Reset-demo pill: bottom-aligned to the phone, tracking the same scale steps
+     (device is 880 tall, so its bottom edge sits at 50% + 440px*scale) */
+  #demoReset{ right:28px; bottom: calc(50% - 440px); }
+  @media (max-height: 940px){ #demoReset{ bottom: calc(50% - 405px); } }
+  @media (max-height: 880px){ #demoReset{ bottom: calc(50% - 370px); } }
+  @media (max-height: 800px){ #demoReset{ bottom: calc(50% - 334px); } }
+  @media (max-height: 720px){ #demoReset{ bottom: calc(50% - 299px); } }
 
   /* Mobile: hide desktop-only chrome so the phone is the only thing on screen */
   @media (max-width: 560px){
@@ -1234,7 +1241,7 @@
 
   <!-- Demo reset (outside the phone) — wipes saved custom friends between demos -->
   <button id="demoReset" title="Clear saved custom friends for demo"
-    style="position:fixed; right:28px; top:calc(50% - 20px); z-index:70;
+    style="position:fixed; z-index:70;
            display:inline-flex; align-items:center; gap:8px;
            padding: 10px 14px; border-radius: 999px;
            background: rgba(255,255,255,.7); backdrop-filter: blur(10px);
@@ -3378,7 +3385,15 @@
         state.sym = null;
         updateNextBtn();
       }
-      showResetToast('Demo reset · custom friends cleared');
+      // full demo reset: picks cleared, back to the first screen
+      state.step = 1;
+      state.color = null; state.weather = null; state.shape = null; state.sym = null;
+      state.world = null; state.variant = undefined;
+      document.querySelectorAll('.choice.selected, .chip.selected, .world-card.selected')
+        .forEach(el => el.classList.remove('selected'));
+      setStep(1);
+      go(1);
+      showResetToast('Demo reset');
     });
   })();
 
