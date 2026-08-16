@@ -56,14 +56,6 @@
     letter-spacing:-0.003em;
   }
 
-  /* ambient decorations on desktop canvas */
-  .bg-deco::before, .bg-deco::after{
-    content:""; position:fixed; pointer-events:none; border-radius:50%;
-    filter: blur(60px); opacity:.55;
-  }
-  .bg-deco::before{ width:420px; height:420px; left:-120px; top:40px; background: radial-gradient(circle, #cbb8ff 0%, transparent 70%); }
-  .bg-deco::after{ width:500px; height:500px; right:-150px; bottom:-40px; background: radial-gradient(circle, #ffd1aa 0%, transparent 70%); }
-
   /* tiny floating stars/moons behind the phone */
   .sky-dots{
     position:fixed; inset:0; pointer-events:none;
